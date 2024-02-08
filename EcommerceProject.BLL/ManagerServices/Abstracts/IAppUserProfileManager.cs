@@ -10,7 +10,7 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
     public interface IAppUserProfileManager
     {
-		IQueryable<AppUserProfile> GetAll();
+        IQueryable<AppUserProfile> GetAll();
 		IQueryable<AppUserProfile> GetActives();
 		IQueryable<AppUserProfile> GetModifieds();
 		IQueryable<AppUserProfile> GetPassives();

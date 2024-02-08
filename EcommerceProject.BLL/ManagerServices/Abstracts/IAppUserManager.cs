@@ -12,7 +12,7 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
     {
         Task<bool> CreateUserAsync(AppUser item);
 
-		IQueryable<AppUser> GetAll();
+        IQueryable<AppUser> GetAll();
 		IQueryable<AppUser> GetActives();
 		IQueryable<AppUser> GetModifieds();
 		IQueryable<AppUser> GetPassives();

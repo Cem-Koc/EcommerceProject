@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +17,8 @@ namespace EcommerceProject.BLL.DependencyResolvers
     {
         public static IServiceCollection AddRepositoryManagerServices(this IServiceCollection services)
         {
+            var assembly = Assembly.GetExecutingAssembly();
+
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddScoped(typeof(IManager<>), typeof(BaseManager<>));
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -31,6 +34,8 @@ namespace EcommerceProject.BLL.DependencyResolvers
             services.AddScoped<IAppUserProfileRepository, AppUserProfileRepository>();
             services.AddScoped<IAppUserProfileManager, AppUserProfileManager>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddAutoMapper(assembly);
 
             return services;
 

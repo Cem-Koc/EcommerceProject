@@ -10,7 +10,7 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
     public interface IOrderDetailManager
     {
-		IQueryable<OrderDetail> GetAll();
+        IQueryable<OrderDetail> GetAll();
 		IQueryable<OrderDetail> GetActives();
 		IQueryable<OrderDetail> GetModifieds();
 		IQueryable<OrderDetail> GetPassives();

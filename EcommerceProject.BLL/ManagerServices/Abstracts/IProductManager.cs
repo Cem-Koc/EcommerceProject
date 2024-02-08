@@ -1,4 +1,5 @@
-﻿using EcommerceProject.ENTITIES.Models;
+﻿using EcommerceProject.ENTITIES.Dtos.Products;
+using EcommerceProject.ENTITIES.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
     public interface IProductManager
     {
-		IQueryable<Product> GetAll();
+        IQueryable<ProductDto> GetAll();
 		IQueryable<Product> GetActives();
 		IQueryable<Product> GetModifieds();
 		IQueryable<Product> GetPassives();

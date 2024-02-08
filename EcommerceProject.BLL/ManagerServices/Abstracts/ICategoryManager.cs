@@ -10,7 +10,7 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
     public interface ICategoryManager
     {
-		IQueryable<Category> GetAll();
+        IQueryable<Category> GetAll();
 		IQueryable<Category> GetActives();
 		IQueryable<Category> GetModifieds();
 		IQueryable<Category> GetPassives();
