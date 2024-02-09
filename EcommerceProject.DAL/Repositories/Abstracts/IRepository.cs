@@ -10,6 +10,9 @@ namespace EcommerceProject.DAL.Repositories.Abstracts
 {
     public interface IRepository<T> where T : class,IEntity
     {
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null, params Expression<Func<T, object>>[] includeProperties);
+        Task<T> GetAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
+
         //List Commands
         IQueryable<T> GetAll();
         IQueryable<T> GetActives();

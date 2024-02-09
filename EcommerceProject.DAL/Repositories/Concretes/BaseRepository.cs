@@ -92,6 +92,31 @@ namespace EcommerceProject.DAL.Repositories.Concretes
             return Table.AsQueryable();
         }
 
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null, params Expression<Func<T, object>>[] includeProperties)
+        {
+            IQueryable<T> query = Table;
+            if (predicate != null)
+                query = query.Where(predicate);
+
+            if (includeProperties.Any())
+                foreach (var item in includeProperties)
+                    query = query.Include(item);
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
+        {
+            IQueryable<T> query = Table;
+            query = query.Where(predicate);
+
+            if (includeProperties.Any())
+                foreach (var item in includeProperties)
+                    query = query.Include(item);
+
+            return await query.SingleAsync();
+        }
+
         public IQueryable<T> GetModifieds()
         {
             return Where(x => x.Status == ENTITIES.Enums.DataStatus.Updated);

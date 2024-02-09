@@ -24,6 +24,14 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
             _mapper = mapper;
         }
 
+
+        public async Task<List<ProductDto>> GetAllProductsWithCategoryAsync()
+        {
+            var products = await _unitOfWork.GetRepository<Product>().GetAllAsync(null, x => x.Category);
+            var map = _mapper.Map<List<ProductDto>>(products);
+            return map;
+        }
+
         public void Add(Product item)
         {
             _unitOfWork.GetRepository<Product>().Add(item);

@@ -11,6 +11,7 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
     public interface IProductManager
     {
+		Task<List<ProductDto>> GetAllProductsWithCategoryAsync();
         IQueryable<ProductDto> GetAll();
 		IQueryable<Product> GetActives();
 		IQueryable<Product> GetModifieds();

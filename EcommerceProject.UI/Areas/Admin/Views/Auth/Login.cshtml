@@ -1,0 +1,82 @@
+﻿
+@model UserLoginDto
+
+@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>INSPINIA | Login</title>
+
+    <link href="~/inspinia/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/inspinia/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="~/inspinia/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="~/inspinia/css/animate.css" rel="stylesheet">
+    <link href="~/inspinia/css/style.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+        <div>
+            <div>
+
+                <h1 class="logo-name">IN+</h1>
+
+            </div>
+            <h3>Hoş Geldiniz</h3>
+            <p>
+                Email adresiniz ve şifreniz ile giriş yapabilirsiniz.
+            </p>
+            <p>İyi bir tecrübe yaşamanız dileğiyle...</p>
+            <form class="m-t" role="form" asp-controller="Auth" asp-action="Login" method="post">
+                <div asp-validation-summary="All"></div>
+                <div class="form-group">
+                    <input asp-for="Email" name="email" type="email" class="form-control" placeholder="Email Adresi" required="" autofocus>
+                    <span asp-validation-for="Email"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Password" name="password" type="password" class="form-control i-checks" placeholder="Şifre" required="">
+                    <span asp-validation-for="Password"></span>
+                </div>
+                @* <div class="form-group">
+                    <label asp-for="RememberMe"><input class="i-checks" asp-for="RememberMe" type="checkbox" />Beni Hatırla</label>
+                </div> *@
+                <div class="form-group">
+                    <div class="checkbox i-checks"><label asp-for="RememberMe"> <input type="checkbox" asp-for="RememberMe"><i></i> Beni Hatırla! </label></div>
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b">Giriş Yap</button>
+
+                <a href="#"><small>Parolanızı mı unuttunuz?</small></a>
+                <p class="text-muted text-center"><small>Bir hesabınız yok mu?</small></p>
+                <a class="btn btn-sm btn-white btn-block" href="~/inspinia/register.html">Bir Hesap Oluşturun</a>
+            </form>
+            <p class="m-t"> <small>Bu proje Inspinia ile geliştirilmiştir.</small> </p>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="~/inspinia/js/jquery-3.1.1.min.js"></script>
+    <script src="~/inspinia/js/popper.min.js"></script>
+    <script src="~/inspinia/js/bootstrap.js"></script>
+    <!-- iCheck -->
+    <script src="~/inspinia/js/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
+</body>
+
+</html>

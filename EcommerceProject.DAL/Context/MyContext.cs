@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceProject.DAL.Context
 {
-    public class MyContext:IdentityDbContext<AppUser,IdentityRole<int>,int>
+    public class MyContext:IdentityDbContext<AppUser,AppRole,int,AppUserClaim,AppUserRole,AppUserLogin,AppRoleClaim,AppUserToken>
     {
         public MyContext(DbContextOptions<MyContext> opt) : base(opt) 
         {
@@ -22,7 +22,6 @@ namespace EcommerceProject.DAL.Context
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new AppUserConfiguration());
-            builder.ApplyConfiguration(new AppUserProfileConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new ProductConfiguration());
             builder.ApplyConfiguration(new OrderConfiguration());
@@ -30,7 +29,6 @@ namespace EcommerceProject.DAL.Context
         }
 
         public DbSet<AppUser> AppUsers { get; set; }
-        public DbSet<AppUserProfile> AppUserProfiles { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }

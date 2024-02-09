@@ -21,9 +21,11 @@ namespace EcommerceProject.ENTITIES.Models
         public DateTime? ModifiedDate { get; set; }
         public DateTime? DeletedDate { get; set; }
         public DataStatus Status { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
         //Relational Properties
-        public virtual AppUserProfile Profile { get; set; }
         public virtual List<Order> Orders { get; set; }
+        
     }
 }

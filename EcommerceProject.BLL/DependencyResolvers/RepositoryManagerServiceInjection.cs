@@ -31,8 +31,6 @@ namespace EcommerceProject.BLL.DependencyResolvers
             services.AddScoped<IOrderManager, OrderManager>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
             services.AddScoped<IOrderDetailManager, OrderDetailManager>();
-            services.AddScoped<IAppUserProfileRepository, AppUserProfileRepository>();
-            services.AddScoped<IAppUserProfileManager, AppUserProfileManager>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper(assembly);

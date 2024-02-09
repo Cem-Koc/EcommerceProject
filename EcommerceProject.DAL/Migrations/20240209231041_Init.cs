@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace EcommerceProject.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class mig1 : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,6 +38,8 @@ namespace EcommerceProject.DAL.Migrations
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -91,29 +95,6 @@ namespace EcommerceProject.DAL.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppUserProfiles",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppUserProfiles", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_AppUserProfiles_AspNetUsers_ID",
-                        column: x => x.ID,
-                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -234,7 +215,10 @@ namespace EcommerceProject.DAL.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UnitsInStock = table.Column<int>(type: "int", nullable: false),
+                    ViewCount = table.Column<int>(type: "int", nullable: false),
                     CategoryID = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -279,6 +263,15 @@ namespace EcommerceProject.DAL.Migrations
                         principalTable: "Products",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "DeletedDate", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "ModifiedDate", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Status", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { 1, 0, "de908a07-d56e-4920-bc83-648697795e61", new DateTime(2024, 2, 10, 2, 10, 41, 330, DateTimeKind.Local).AddTicks(9561), null, "superadmin@gmail.com", true, "Cem", "Koç", false, null, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEKtJ+HcZXqZhxGb09rq7X9ZG0ITgowbsbSeuo4i+WXmfrpcorzunFaI2DNIsO53m7w==", "+901234567890", true, "5937188d-b6f2-4d90-9310-74a0f9035f7f", 1, false, "superadmin@gmail.com" },
+                    { 2, 0, "c3128010-d557-4fe5-9958-ca6ef8f3bf8a", new DateTime(2024, 2, 10, 2, 10, 41, 385, DateTimeKind.Local).AddTicks(7424), null, "admin@gmail.com", false, "Admin", "User", false, null, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEE9WX+twyFpzRTNoDUdfXRoK4Bl8g1/cR2/s708dhu7ek+/6hwW5P0PMGgMRcEnqDA==", "+901234560000", false, "e21af90f-3339-4f93-9f73-0f8592bba33a", 1, false, "admin@gmail.com" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -339,9 +332,6 @@ namespace EcommerceProject.DAL.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AppUserProfiles");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 

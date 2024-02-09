@@ -14,7 +14,7 @@ namespace EcommerceProject.BLL.DependencyResolvers
     {
         public static IServiceCollection AddIdentityService(this IServiceCollection services)
         {
-            services.AddIdentity<AppUser, IdentityRole<int>>(x =>
+            services.AddIdentity<AppUser, AppRole>(x =>
             {
                 x.Password.RequiredUniqueChars = 0;
                 x.Password.RequiredLength = 3;
@@ -22,7 +22,10 @@ namespace EcommerceProject.BLL.DependencyResolvers
                 x.Password.RequireDigit = false;
                 x.Password.RequireLowercase = false;
                 x.Password.RequireUppercase = false;
-            }).AddEntityFrameworkStores<MyContext>();
+            })
+            .AddRoleManager<RoleManager<AppRole>>()
+            .AddEntityFrameworkStores<MyContext>()
+            .AddDefaultTokenProviders();
 
             return services;
         }

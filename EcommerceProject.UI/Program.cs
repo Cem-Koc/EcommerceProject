@@ -10,6 +10,21 @@ builder.Services.AddDbContextService();
 builder.Services.AddRepositoryManagerServices();
 
 builder.Services.AddDistributedMemoryCache();
+builder.Services.ConfigureApplicationCookie(configure =>
+{
+	configure.LoginPath = new PathString("/Admin/Auth/Login");
+	configure.LogoutPath = new PathString("/Admin/Auth/Logout");
+	configure.Cookie = new CookieBuilder
+	{
+		Name = "EcommerceProject",
+		HttpOnly = true,
+		SameSite = SameSiteMode.Strict,
+		SecurePolicy = CookieSecurePolicy.SameAsRequest
+	};
+	configure.SlidingExpiration = true;
+	configure.ExpireTimeSpan = TimeSpan.FromDays(7);
+	configure.AccessDeniedPath = new PathString("/Admin/Auth/AccessDenied");
+});
 builder.Services.AddSession(x =>
 {
 	x.IdleTimeout = TimeSpan.FromMinutes(2);
@@ -28,6 +43,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSession();
