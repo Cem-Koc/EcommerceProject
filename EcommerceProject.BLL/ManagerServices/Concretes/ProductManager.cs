@@ -39,19 +39,30 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
             return map;
         }
 
-        public async Task UpdateProductAsync(ProductUpdateDto productUpdateDto)
+        public async Task<string> UpdateProductAsync(ProductUpdateDto productUpdateDto)
         {
             var product = await _unitOfWork.GetRepository<Product>().GetAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted && x.ID == productUpdateDto.ID, x => x.Category);
+
+            var productName = product.ProductName;
+
             _mapper.Map<ProductUpdateDto,Product>(productUpdateDto,product);
+
             await _unitOfWork.GetRepository<Product>().Update(product);
             await _unitOfWork.SaveAsync();
+
+            return productName;
 		}
 
-        public async Task SafeDeleteProductAsync(int productID)
+        public async Task<string> SafeDeleteProductAsync(int productID)
         {
             var product = await _unitOfWork.GetRepository<Product>().FindAsync(productID);
+
+            var productName = product.ProductName;
+
             _unitOfWork.GetRepository<Product>().Delete(product);
             await _unitOfWork.SaveAsync();
+
+            return productName;
         }
 
         public void Add(Product item)

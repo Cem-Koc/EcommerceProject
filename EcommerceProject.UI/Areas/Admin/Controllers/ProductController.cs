@@ -3,8 +3,10 @@ using EcommerceProject.BLL.DependencyResolvers;
 using EcommerceProject.BLL.ManagerServices.Abstracts;
 using EcommerceProject.ENTITIES.Dtos.Products;
 using EcommerceProject.ENTITIES.Models;
+using EcommerceProject.UI.ResultMessages;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using NToastNotify;
 
 namespace EcommerceProject.UI.Areas.Admin.Controllers
 {
@@ -18,8 +20,9 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
         private readonly ICustomerTypeManager _customerTypeManager;
         private readonly IMapper _mapper;
 		private readonly IValidator<Product> _validator;
+		private readonly IToastNotification _toast;
 
-		public ProductController(IProductManager productManager,ICategoryManager categoryManager,IProductSizeManager productSizeManager,IProductColorManager productColorManager,ICustomerTypeManager customerTypeManager,IMapper mapper,IValidator<Product> validator)
+		public ProductController(IProductManager productManager,ICategoryManager categoryManager,IProductSizeManager productSizeManager,IProductColorManager productColorManager,ICustomerTypeManager customerTypeManager,IMapper mapper,IValidator<Product> validator,IToastNotification toast)
         {
             _productManager = productManager;
             _categoryManager = categoryManager;
@@ -28,6 +31,7 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
             _customerTypeManager = customerTypeManager;
             _mapper = mapper;
 			_validator = validator;
+			_toast = toast;
 		}
         public async Task<IActionResult> Index()
         {
@@ -55,6 +59,7 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
             if (result.IsValid)
             {
 				await _productManager.CreateProductAsync(productAddDto);
+                _toast.AddSuccessToastMessage(Messages.Product.Add(productAddDto.ProductName),new ToastrOptions { Title = "İşlem Başarılı"});
 				return RedirectToAction("Index", "Product", new { Area = "Admin" });
 			}
             else
@@ -96,7 +101,9 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
 
             if (result.IsValid)
             {
-				await _productManager.UpdateProductAsync(productUpdateDto);
+				var productName = await _productManager.UpdateProductAsync(productUpdateDto);
+                _toast.AddSuccessToastMessage(Messages.Product.Update(productName),new ToastrOptions { Title = "İşlem Başarılı"});
+				return RedirectToAction("Index", "Product", new { Area = "Admin" });
 			}
             else
             {
@@ -119,8 +126,9 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
 
         public async Task<IActionResult> Delete(int productID)
         {
-            await _productManager.SafeDeleteProductAsync(productID);
-            return RedirectToAction("Index", "Product", new { Area = "Admin" });
+            var productName = await _productManager.SafeDeleteProductAsync(productID);
+			_toast.AddSuccessToastMessage(Messages.Product.Delete(productName), new ToastrOptions { Title = "İşlem Başarılı" });
+			return RedirectToAction("Index", "Product", new { Area = "Admin" });
 		}
 	}
 }

@@ -14,8 +14,8 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 		Task<List<ProductDto>> GetAllProductsWithCategoryNonDeletedAsync();
 		Task<ProductDto> GetProductWithCategoryNonDeletedAsync(int productID);
         Task CreateProductAsync(ProductAddDto productAddDto);
-		Task UpdateProductAsync(ProductUpdateDto productUpdateDto);
-		Task SafeDeleteProductAsync(int productID);
+		Task<string> UpdateProductAsync(ProductUpdateDto productUpdateDto);
+		Task<string> SafeDeleteProductAsync(int productID);
 
 		IQueryable<ProductDto> GetAll();
 		IQueryable<Product> GetActives();

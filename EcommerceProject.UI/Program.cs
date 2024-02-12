@@ -1,9 +1,15 @@
 using EcommerceProject.BLL.DependencyResolvers;
+using NToastNotify;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+	.AddNToastNotifyToastr(new ToastrOptions()
+	{
+		PositionClass = ToastPositions.TopRight,
+		TimeOut = 3000
+	});
 
 builder.Services.AddIdentityService();
 builder.Services.AddDbContextService();
@@ -39,6 +45,7 @@ if (!app.Environment.IsDevelopment())
 {
 	app.UseExceptionHandler("/Home/Error");
 }
+app.UseNToastNotify();
 app.UseStaticFiles();
 
 app.UseRouting();

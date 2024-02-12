@@ -775,7 +775,7 @@
     </div>
 
     @await RenderSectionAsync("Scripts",false);
-
+    @await Component.InvokeAsync("NToastNotify")
     <!-- Mainly scripts -->
     <script src="~/inspinia/js/jquery-3.1.1.min.js"></script>
     <script src="~/inspinia/js/popper.min.js"></script>
@@ -823,6 +823,9 @@
 
     <!-- iCheck -->
     <script src="~/inspinia/js/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- FooTable -->
+    <script src="~/inspinia/js/plugins/footable/footable.all.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -948,6 +951,10 @@
                 radioClass: 'iradio_square-green',
             });
         });
+
+            $(document).ready(function () {
+                $('.footable').footable();
+            });
     </script>
 </body>
 </html>
