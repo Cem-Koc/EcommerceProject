@@ -25,9 +25,9 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
         }
 
 
-        public async Task<List<ProductDto>> GetAllProductsWithCategoryAsync()
+        public async Task<List<ProductDto>> GetAllProductsWithCategoryNonDeletedAsync()
         {
-            var products = await _unitOfWork.GetRepository<Product>().GetAllAsync(null, x => x.Category);
+            var products = await _unitOfWork.GetRepository<Product>().GetAllAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted, x => x.Category);
             var map = _mapper.Map<List<ProductDto>>(products);
             return map;
         }
@@ -168,21 +168,10 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 
 		public async Task CreateProductAsync(ProductAddDto productAddDto)
 		{
-            var product = new Product
-            {
-                ProductName = productAddDto.ProductName,
-                Description = productAddDto.Description,
-                UnitPrice = productAddDto.UnitPrice,
-                SalePrice = productAddDto.SalePrice,
-                ProductCode = productAddDto.ProductCode,
-                UnitsInStock = productAddDto.UnitsInStock,
-                CategoryID = productAddDto.CategoryID,
-                ProductColorID = productAddDto.ProductColorID,
-                ProductSizeID = productAddDto.ProductSizeID,
-                CustomerTypeID = productAddDto.CustomerTypeID
-            };
+            var product = new Product();
+			_mapper.Map<ProductAddDto, Product>(productAddDto, product);
 
-            await _unitOfWork.GetRepository<Product>().AddAsync(product);
+			await _unitOfWork.GetRepository<Product>().AddAsync(product);
             await _unitOfWork.SaveAsync();
 		}
 	}

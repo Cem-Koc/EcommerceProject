@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using EcommerceProject.BLL.DependencyResolvers;
 using EcommerceProject.BLL.ManagerServices.Abstracts;
 using EcommerceProject.ENTITIES.Dtos.Products;
+using EcommerceProject.ENTITIES.Models;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceProject.UI.Areas.Admin.Controllers
@@ -14,8 +17,9 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
         private readonly IProductColorManager _productColorManager;
         private readonly ICustomerTypeManager _customerTypeManager;
         private readonly IMapper _mapper;
+		private readonly IValidator<Product> _validator;
 
-        public ProductController(IProductManager productManager,ICategoryManager categoryManager,IProductSizeManager productSizeManager,IProductColorManager productColorManager,ICustomerTypeManager customerTypeManager,IMapper mapper)
+		public ProductController(IProductManager productManager,ICategoryManager categoryManager,IProductSizeManager productSizeManager,IProductColorManager productColorManager,ICustomerTypeManager customerTypeManager,IMapper mapper,IValidator<Product> validator)
         {
             _productManager = productManager;
             _categoryManager = categoryManager;
@@ -23,10 +27,11 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
             _productColorManager = productColorManager;
             _customerTypeManager = customerTypeManager;
             _mapper = mapper;
-        }
+			_validator = validator;
+		}
         public async Task<IActionResult> Index()
         {
-            var products = await _productManager.GetAllProductsWithCategoryAsync();
+            var products = await _productManager.GetAllProductsWithCategoryNonDeletedAsync();
             return View(products);
         }
 
@@ -44,8 +49,25 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Add(ProductAddDto productAddDto)
 		{
-            await _productManager.CreateProductAsync(productAddDto);
-            return RedirectToAction("Index", "Product", new {Area = "Admin"});
+            var map = _mapper.Map<Product>(productAddDto);
+            var result = await _validator.ValidateAsync(map);
+
+            if (result.IsValid)
+            {
+				await _productManager.CreateProductAsync(productAddDto);
+				return RedirectToAction("Index", "Product", new { Area = "Admin" });
+			}
+            else
+            {
+				result.AddToModelState(this.ModelState);
+			}
+
+			var categories = await _categoryManager.GetAllCategoriesNonDeletedAsync();
+			var productSizes = await _productSizeManager.GetAllProductSizesNonDeletedAsync();
+			var productColors = await _productColorManager.GetProductColorsNonDeletedAsync();
+			var customerTypes = await _customerTypeManager.GetAllCustomerTypesNonDeletedAsync();
+
+			return View(new ProductAddDto { Categories = categories, ProductSizes = productSizes, ProductColors = productColors, CustomerTypes = customerTypes });
 		}
 
         [HttpGet]
@@ -69,8 +91,20 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(ProductUpdateDto productUpdateDto)
         {
-            await _productManager.UpdateProductAsync(productUpdateDto);
-			var categories = await _categoryManager.GetAllCategoriesNonDeletedAsync();
+			var map = _mapper.Map<Product>(productUpdateDto);
+			var result = await _validator.ValidateAsync(map);
+
+            if (result.IsValid)
+            {
+				await _productManager.UpdateProductAsync(productUpdateDto);
+			}
+            else
+            {
+                result.AddToModelState(this.ModelState);
+            }
+
+
+            var categories = await _categoryManager.GetAllCategoriesNonDeletedAsync();
 			var productSizes = await _productSizeManager.GetAllProductSizesNonDeletedAsync();
 			var productColors = await _productColorManager.GetProductColorsNonDeletedAsync();
 			var customerTypes = await _customerTypeManager.GetAllCustomerTypesNonDeletedAsync();

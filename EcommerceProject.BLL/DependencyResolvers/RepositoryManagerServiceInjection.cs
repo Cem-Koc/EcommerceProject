@@ -1,11 +1,15 @@
-﻿using EcommerceProject.BLL.ManagerServices.Abstracts;
+﻿using EcommerceProject.BLL.FluentValidations;
+using EcommerceProject.BLL.ManagerServices.Abstracts;
 using EcommerceProject.BLL.ManagerServices.Concretes;
 using EcommerceProject.DAL.Repositories.Abstracts;
 using EcommerceProject.DAL.Repositories.Concretes;
 using EcommerceProject.DAL.UnitOfWorks;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -40,6 +44,13 @@ namespace EcommerceProject.BLL.DependencyResolvers
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper(assembly);
+
+            services.AddControllersWithViews().AddFluentValidation(opt =>
+            {
+                opt.RegisterValidatorsFromAssemblyContaining<ProductValidator>();
+                opt.DisableDataAnnotationsValidation = true;
+                opt.ValidatorOptions.LanguageManager.Culture = new CultureInfo("tr");
+            });
 
             return services;
 
