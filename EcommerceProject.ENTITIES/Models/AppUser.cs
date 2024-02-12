@@ -23,9 +23,11 @@ namespace EcommerceProject.ENTITIES.Models
         public DataStatus Status { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+		public string CreatedBy { get; set; }
+		public string? ModifiedBy { get; set; }
+		public string? DeletedBy { get; set; }
 
-        //Relational Properties
-        public virtual List<Order> Orders { get; set; }
-        
-    }
+		//Relational Properties
+		public virtual List<Order> Orders { get; set; }
+	}
 }

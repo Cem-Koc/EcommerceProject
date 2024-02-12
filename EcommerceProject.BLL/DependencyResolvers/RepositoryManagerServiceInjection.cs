@@ -6,6 +6,7 @@ using EcommerceProject.DAL.Repositories.Concretes;
 using EcommerceProject.DAL.UnitOfWorks;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,8 @@ namespace EcommerceProject.BLL.DependencyResolvers
             services.AddScoped<ICustomerTypeRepository, CustomerTypeRepository>();
             services.AddScoped<ICustomerTypeManager, CustomerTypeManager>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddAutoMapper(assembly);
 

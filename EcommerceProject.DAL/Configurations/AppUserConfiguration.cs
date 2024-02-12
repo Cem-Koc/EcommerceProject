@@ -61,7 +61,8 @@ namespace EcommerceProject.DAL.Configurations
                 LastName = "Admin",
                 PhoneNumberConfirmed = true,
                 EmailConfirmed = true,
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString(),
+                CreatedBy = "Test"
             };
             admin.PasswordHash = CreatePasswordHash(admin, "123456");
 
@@ -77,8 +78,9 @@ namespace EcommerceProject.DAL.Configurations
                 LastName = "Koç",
                 PhoneNumberConfirmed = true,
                 EmailConfirmed = true,
-                SecurityStamp = Guid.NewGuid().ToString()
-            };
+                SecurityStamp = Guid.NewGuid().ToString(),
+				CreatedBy = "Test"
+			};
             userTest.PasswordHash = CreatePasswordHash(userTest, "123456");            
 
             builder.HasData(userTest, admin);

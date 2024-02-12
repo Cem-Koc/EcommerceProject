@@ -19,6 +19,9 @@ namespace EcommerceProject.ENTITIES.Models
         public DateTime CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public DateTime? DeletedDate { get; set; }
-        public DataStatus Status { get; set; }
+		public string CreatedBy { get; set; } = "Undefined";
+		public string? ModifiedBy { get; set; }
+		public string? DeletedBy { get; set; }
+		public DataStatus Status { get; set; }
     }
 }

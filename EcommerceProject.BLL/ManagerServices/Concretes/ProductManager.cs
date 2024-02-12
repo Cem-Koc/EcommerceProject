@@ -10,6 +10,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using EcommerceProject.BLL.DependencyResolvers;
 
 namespace EcommerceProject.BLL.ManagerServices.Concretes
 {
@@ -17,12 +20,16 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+		private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ClaimsPrincipal _user;
 
-        public ProductManager(IUnitOfWork unitOfWork, IMapper mapper)
+		public ProductManager(IUnitOfWork unitOfWork, IMapper mapper,IHttpContextAccessor httpContextAccessor)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-        }
+			_httpContextAccessor = httpContextAccessor;
+            _user = _httpContextAccessor.HttpContext.User;
+		}
 
 
         public async Task<List<ProductDto>> GetAllProductsWithCategoryNonDeletedAsync()
@@ -42,8 +49,10 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
         public async Task<string> UpdateProductAsync(ProductUpdateDto productUpdateDto)
         {
             var product = await _unitOfWork.GetRepository<Product>().GetAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted && x.ID == productUpdateDto.ID, x => x.Category);
-
-            var productName = product.ProductName;
+			var user = _user.GetLoggedInUserEmail();
+			var productName = product.ProductName;
+            product.ModifiedDate = DateTime.Now;
+            product.ModifiedBy = user;
 
             _mapper.Map<ProductUpdateDto,Product>(productUpdateDto,product);
 
@@ -56,9 +65,10 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
         public async Task<string> SafeDeleteProductAsync(int productID)
         {
             var product = await _unitOfWork.GetRepository<Product>().FindAsync(productID);
-
-            var productName = product.ProductName;
-
+			var user = _user.GetLoggedInUserEmail();
+			var productName = product.ProductName;
+            product.DeletedBy = user;
+            product.DeletedDate = DateTime.Now;
             _unitOfWork.GetRepository<Product>().Delete(product);
             await _unitOfWork.SaveAsync();
 
@@ -179,9 +189,10 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 
 		public async Task CreateProductAsync(ProductAddDto productAddDto)
 		{
+            var user = _user.GetLoggedInUserEmail();
             var product = new Product();
 			_mapper.Map<ProductAddDto, Product>(productAddDto, product);
-
+            product.CreatedBy = user;
 			await _unitOfWork.GetRepository<Product>().AddAsync(product);
             await _unitOfWork.SaveAsync();
 		}
