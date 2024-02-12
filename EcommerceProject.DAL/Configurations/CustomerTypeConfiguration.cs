@@ -8,22 +8,21 @@ using System.Threading.Tasks;
 
 namespace EcommerceProject.DAL.Configurations
 {
-    public class CategoryConfiguration:BaseConfiguration<Category>
+    public class CustomerTypeConfiguration : BaseConfiguration<CustomerType>
     {
-        public override void Configure(EntityTypeBuilder<Category> builder)
+        public override void Configure(EntityTypeBuilder<CustomerType> builder)
         {
             base.Configure(builder);
-            builder.HasMany(x => x.Products).WithOne(x => x.Category).HasForeignKey(x => x.CategoryID);
 
-            builder.HasData(new Category
+            builder.HasData(new CustomerType
             {
                 ID = 1,
-                CategoryName = "Tişört"
+                CustomerTypeName = "Kadın"
             },
-            new Category
+            new CustomerType
             {
-                ID= 2,
-                CategoryName = "Şort"
+                ID = 2,
+                CustomerTypeName = "Erkek"
             });
         }
     }

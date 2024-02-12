@@ -38,28 +38,22 @@ namespace EcommerceProject.DAL.Configurations
             // Each Role can have many associated RoleClaims
             builder.HasMany<AppRoleClaim>().WithOne().HasForeignKey(rc => rc.RoleId).IsRequired();
 
-            var superadminRole = new AppRole
-            {
-                Id = 1,
-                Name = "SuperAdmin",
-                NormalizedName = "SUPERADMIN",
-                ConcurrencyStamp = Guid.NewGuid().ToString()
-            };
+            
             var adminRole = new AppRole
             {
-                Id = 2,
+                Id = 1,
                 Name = "Admin",
                 NormalizedName = "ADMIN",
                 ConcurrencyStamp = Guid.NewGuid().ToString()
             };
             var userRole = new AppRole
             {
-                Id = 3,
+                Id = 2,
                 Name = "User",
                 NormalizedName = "USER",
                 ConcurrencyStamp = Guid.NewGuid().ToString()
             };
-            builder.HasData(superadminRole, adminRole, userRole);
+            builder.HasData(adminRole, userRole);
         }
     }
 }

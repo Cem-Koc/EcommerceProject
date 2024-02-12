@@ -1,6 +1,8 @@
-﻿using EcommerceProject.BLL.ManagerServices.Abstracts;
+﻿using AutoMapper;
+using EcommerceProject.BLL.ManagerServices.Abstracts;
 using EcommerceProject.DAL.Repositories.Abstracts;
 using EcommerceProject.DAL.UnitOfWorks;
+using EcommerceProject.ENTITIES.Dtos.Categories;
 using EcommerceProject.ENTITIES.Models;
 using System;
 using System.Collections.Generic;
@@ -14,11 +16,13 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
     public class CategoryManager : ICategoryManager
     {
 		private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-		public CategoryManager(IUnitOfWork unitOfWork)
+        public CategoryManager(IUnitOfWork unitOfWork,IMapper mapper)
 		{
 			_unitOfWork = unitOfWork;
-		}
+            _mapper = mapper;
+        }
 
 		public void Add(Category item)
 		{
@@ -93,7 +97,14 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 			return _unitOfWork.GetRepository<Category>().GetAll();
 		}
 
-		public IQueryable<Category> GetModifieds()
+        public async Task<List<CategoryDto>> GetAllCategoriesNonDeletedAsync()
+        {
+            var categories = await _unitOfWork.GetRepository<Category>().GetAllAsync(x=>x.Status != ENTITIES.Enums.DataStatus.Deleted);
+			var map = _mapper.Map<List<CategoryDto>>(categories);
+			return map;
+        }
+
+        public IQueryable<Category> GetModifieds()
 		{
 			return _unitOfWork.GetRepository<Category>().GetModifieds();
 		}

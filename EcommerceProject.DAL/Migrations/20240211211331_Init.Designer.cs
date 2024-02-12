@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcommerceProject.DAL.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20240209231041_Init")]
+    [Migration("20240211211331_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -172,42 +172,42 @@ namespace EcommerceProject.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "de908a07-d56e-4920-bc83-648697795e61",
-                            CreatedDate = new DateTime(2024, 2, 10, 2, 10, 41, 330, DateTimeKind.Local).AddTicks(9561),
-                            Email = "superadmin@gmail.com",
+                            ConcurrencyStamp = "4c4887de-4296-4244-8477-188454407f19",
+                            CreatedDate = new DateTime(2024, 2, 12, 0, 13, 31, 410, DateTimeKind.Local).AddTicks(4589),
+                            Email = "usertest@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Cem",
                             LastName = "Koç",
                             LockoutEnabled = false,
-                            NormalizedEmail = "SUPERADMIN@GMAIL.COM",
-                            NormalizedUserName = "SUPERADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKtJ+HcZXqZhxGb09rq7X9ZG0ITgowbsbSeuo4i+WXmfrpcorzunFaI2DNIsO53m7w==",
+                            NormalizedEmail = "USERTEST@GMAIL.COM",
+                            NormalizedUserName = "USERTEST@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIHqTHb+h0Pe9GlKcGmx/DVUIB+N0xjdIsWB6ft3YcTUKH96c9SqEOOej8I2j4mP5A==",
                             PhoneNumber = "+901234567890",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "5937188d-b6f2-4d90-9310-74a0f9035f7f",
+                            SecurityStamp = "d09a8fea-cf9b-4782-b73d-076183a94beb",
                             Status = 1,
                             TwoFactorEnabled = false,
-                            UserName = "superadmin@gmail.com"
+                            UserName = "usertest@gmail.com"
                         },
                         new
                         {
-                            Id = 2,
+                            Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c3128010-d557-4fe5-9958-ca6ef8f3bf8a",
-                            CreatedDate = new DateTime(2024, 2, 10, 2, 10, 41, 385, DateTimeKind.Local).AddTicks(7424),
+                            ConcurrencyStamp = "e005f9e1-d52b-4e93-ae94-c1e8dcc87033",
+                            CreatedDate = new DateTime(2024, 2, 12, 0, 13, 31, 335, DateTimeKind.Local).AddTicks(2607),
                             Email = "admin@gmail.com",
-                            EmailConfirmed = false,
+                            EmailConfirmed = true,
                             FirstName = "Admin",
-                            LastName = "User",
+                            LastName = "Admin",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEE9WX+twyFpzRTNoDUdfXRoK4Bl8g1/cR2/s708dhu7ek+/6hwW5P0PMGgMRcEnqDA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEI8RZ3uwhtYi3UT0xxEzkNEpe4zbIpbO3wUqxtRwNNN2Uzf8lSX7sPBWgSxskHW4sA==",
                             PhoneNumber = "+901234560000",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "e21af90f-3339-4f93-9f73-0f8592bba33a",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "a7075e4c-5f33-4599-a92e-228dadc5f26f",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
@@ -311,10 +311,6 @@ namespace EcommerceProject.DAL.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
@@ -324,6 +320,108 @@ namespace EcommerceProject.DAL.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            CategoryName = "Tişört",
+                            CreatedDate = new DateTime(2024, 2, 12, 0, 13, 31, 480, DateTimeKind.Local).AddTicks(7798),
+                            Status = 1
+                        },
+                        new
+                        {
+                            ID = 2,
+                            CategoryName = "Şort",
+                            CreatedDate = new DateTime(2024, 2, 12, 0, 13, 31, 480, DateTimeKind.Local).AddTicks(7812),
+                            Status = 1
+                        });
+                });
+
+            modelBuilder.Entity("EcommerceProject.ENTITIES.Models.CustomerType", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CustomerTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("CustomerTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            CreatedDate = new DateTime(2024, 2, 12, 0, 13, 31, 481, DateTimeKind.Local).AddTicks(4009),
+                            CustomerTypeName = "Kadın",
+                            Status = 1
+                        },
+                        new
+                        {
+                            ID = 2,
+                            CreatedDate = new DateTime(2024, 2, 12, 0, 13, 31, 481, DateTimeKind.Local).AddTicks(4011),
+                            CustomerTypeName = "Erkek",
+                            Status = 1
+                        });
+                });
+
+            modelBuilder.Entity("EcommerceProject.ENTITIES.Models.Image", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SortImage")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("EcommerceProject.ENTITIES.Models.Order", b =>
@@ -406,6 +504,9 @@ namespace EcommerceProject.DAL.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("CustomerTypeID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
@@ -416,9 +517,21 @@ namespace EcommerceProject.DAL.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ProductCode")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductColorID")
+                        .HasColumnType("int");
+
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductSizeID")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SalePrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -429,14 +542,187 @@ namespace EcommerceProject.DAL.Migrations
                     b.Property<int>("UnitsInStock")
                         .HasColumnType("int");
 
-                    b.Property<int>("ViewCount")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
                     b.HasIndex("CategoryID");
 
+                    b.HasIndex("CustomerTypeID");
+
+                    b.HasIndex("ProductColorID");
+
+                    b.HasIndex("ProductSizeID");
+
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            CategoryID = 1,
+                            CreatedDate = new DateTime(2024, 2, 12, 0, 13, 31, 480, DateTimeKind.Local).AddTicks(9122),
+                            CustomerTypeID = 1,
+                            Description = "%100 Pamuk Slim Fit",
+                            ProductCode = 123456,
+                            ProductColorID = 1,
+                            ProductName = "Dar Kesim Bisiklet Yaka Kısa Kollu Tişört",
+                            ProductSizeID = 1,
+                            SalePrice = 275m,
+                            Status = 1,
+                            UnitPrice = 300m,
+                            UnitsInStock = 100
+                        },
+                        new
+                        {
+                            ID = 2,
+                            CategoryID = 1,
+                            CreatedDate = new DateTime(2024, 2, 12, 0, 13, 31, 480, DateTimeKind.Local).AddTicks(9135),
+                            CustomerTypeID = 1,
+                            Description = "%100 Pamuk Slim Fit",
+                            ProductCode = 123456,
+                            ProductColorID = 2,
+                            ProductName = "Dar Kesim Bisiklet Yaka Kısa Kollu Tişört",
+                            ProductSizeID = 1,
+                            SalePrice = 275m,
+                            Status = 1,
+                            UnitPrice = 300m,
+                            UnitsInStock = 100
+                        },
+                        new
+                        {
+                            ID = 3,
+                            CategoryID = 1,
+                            CreatedDate = new DateTime(2024, 2, 12, 0, 13, 31, 480, DateTimeKind.Local).AddTicks(9137),
+                            CustomerTypeID = 1,
+                            Description = "%100 Pamuk Slim Fit",
+                            ProductCode = 123456,
+                            ProductColorID = 1,
+                            ProductName = "Dar Kesim Bisiklet Yaka Kısa Kollu Tişört",
+                            ProductSizeID = 2,
+                            SalePrice = 275m,
+                            Status = 1,
+                            UnitPrice = 300m,
+                            UnitsInStock = 100
+                        },
+                        new
+                        {
+                            ID = 4,
+                            CategoryID = 2,
+                            CreatedDate = new DateTime(2024, 2, 12, 0, 13, 31, 480, DateTimeKind.Local).AddTicks(9140),
+                            CustomerTypeID = 2,
+                            Description = "Slim Fit",
+                            ProductCode = 112233,
+                            ProductColorID = 2,
+                            ProductName = "Sporcu Şort",
+                            ProductSizeID = 2,
+                            SalePrice = 175m,
+                            Status = 1,
+                            UnitPrice = 200m,
+                            UnitsInStock = 55
+                        });
+                });
+
+            modelBuilder.Entity("EcommerceProject.ENTITIES.Models.ProductColor", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ProductColors");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Color = "Mavi",
+                            CreatedDate = new DateTime(2024, 2, 12, 0, 13, 31, 481, DateTimeKind.Local).AddTicks(3661),
+                            Status = 1
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Color = "Siyah",
+                            CreatedDate = new DateTime(2024, 2, 12, 0, 13, 31, 481, DateTimeKind.Local).AddTicks(3669),
+                            Status = 1
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Color = "Beyaz",
+                            CreatedDate = new DateTime(2024, 2, 12, 0, 13, 31, 481, DateTimeKind.Local).AddTicks(3670),
+                            Status = 1
+                        });
+                });
+
+            modelBuilder.Entity("EcommerceProject.ENTITIES.Models.ProductSize", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Size")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ProductSizes");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            CreatedDate = new DateTime(2024, 2, 12, 0, 13, 31, 481, DateTimeKind.Local).AddTicks(3838),
+                            Size = "XS",
+                            Status = 1
+                        },
+                        new
+                        {
+                            ID = 2,
+                            CreatedDate = new DateTime(2024, 2, 12, 0, 13, 31, 481, DateTimeKind.Local).AddTicks(3840),
+                            Size = "S",
+                            Status = 1
+                        },
+                        new
+                        {
+                            ID = 3,
+                            CreatedDate = new DateTime(2024, 2, 12, 0, 13, 31, 481, DateTimeKind.Local).AddTicks(3840),
+                            Size = "M",
+                            Status = 1
+                        });
                 });
 
             modelBuilder.Entity("EcommerceProject.ENTITIES.Models.AppRoleClaim", b =>
@@ -490,6 +776,17 @@ namespace EcommerceProject.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("EcommerceProject.ENTITIES.Models.Image", b =>
+                {
+                    b.HasOne("EcommerceProject.ENTITIES.Models.Product", "Product")
+                        .WithMany("Images")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("EcommerceProject.ENTITIES.Models.Order", b =>
                 {
                     b.HasOne("EcommerceProject.ENTITIES.Models.AppUser", "AppUser")
@@ -528,7 +825,31 @@ namespace EcommerceProject.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("EcommerceProject.ENTITIES.Models.CustomerType", "CustomerType")
+                        .WithMany("Products")
+                        .HasForeignKey("CustomerTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EcommerceProject.ENTITIES.Models.ProductColor", "ProductColor")
+                        .WithMany("Products")
+                        .HasForeignKey("ProductColorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EcommerceProject.ENTITIES.Models.ProductSize", "ProductSize")
+                        .WithMany("Products")
+                        .HasForeignKey("ProductSizeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("CustomerType");
+
+                    b.Navigation("ProductColor");
+
+                    b.Navigation("ProductSize");
                 });
 
             modelBuilder.Entity("EcommerceProject.ENTITIES.Models.AppUser", b =>
@@ -541,6 +862,11 @@ namespace EcommerceProject.DAL.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("EcommerceProject.ENTITIES.Models.CustomerType", b =>
+                {
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("EcommerceProject.ENTITIES.Models.Order", b =>
                 {
                     b.Navigation("OrderDetails");
@@ -548,7 +874,19 @@ namespace EcommerceProject.DAL.Migrations
 
             modelBuilder.Entity("EcommerceProject.ENTITIES.Models.Product", b =>
                 {
+                    b.Navigation("Images");
+
                     b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("EcommerceProject.ENTITIES.Models.ProductColor", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("EcommerceProject.ENTITIES.Models.ProductSize", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

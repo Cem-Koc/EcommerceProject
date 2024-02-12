@@ -57,7 +57,7 @@ namespace EcommerceProject.DAL.Repositories.Concretes
             item.DeletedDate = DateTime.Now;
         }
 
-        public void DeleteRange(List<T> list)
+		public void DeleteRange(List<T> list)
         {
             foreach (T item in list) Delete(item);
         }

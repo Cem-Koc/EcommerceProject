@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace EcommerceProject.ENTITIES.Models
 {
-    public class Category:BaseEntity
+    public class ProductSize : BaseEntity
     {
-        public string CategoryName { get; set; }
+        public string Size { get; set; }
 
         //Relational Properties
         public virtual List<Product> Products { get; set; }

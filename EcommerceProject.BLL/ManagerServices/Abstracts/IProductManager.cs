@@ -12,7 +12,12 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
     public interface IProductManager
     {
 		Task<List<ProductDto>> GetAllProductsWithCategoryAsync();
-        IQueryable<ProductDto> GetAll();
+		Task<ProductDto> GetProductWithCategoryNonDeletedAsync(int productID);
+        Task CreateProductAsync(ProductAddDto productAddDto);
+		Task UpdateProductAsync(ProductUpdateDto productUpdateDto);
+		Task SafeDeleteProductAsync(int productID);
+
+		IQueryable<ProductDto> GetAll();
 		IQueryable<Product> GetActives();
 		IQueryable<Product> GetModifieds();
 		IQueryable<Product> GetPassives();

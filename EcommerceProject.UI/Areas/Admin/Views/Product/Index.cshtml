@@ -70,7 +70,7 @@
                                 <th data-hide="phone">Kategori</th>
                                 <th data-hide="all">Açıklama</th>
                                 <th data-hide="phone">Fiyat</th>
-                                <th data-hide="phone,tablet">Stok Adedi</th>
+                                @* <th data-hide="phone,tablet">Stok Adedi</th> *@
                                 <th data-hide="phone">Statü</th>
                                 <th class="text-right" data-sort-ignore="true">Aksiyon</th>
                             </tr>
@@ -91,16 +91,17 @@
                                 <td>
                                     @product.UnitPrice
                                 </td>
-                                <td>
+                                @* <td>
                                     @product.UnitsInStock
-                                </td>
+                                </td> *@
                                 <td>
                                     <span class="label label-primary">@product.Status</span>
                                 </td>
                                 <td class="text-right">
                                     <div class="btn-group">
                                         <button class="btn-white btn btn-xs">View</button>
-                                        <button class="btn-white btn btn-xs">Edit</button>
+                                            <a class="btn-warning btn btn-xs" data-id="@product.ID" asp-area="Admin" asp-controller="Product" asp-action="Update" asp-route-productID="@product.ID">Güncelle</a>
+                                            <a class="btn-danger btn btn-xs" data-id="@product.ID" asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-productID="@product.ID">Sil</a>
                                     </div>
                                 </td>
                             </tr>

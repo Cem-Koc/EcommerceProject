@@ -15,7 +15,9 @@ namespace EcommerceProject.BLL.AutoMapper.Products
         public ProductProfile()
         {
             CreateMap<ProductDto,Product>().ReverseMap();
-
+            CreateMap<ProductAddDto,Product>().ReverseMap();
+            CreateMap<ProductUpdateDto,Product>().ReverseMap();
+            CreateMap<ProductUpdateDto,ProductDto>().ReverseMap();
         }
     }
 }

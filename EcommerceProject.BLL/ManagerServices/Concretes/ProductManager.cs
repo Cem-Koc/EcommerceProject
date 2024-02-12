@@ -32,6 +32,28 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
             return map;
         }
 
+        public async Task<ProductDto> GetProductWithCategoryNonDeletedAsync(int productID)
+        {
+            var product = await _unitOfWork.GetRepository<Product>().GetAsync(x=>x.Status != ENTITIES.Enums.DataStatus.Deleted && x.ID == productID, x => x.Category);
+            var map = _mapper.Map<ProductDto>(product);
+            return map;
+        }
+
+        public async Task UpdateProductAsync(ProductUpdateDto productUpdateDto)
+        {
+            var product = await _unitOfWork.GetRepository<Product>().GetAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted && x.ID == productUpdateDto.ID, x => x.Category);
+            _mapper.Map<ProductUpdateDto,Product>(productUpdateDto,product);
+            await _unitOfWork.GetRepository<Product>().Update(product);
+            await _unitOfWork.SaveAsync();
+		}
+
+        public async Task SafeDeleteProductAsync(int productID)
+        {
+            var product = await _unitOfWork.GetRepository<Product>().FindAsync(productID);
+            _unitOfWork.GetRepository<Product>().Delete(product);
+            await _unitOfWork.SaveAsync();
+        }
+
         public void Add(Product item)
         {
             _unitOfWork.GetRepository<Product>().Add(item);
@@ -143,5 +165,25 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
         {
             return _unitOfWork.GetRepository<Product>().Where(exp);
         }
-    }
+
+		public async Task CreateProductAsync(ProductAddDto productAddDto)
+		{
+            var product = new Product
+            {
+                ProductName = productAddDto.ProductName,
+                Description = productAddDto.Description,
+                UnitPrice = productAddDto.UnitPrice,
+                SalePrice = productAddDto.SalePrice,
+                ProductCode = productAddDto.ProductCode,
+                UnitsInStock = productAddDto.UnitsInStock,
+                CategoryID = productAddDto.CategoryID,
+                ProductColorID = productAddDto.ProductColorID,
+                ProductSizeID = productAddDto.ProductSizeID,
+                CustomerTypeID = productAddDto.CustomerTypeID
+            };
+
+            await _unitOfWork.GetRepository<Product>().AddAsync(product);
+            await _unitOfWork.SaveAsync();
+		}
+	}
 }

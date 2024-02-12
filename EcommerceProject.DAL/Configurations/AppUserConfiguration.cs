@@ -49,14 +49,29 @@ namespace EcommerceProject.DAL.Configurations
             // Each User can have many entries in the UserRole join table
             builder.HasMany<AppUserRole>().WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
 
-
-            var superadmin = new AppUser
+            var admin = new AppUser
             {
                 Id = 1,
-                UserName = "superadmin@gmail.com",
-                Email = "superadmin@gmail.com",
-                NormalizedUserName = "SUPERADMIN@GMAIL.COM",
-                NormalizedEmail = "SUPERADMIN@GMAIL.COM",
+                UserName = "admin@gmail.com",
+                Email = "admin@gmail.com",
+                NormalizedUserName = "ADMIN@GMAIL.COM",
+                NormalizedEmail = "ADMIN@GMAIL.COM",
+                PhoneNumber = "+901234560000",
+                FirstName = "Admin",
+                LastName = "Admin",
+                PhoneNumberConfirmed = true,
+                EmailConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+            admin.PasswordHash = CreatePasswordHash(admin, "123456");
+
+            var userTest = new AppUser
+            {
+                Id = 2,
+                UserName = "usertest@gmail.com",
+                Email = "usertest@gmail.com",
+                NormalizedUserName = "USERTEST@GMAIL.COM",
+                NormalizedEmail = "USERTEST@GMAIL.COM",
                 PhoneNumber = "+901234567890",
                 FirstName = "Cem",
                 LastName = "Koç",
@@ -64,25 +79,9 @@ namespace EcommerceProject.DAL.Configurations
                 EmailConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
-            superadmin.PasswordHash = CreatePasswordHash(superadmin, "123456");
+            userTest.PasswordHash = CreatePasswordHash(userTest, "123456");            
 
-            var admin = new AppUser
-            {
-                Id = 2,
-                UserName = "admin@gmail.com",
-                Email = "admin@gmail.com",
-                NormalizedUserName = "ADMIN@GMAIL.COM",
-                NormalizedEmail = "ADMIN@GMAIL.COM",
-                PhoneNumber = "+901234560000",
-                FirstName = "Admin",
-                LastName = "User",
-                PhoneNumberConfirmed = false,
-                EmailConfirmed = false,
-                SecurityStamp = Guid.NewGuid().ToString()
-            };
-            admin.PasswordHash = CreatePasswordHash(admin, "123456");
-
-            builder.HasData(superadmin, admin);
+            builder.HasData(userTest, admin);
         }
         private string CreatePasswordHash(AppUser user,string password)
         {

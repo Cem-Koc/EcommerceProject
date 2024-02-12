@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceProject.ENTITIES.Dtos.Products
 {
-	public class ProductDto
+	public class ProductUpdateDto
 	{
 		public int ID { get; set; }
 		public string ProductName { get; set; }
@@ -21,9 +21,13 @@ namespace EcommerceProject.ENTITIES.Dtos.Products
 		public int ProductCode { get; set; }
 		public int UnitsInStock { get; set; }
 		public DataStatus Status { get; set; }
-        public CustomerTypeDto CustomerType { get; set; }
-        public ProductColorDto ProductColor { get; set; }
-        public ProductSizeDto ProductSize { get; set; }
-        public CategoryDto Category { get; set; }
-    }
+		public int CategoryID { get; set; }
+		public int ProductColorID { get; set; }
+		public int ProductSizeID { get; set; }
+		public int CustomerTypeID { get; set; }
+		public List<CustomerTypeDto> CustomerTypes { get; set; }
+		public List<ProductColorDto> ProductColors { get; set; }
+		public List<ProductSizeDto> ProductSizes { get; set; }
+		public List<CategoryDto> Categories { get; set; }
+	}
 }

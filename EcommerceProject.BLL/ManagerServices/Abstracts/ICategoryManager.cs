@@ -1,4 +1,5 @@
-﻿using EcommerceProject.ENTITIES.Models;
+﻿using EcommerceProject.ENTITIES.Dtos.Categories;
+using EcommerceProject.ENTITIES.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
     public interface ICategoryManager
     {
+		Task<List<CategoryDto>> GetAllCategoriesNonDeletedAsync();
         IQueryable<Category> GetAll();
 		IQueryable<Category> GetActives();
 		IQueryable<Category> GetModifieds();

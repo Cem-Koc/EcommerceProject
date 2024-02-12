@@ -23,8 +23,7 @@ namespace EcommerceProject.WebAPI.Controllers
         {
             Category c = new()
             {
-                CategoryName = item.CategoryName,
-                Description = item.Description
+                CategoryName = item.CategoryName
             };
             await _categoryManager.AddAsync(c);
             return Ok("Kategori başarılı bir şekilde oluşturuldu.");
@@ -36,7 +35,6 @@ namespace EcommerceProject.WebAPI.Controllers
             List<CategoryResponseModel> categories = _categoryManager.Select(x=> new CategoryResponseModel
             {
                 CategoryName = x.CategoryName,
-                Description = x.Description,
                 CategoryID = x.ID
             }).ToList();
 

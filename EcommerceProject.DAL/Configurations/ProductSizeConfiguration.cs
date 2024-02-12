@@ -8,22 +8,26 @@ using System.Threading.Tasks;
 
 namespace EcommerceProject.DAL.Configurations
 {
-    public class CategoryConfiguration:BaseConfiguration<Category>
+    public class ProductSizeConfiguration : BaseConfiguration<ProductSize>
     {
-        public override void Configure(EntityTypeBuilder<Category> builder)
+        public override void Configure(EntityTypeBuilder<ProductSize> builder)
         {
             base.Configure(builder);
-            builder.HasMany(x => x.Products).WithOne(x => x.Category).HasForeignKey(x => x.CategoryID);
 
-            builder.HasData(new Category
+            builder.HasData(new ProductSize
             {
                 ID = 1,
-                CategoryName = "Tişört"
+                Size = "XS"
             },
-            new Category
+            new ProductSize
             {
                 ID= 2,
-                CategoryName = "Şort"
+                Size = "S"
+            },
+            new ProductSize
+            {
+                ID = 3,
+                Size = "M"
             });
         }
     }

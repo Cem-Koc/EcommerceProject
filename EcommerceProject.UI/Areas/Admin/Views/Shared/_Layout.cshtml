@@ -13,13 +13,20 @@
 
     <link href="~/inspinia/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/inspinia/font-awesome/css/font-awesome.css" rel="stylesheet">
-
+    <!--Product List-->
     <link href="~/inspinia/css/plugins/footable/footable.core.css" rel="stylesheet">
+    <!--Product Add-->
+    <link href="~/inspinia/css/plugins/summernote/summernote-bs4.css" rel="stylesheet">
+
+    <link href="~/inspinia/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
     <!-- Toastr style -->
     <link href="~/inspinia/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
     <!-- Gritter -->
     <link href="~/inspinia/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+
+    <link href="~/inspinia/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="~/inspinia/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
 
     <link href="~/inspinia/css/animate.css" rel="stylesheet">
     <link href="~/inspinia/css/style.css" rel="stylesheet">
@@ -51,19 +58,13 @@
                         </div>
                     </li>
                     <li class="active">
-                        <a href="~/inspinia/index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Gösterge Paneli</span></a>
+                        <a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-th-large"></i> <span class="nav-label">Gösterge Paneli</span></a>
                     </li>                    
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Graphs</span><span class="fa arrow"></span></a>
+                        <a asp-area="Admin" asp-controller="Product" asp-action="Index"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Ürünler</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            <li><a href="~/inspinia/graph_flot.html">Flot Charts</a></li>
-                            <li><a href="~/inspinia/graph_morris.html">Morris.js Charts</a></li>
-                            <li><a href="~/inspinia/graph_rickshaw.html">Rickshaw Charts</a></li>
-                            <li><a href="~/inspinia/graph_chartjs.html">Chart.js</a></li>
-                            <li><a href="~/inspinia/graph_chartist.html">Chartist</a></li>
-                            <li><a href="~/inspinia/c3.html">c3 charts</a></li>
-                            <li><a href="~/inspinia/graph_peity.html">Peity Charts</a></li>
-                            <li><a href="~/inspinia/graph_sparkline.html">Sparkline Charts</a></li>
+                            <li><a asp-area="Admin" asp-controller="Product" asp-action="Index">Ürün Listesi</a></li>
+                            <li><a asp-area="Admin" asp-controller="Product" asp-action="Add">Ürün Ekle</a></li>
                         </ul>
                     </li>
                     <li>
@@ -814,7 +815,14 @@
 
     <!-- Toastr -->
     <script src="~/inspinia/js/plugins/toastr/toastr.min.js"></script>
+    <!--SUMMERNOTE -->
+    <script src="~/inspinia/js/plugins/summernote/summernote-bs4.js"></script>
 
+    <!-- Data picker -->
+    <script src="~/inspinia/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+    <!-- iCheck -->
+    <script src="~/inspinia/js/plugins/iCheck/icheck.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -914,6 +922,31 @@
             var ctx4 = document.getElementById("doughnutChart2").getContext("2d");
             new Chart(ctx4, { type: 'doughnut', data: doughnutData, options: doughnutOptions });
 
+        });
+
+        
+                
+
+        
+            $(document).ready(function () {
+
+                $('.summernote').summernote();
+
+                $('.input-group.date').datepicker({
+                    todayBtn: "linked",
+                    keyboardNavigation: false,
+                    forceParse: false,
+                    calendarWeeks: true,
+                    autoclose: true
+                });
+
+            });
+
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
         });
     </script>
 </body>

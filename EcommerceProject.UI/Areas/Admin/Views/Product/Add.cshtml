@@ -1,0 +1,152 @@
+﻿@model ProductAddDto
+@{
+	ViewData["Title"] = "Add";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-lg-10">
+		<h2>Basic Form</h2>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="index.html">Home</a>
+			</li>
+			<li class="breadcrumb-item">
+				<a>Forms</a>
+			</li>
+			<li class="breadcrumb-item active">
+				<strong>Basic Form</strong>
+			</li>
+		</ol>
+	</div>
+	<div class="col-lg-2">
+	</div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox ">
+				<div class="ibox-title">
+					<h5>Ürün Ekleme Formu <small>Tüm bilgileri eksiksiz doldurmanız gerekmektedir.</small></h5>
+					<div class="ibox-tools">
+						<a class="collapse-link">
+							<i class="fa fa-chevron-up"></i>
+						</a>
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+							<i class="fa fa-wrench"></i>
+						</a>
+						<ul class="dropdown-menu dropdown-user">
+							<li>
+								<a href="#" class="dropdown-item">Config option 1</a>
+							</li>
+							<li>
+								<a href="#" class="dropdown-item">Config option 2</a>
+							</li>
+						</ul>
+						<a class="close-link">
+							<i class="fa fa-times"></i>
+						</a>
+					</div>
+				</div>
+				<div class="ibox-content">
+					<form method="post" asp-controller="Product" asp-action="Add" enctype="multipart/form-data">
+						<div class="form-group  row">
+							<label class="col-sm-2 col-form-label" asp-for="ProductName">Ürün İsmi</label>
+							<div class="col-sm-10"><input type="text" class="form-control" asp-for="ProductName"></div>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="form-group  row">
+							<label class="col-sm-2 col-form-label" asp-for="Description">Ürün Açıklaması</label>
+							<div class="col-sm-10"><textarea type="text" class="form-control" asp-for="Description"></textarea></div>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label" asp-for="ProductCode">Ürün Kodu</label>
+							<div class="col-sm-10">
+								<input type="text" asp-for="ProductCode" class="form-control"> <span class="form-text m-b-none">Kayıtlı bir ürün için farklı renk ve beden bilgileri ile yeni kayıt oluşturmak istiyorsanız ürün kodunu girmelisiniz. Alanı boş bırakmanı durumunda sistem yeni kod üreterek ürünü yeni bir ürün olarak ekleyecektir.</span>
+							</div>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="form-group  row">
+							<label class="col-sm-2 col-form-label" asp-for="UnitsInStock">Stok Adedi</label>
+							<div class="col-sm-10"><input type="number" asp-for="UnitsInStock" class="form-control"></div>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label" asp-for="UnitPrice">Birim Fiyatı</label>
+							<div class="col-sm-10">
+								<div class="input-group m-b">
+									<div class="input-group-prepend">
+										<span class="input-group-addon">₺</span>
+									</div>
+									<input type="number" asp-for="UnitPrice" class="form-control">
+									<div class="input-group-append">
+										<span class="input-group-addon">.00</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label" asp-for="SalePrice">Satış Fiyatı</label>
+							<div class="col-sm-10">
+								<div class="input-group m-b">
+									<div class="input-group-prepend">
+										<span class="input-group-addon">₺</span>
+									</div>
+									<input type="text" asp-for="SalePrice" class="form-control">
+									<div class="input-group-append">
+										<span class="input-group-addon">.00</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label" asp-for="ProductColorID">Ürün Rengi</label>
+							<div class="col-sm-10">
+								<select class="form-control m-b" asp-for="ProductColorID" asp-items="@(new SelectList(Model.ProductColors,"ID","Color"))"></select>
+							</div>
+							<span asp-validation-for="ProductColorID" class="text-danger"></span>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label" asp-for="ProductSizeID">Ürün Bedeni</label>
+							<div class="col-sm-10">
+								<select class="form-control m-b" asp-for="ProductSizeID" asp-items="@(new SelectList(Model.ProductSizes,"ID","Size"))"></select>
+							</div>
+							<span asp-validation-for="ProductSizeID" class="text-danger"></span>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label" asp-for="CustomerTypeID">Müşteri Tipi</label>
+							<div class="col-sm-10">
+								<select class="form-control m-b" asp-for="CustomerTypeID" asp-items="@(new SelectList(Model.CustomerTypes,"ID","CustomerTypeName"))"></select>
+							</div>
+							<span asp-validation-for="CustomerTypeID" class="text-danger"></span>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label" asp-for="CategoryID">Kategori</label>
+							<div class="col-sm-10">
+								<select class="form-control m-b" asp-for="CategoryID" asp-items="@(new SelectList(Model.Categories,"ID","CategoryName"))"></select>
+							</div>
+							<span asp-validation-for="CategoryID" class="text-danger"></span>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="form-group row">
+							<div class="col-sm-4 col-sm-offset-2">
+								<button class="btn btn-white btn-sm" type="submit">Formu Temizle</button>
+								<button class="btn btn-primary btn-sm" type="submit">Ürünü Ekle</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
