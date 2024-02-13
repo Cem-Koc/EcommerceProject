@@ -27,7 +27,7 @@ namespace EcommerceProject.ENTITIES.Models
 		public string? ModifiedBy { get; set; }
 		public string? DeletedBy { get; set; }
 
-		//Relational Properties
-		public virtual List<Order> Orders { get; set; }
+        //Relational Properties
+        public virtual List<Order> Orders { get; set; }
 	}
 }

@@ -30,6 +30,7 @@ namespace EcommerceProject.DAL.Context
             builder.ApplyConfiguration(new ProductColorConfiguration());
             builder.ApplyConfiguration(new ProductSizeConfiguration());
             builder.ApplyConfiguration(new CustomerTypeConfiguration());
+            builder.ApplyConfiguration(new ImageDetailConfiguration());
         }
 
         public DbSet<AppUser> AppUsers { get; set; }
@@ -41,5 +42,6 @@ namespace EcommerceProject.DAL.Context
         public DbSet<ProductColor> ProductColors { get; set; }
         public DbSet<ProductSize> ProductSizes { get; set; }
         public DbSet<CustomerType> CustomerTypes { get; set; }
+        public DbSet<ImageDetail> ImageDetails { get; set; }
     }
 }

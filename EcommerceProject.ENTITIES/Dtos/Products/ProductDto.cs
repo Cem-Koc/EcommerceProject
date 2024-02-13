@@ -1,8 +1,10 @@
 ﻿using EcommerceProject.ENTITIES.Dtos.Categories;
 using EcommerceProject.ENTITIES.Dtos.CustomerTypes;
+using EcommerceProject.ENTITIES.Dtos.Images;
 using EcommerceProject.ENTITIES.Dtos.ProductColors;
 using EcommerceProject.ENTITIES.Dtos.ProductSizes;
 using EcommerceProject.ENTITIES.Enums;
+using EcommerceProject.ENTITIES.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

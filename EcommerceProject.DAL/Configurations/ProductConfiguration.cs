@@ -14,8 +14,9 @@ namespace EcommerceProject.DAL.Configurations
         {
             base.Configure(builder);
             builder.HasMany(x=>x.OrderDetails).WithOne(x=>x.Product).HasForeignKey(x=>x.ProductID).IsRequired();
+            builder.HasMany(x=>x.ImageDetails).WithOne(x=>x.Product).HasForeignKey(x=>x.ProductID).IsRequired();
 
-            builder.HasData(new Product
+			builder.HasData(new Product
             {
                 ID = 1,
                 CategoryID = 1,

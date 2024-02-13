@@ -13,6 +13,8 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using EcommerceProject.BLL.DependencyResolvers;
+using EcommerceProject.BLL.Helpers.Images;
+using EcommerceProject.ENTITIES.Dtos.Images;
 
 namespace EcommerceProject.BLL.ManagerServices.Concretes
 {
@@ -21,14 +23,16 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 		private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ClaimsPrincipal _user;
+		private readonly IImageHelper _imageHelper;
+		private readonly ClaimsPrincipal _user;
 
-		public ProductManager(IUnitOfWork unitOfWork, IMapper mapper,IHttpContextAccessor httpContextAccessor)
+		public ProductManager(IUnitOfWork unitOfWork, IMapper mapper,IHttpContextAccessor httpContextAccessor,IImageHelper imageHelper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
 			_httpContextAccessor = httpContextAccessor;
-            _user = _httpContextAccessor.HttpContext.User;
+			_imageHelper = imageHelper;
+			_user = _httpContextAccessor.HttpContext.User;
 		}
 
 
@@ -41,7 +45,7 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 
         public async Task<ProductDto> GetProductWithCategoryNonDeletedAsync(int productID)
         {
-            var product = await _unitOfWork.GetRepository<Product>().GetAsync(x=>x.Status != ENTITIES.Enums.DataStatus.Deleted && x.ID == productID, x => x.Category);
+            var product = await _unitOfWork.GetRepository<Product>().GetAsync(x=>x.Status != ENTITIES.Enums.DataStatus.Deleted && x.ID == productID, x => x.Category,i=>i.ImageDetails);
             var map = _mapper.Map<ProductDto>(product);
             return map;
         }
@@ -190,11 +194,55 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 		public async Task CreateProductAsync(ProductAddDto productAddDto)
 		{
             var user = _user.GetLoggedInUserEmail();
+
+            //var imageUpload = await _imageHelper.Upload(productAddDto.ProductName, productAddDto.MainImage);
+            //Image image = new(imageUpload.FullName, productAddDto.MainImage.ContentType, user);
+            //await _unitOfWork.GetRepository<Image>().AddAsync(image);
+
             var product = new Product();
 			_mapper.Map<ProductAddDto, Product>(productAddDto, product);
             product.CreatedBy = user;
+
 			await _unitOfWork.GetRepository<Product>().AddAsync(product);
-            await _unitOfWork.SaveAsync();
+
+			//ImageDetail imageDetail = new ImageDetail
+   //         {
+   //             Image = image,
+   //             Product = product,
+   //             CreatedBy = user
+   //         };
+
+			//await _unitOfWork.GetRepository<ImageDetail>().AddAsync(imageDetail);
+			await _unitOfWork.SaveAsync();
+		}
+
+        public async Task ProductImageUpload(ImagesOperationsDto imagesOperationsDto)
+        {
+			var user = _user.GetLoggedInUserEmail();
+
+			var imageUpload = await _imageHelper.Upload(imagesOperationsDto.ProductName, imagesOperationsDto.Image);
+			Image image = new(imageUpload.FullName, imagesOperationsDto.Image.ContentType, user);
+			await _unitOfWork.GetRepository<Image>().AddAsync(image);
+			var product = await _unitOfWork.GetRepository<Product>().GetAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted && x.ID == imagesOperationsDto.ID);
+
+            var sortImageValue =  _unitOfWork.GetRepository<ImageDetail>().Where(x=>x.ProductID==product.ID).OrderByDescending(x=>x.SortImage).FirstOrDefault();
+            var sortImageMaxValue = 0;
+
+			if (sortImageValue!=null)
+            {
+				sortImageMaxValue = sortImageValue.SortImage;
+			}
+
+            ImageDetail imageDetail = new ImageDetail
+			{
+				Image = image,
+				Product = product,
+				CreatedBy = user,
+                SortImage = sortImageMaxValue + 1
+			};
+
+			await _unitOfWork.GetRepository<ImageDetail>().AddAsync(imageDetail);
+			await _unitOfWork.SaveAsync();
 		}
 	}
 }

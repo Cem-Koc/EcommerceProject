@@ -1,4 +1,5 @@
 ﻿using EcommerceProject.BLL.FluentValidations;
+using EcommerceProject.BLL.Helpers.Images;
 using EcommerceProject.BLL.ManagerServices.Abstracts;
 using EcommerceProject.BLL.ManagerServices.Concretes;
 using EcommerceProject.DAL.Repositories.Abstracts;
@@ -43,6 +44,7 @@ namespace EcommerceProject.BLL.DependencyResolvers
             services.AddScoped<ICustomerTypeRepository, CustomerTypeRepository>();
             services.AddScoped<ICustomerTypeManager, CustomerTypeManager>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IImageHelper, ImageHelper>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

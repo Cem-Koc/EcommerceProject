@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EcommerceProject.BLL.DependencyResolvers;
 using EcommerceProject.BLL.ManagerServices.Abstracts;
+using EcommerceProject.ENTITIES.Dtos.Images;
 using EcommerceProject.ENTITIES.Dtos.Products;
 using EcommerceProject.ENTITIES.Models;
 using EcommerceProject.UI.ResultMessages;
@@ -129,6 +130,31 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
             var productName = await _productManager.SafeDeleteProductAsync(productID);
 			_toast.AddSuccessToastMessage(Messages.Product.Delete(productName), new ToastrOptions { Title = "İşlem Başarılı" });
 			return RedirectToAction("Index", "Product", new { Area = "Admin" });
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> ImagesUpload(int productID)
+        {
+			var product = await _productManager.FindAsync(productID);
+			var imageOperationsDto = _mapper.Map<ImagesOperationsDto>(product);
+
+            var categories = await _categoryManager.GetAllCategoriesNonDeletedAsync();
+            var productSizes = await _productSizeManager.GetAllProductSizesNonDeletedAsync();
+            var productColors = await _productColorManager.GetProductColorsNonDeletedAsync();
+            var customerTypes = await _customerTypeManager.GetAllCustomerTypesNonDeletedAsync();
+
+            imageOperationsDto.CustomerTypes = customerTypes;
+            imageOperationsDto.ProductColors = productColors;
+            imageOperationsDto.ProductSizes = productSizes;
+            imageOperationsDto.Categories = categories;
+            return View(imageOperationsDto);
+		}
+
+        [HttpPost]
+		public async Task<IActionResult> ImagesUpload(ImagesOperationsDto imageOperationsDto)
+        {
+            await _productManager.ProductImageUpload(imageOperationsDto);
+            return RedirectToAction("ImagesUpload", "Product", new { @productID = imageOperationsDto.ID });
 		}
 	}
 }

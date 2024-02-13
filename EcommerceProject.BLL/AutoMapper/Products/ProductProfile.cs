@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
+using EcommerceProject.ENTITIES.Dtos.Images;
 
 namespace EcommerceProject.BLL.AutoMapper.Products
 {
@@ -18,6 +19,8 @@ namespace EcommerceProject.BLL.AutoMapper.Products
             CreateMap<ProductAddDto,Product>().ReverseMap();
             CreateMap<ProductUpdateDto,Product>().ReverseMap();
             CreateMap<ProductUpdateDto,ProductDto>().ReverseMap();
+            CreateMap<ImagesOperationsDto,Product>().ReverseMap();
+            CreateMap<ImagesOperationsDto,ProductDto>().ReverseMap();
         }
     }
 }

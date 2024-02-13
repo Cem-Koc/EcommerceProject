@@ -99,7 +99,7 @@
                                 </td>
                                 <td class="text-right">
                                     <div class="btn-group">
-                                        <button class="btn-white btn btn-xs">View</button>
+                                            <a class="btn-white btn btn-xs" data-id="@product.ID" asp-area="Admin" asp-controller="Product" asp-action="ImagesUpload" asp-route-productID="@product.ID">Resim Ekle</a>
                                             <a class="btn-warning btn btn-xs" data-id="@product.ID" asp-area="Admin" asp-controller="Product" asp-action="Update" asp-route-productID="@product.ID">Güncelle</a>
                                             <a class="btn-danger btn btn-xs" data-id="@product.ID" asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-productID="@product.ID">Sil</a>
                                     </div>

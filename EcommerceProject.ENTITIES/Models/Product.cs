@@ -22,7 +22,7 @@ namespace EcommerceProject.ENTITIES.Models
 
         //Relational Properties
         public virtual Category Category { get; set; }
-        public virtual List<Image> Images { get; set; }
+        public virtual List<ImageDetail> ImageDetails { get; set; }
         public virtual List<OrderDetail> OrderDetails { get; set; }
         public virtual ProductColor ProductColor { get; set; }
         public virtual ProductSize ProductSize { get; set; }

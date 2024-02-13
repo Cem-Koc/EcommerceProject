@@ -8,18 +8,21 @@ namespace EcommerceProject.ENTITIES.Models
 {
     public class Image : BaseEntity
     {
-        public Image(string fileName, string fileType)
+        public Image()
+        {
+            
+        }
+        public Image(string fileName,string fileType,string createdBy)
         {
             FileName = fileName;
             FileType = fileType;
+            CreatedBy = createdBy;
         }
 
         public string FileName { get; set; }
         public string FileType { get; set; }
-        public int SortImage { get; set; }
-        public int ProductID { get; set; }
 
-        //Relational Properties
-        public virtual Product Product { get; set; }
-    }
+		//Relational Properties
+		public virtual List<ImageDetail> ImageDetails { get; set; }
+	}
 }

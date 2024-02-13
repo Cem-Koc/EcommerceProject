@@ -13,6 +13,7 @@ namespace EcommerceProject.DAL.Configurations
         public override void Configure(EntityTypeBuilder<Image> builder)
         {
             base.Configure(builder);
-        }
+			builder.HasMany(x => x.ImageDetails).WithOne(x => x.Image).HasForeignKey(x => x.ImageID).IsRequired();
+		}
     }
 }

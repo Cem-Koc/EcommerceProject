@@ -2,7 +2,9 @@
 using EcommerceProject.ENTITIES.Dtos.CustomerTypes;
 using EcommerceProject.ENTITIES.Dtos.ProductColors;
 using EcommerceProject.ENTITIES.Dtos.ProductSizes;
+using Microsoft.AspNetCore.Http;
 using EcommerceProject.ENTITIES.Enums;
+using EcommerceProject.ENTITIES.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,5 +29,6 @@ namespace EcommerceProject.ENTITIES.Dtos.Products
 		public List<ProductColorDto> ProductColors { get; set; }
 		public List<ProductSizeDto> ProductSizes { get; set; }
 		public List<CategoryDto> Categories { get; set; }
-    }
+		public List<ImageDetail> ImageDetails { get; set; }
+	}
 }

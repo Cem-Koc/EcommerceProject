@@ -1,4 +1,5 @@
-﻿using EcommerceProject.ENTITIES.Dtos.Products;
+﻿using EcommerceProject.ENTITIES.Dtos.Images;
+using EcommerceProject.ENTITIES.Dtos.Products;
 using EcommerceProject.ENTITIES.Models;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
     public interface IProductManager
     {
+		Task ProductImageUpload(ImagesOperationsDto imagesOperationsDto);
 		Task<List<ProductDto>> GetAllProductsWithCategoryNonDeletedAsync();
 		Task<ProductDto> GetProductWithCategoryNonDeletedAsync(int productID);
         Task CreateProductAsync(ProductAddDto productAddDto);
