@@ -45,8 +45,12 @@ namespace EcommerceProject.BLL.DependencyResolvers
             services.AddScoped<ICustomerTypeManager, CustomerTypeManager>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IImageHelper, ImageHelper>();
+			services.AddScoped<IImageRepository, ImageRepository>();
+			services.AddScoped<IImageManager, ImageManager>();
+			services.AddScoped<IImageDetailRepository, ImageDetailRepository>();
+			services.AddScoped<IImageDetailManager, ImageDetailManager>();
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddAutoMapper(assembly);
 

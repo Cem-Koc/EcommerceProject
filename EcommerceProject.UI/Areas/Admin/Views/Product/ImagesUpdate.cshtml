@@ -1,0 +1,147 @@
+﻿@model ImagesOperationsDto
+@{
+	ViewData["Title"] = "ImagesUpdate";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-lg-10">
+		<h2>Resim İşlemleri</h2>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="index.html">Ana Sayfa</a>
+			</li>
+			<li class="breadcrumb-item">
+				<a>E-commerce</a>
+			</li>
+			<li class="breadcrumb-item active">
+				<strong>Resim Güncelleme İşlemleri</strong>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+				<ul class="nav nav-tabs">
+					<li><a class="nav-link active" data-toggle="tab" href="#tab-1"> Product info</a></li>
+					<li><a class="nav-link" data-toggle="tab" href="#tab-4"> Images</a></li>
+				</ul>
+				<form method="post" asp-controller="Product" asp-action="ImagesUpdate" enctype="multipart/form-data">
+					<div asp-validation-summary="ModelOnly"></div>
+					<input type="hidden" asp-for="ID" />
+					<input type="hidden" asp-for="CategoryID" />
+					<input type="hidden" asp-for="ProductSizeID" />
+					<input type="hidden" asp-for="CustomerTypeID" />
+					<input type="hidden" asp-for="ProductColorID" />
+					<input type="hidden" asp-for="ProductName" />
+					<div class="tab-content">
+						<div id="tab-1" class="tab-pane active">
+							<div class="panel-body">
+
+								<fieldset>
+									<div class="form-group  row">
+										<label class="col-sm-2 col-form-label" asp-for="ProductName">Ürün İsmi</label>
+										<div class="col-sm-10"><input type="text" class="form-control" asp-for="ProductName" value="@Model.ProductName" disabled></div>
+										<span asp-validation-for="ProductName" class="text-danger"></span>
+									</div>
+									<div class="hr-line-dashed"></div>
+									<div class="form-group row">
+										<label class="col-sm-2 col-form-label" asp-for="ProductCode">Ürün Kodu</label>
+										<div class="col-sm-10">
+											<input type="text" asp-for="ProductCode" class="form-control" value="@Model.ProductCode" disabled>
+										</div>
+										<span asp-validation-for="ProductCode" class="text-danger"></span>
+									</div>
+									<div class="hr-line-dashed"></div>
+									<div class="form-group row">
+										<label class="col-sm-2 col-form-label" asp-for="ProductColorID">Ürün Rengi</label>
+										<div class="col-sm-10">
+											<select class="form-control m-b" asp-for="ProductColorID" asp-items="@(new SelectList(Model.ProductColors,"ID","Color"))" disabled></select>
+										</div>
+										<span asp-validation-for="ProductColorID" class="text-danger"></span>
+									</div>
+									<div class="hr-line-dashed"></div>
+									<div class="form-group row">
+										<label class="col-sm-2 col-form-label" asp-for="ProductSizeID">Ürün Bedeni</label>
+										<div class="col-sm-10">
+											<select class="form-control m-b" asp-for="ProductSizeID" asp-items="@(new SelectList(Model.ProductSizes,"ID","Size"))" disabled></select>
+										</div>
+										<span asp-validation-for="ProductSizeID" class="text-danger"></span>
+									</div>
+									<div class="hr-line-dashed"></div>
+									<div class="form-group row">
+										<label class="col-sm-2 col-form-label" asp-for="CustomerTypeID">Müşteri Tipi</label>
+										<div class="col-sm-10">
+											<select class="form-control m-b" asp-for="CustomerTypeID" asp-items="@(new SelectList(Model.CustomerTypes,"ID","CustomerTypeName"))" disabled></select>
+										</div>
+										<span asp-validation-for="CustomerTypeID" class="text-danger"></span>
+									</div>
+									<div class="hr-line-dashed"></div>
+									<div class="form-group row">
+										<label class="col-sm-2 col-form-label" asp-for="CategoryID">Kategori</label>
+										<div class="col-sm-10">
+											<select class="form-control m-b" asp-for="CategoryID" asp-items="@(new SelectList(Model.Categories,"ID","CategoryName"))" disabled></select>
+										</div>
+										<span asp-validation-for="CategoryID" class="text-danger"></span>
+									</div>
+								</fieldset>
+
+							</div>
+						</div>
+						<div id="tab-4" class="tab-pane">
+							<div class="panel-body">
+								<div class="form-group  row">
+									<label class="col-sm-2 col-form-label" asp-for="Image">Yeni Ürün Resmi</label>
+									<div class="col-sm-8"><input type="file" accept="image/*" class="form-control" asp-for="Image"></div>
+									<div class="col-sm-2 col-sm-offset-2">
+										<button class="btn btn-primary" type="submit">Resmi Güncelle</button>
+									</div>
+									<span asp-validation-for="Image" class="text-danger"></span>
+								</div>
+								<div class="table-responsive">
+									<table class="table table-bordered table-stripped">
+										<thead>
+											<tr>
+												<th>
+													Mevcut Resim
+												</th>
+												<th>
+													Yeni Resim
+												</th>
+												<th>
+													Sıra Numarası
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											@foreach (var image in Model.Images)
+											{
+												<tr>
+													<td>
+														<img style="height:15em;width:15em;" src="~/images/@image.FileName" alt="@Model.ProductName">
+													</td>
+													<td>
+														<div class="i-checks"><label><input type="radio" value="@image.ID"
+															name="SelectedImageID" id="SelectedImageID"/> <i></i>Seçim Yapınız</label></div>
+													</td>
+													<td>
+														<input type="text" class="form-control" value="1">
+													</td>
+												</tr>
+											}
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>

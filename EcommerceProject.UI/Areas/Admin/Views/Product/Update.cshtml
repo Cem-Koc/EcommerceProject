@@ -140,11 +140,15 @@
 							<span asp-validation-for="CategoryID" class="text-danger"></span>
 						</div>
 						<div class="hr-line-dashed"></div>
-						@* <div class="form-group  row">
-							<label class="col-sm-2 col-form-label" asp-for="MainImage.FileName">Ürün Ana Resmi</label>
-							<img style="height:25em; width:25em;" src="~/images/@Model.MainImage.FileName" alt="@Model.ProductName"/>
-						</div> *@
-						<div class="hr-line-dashed"></div>
+						@foreach(var image in Model.Images)
+						{
+							<div class="form-group  row">
+								<label class="col-sm-2 col-form-label" asp-for="@image.FileName">Ürün Resmi </label>
+								<img style="height:25em; width:25em;" src="~/images/@image.FileName" alt="@Model.ProductName" />
+							</div>
+							<div class="hr-line-dashed"></div>
+						}
+						
 						<div class="form-group row">
 							<div class="col-sm-4 col-sm-offset-2">
 								<button class="btn btn-primary btn-sm" type="submit">Ürünü Güncelle</button>

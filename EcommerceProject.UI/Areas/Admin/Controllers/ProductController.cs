@@ -22,8 +22,10 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
         private readonly IMapper _mapper;
 		private readonly IValidator<Product> _validator;
 		private readonly IToastNotification _toast;
+		private readonly IImageDetailManager _imageDetailManager;
+		private readonly IImageManager _imageManager;
 
-		public ProductController(IProductManager productManager,ICategoryManager categoryManager,IProductSizeManager productSizeManager,IProductColorManager productColorManager,ICustomerTypeManager customerTypeManager,IMapper mapper,IValidator<Product> validator,IToastNotification toast)
+		public ProductController(IProductManager productManager,ICategoryManager categoryManager,IProductSizeManager productSizeManager,IProductColorManager productColorManager,ICustomerTypeManager customerTypeManager,IMapper mapper,IValidator<Product> validator,IToastNotification toast,IImageDetailManager imageDetailManager,IImageManager imageManager)
         {
             _productManager = productManager;
             _categoryManager = categoryManager;
@@ -33,6 +35,8 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
             _mapper = mapper;
 			_validator = validator;
 			_toast = toast;
+			_imageDetailManager = imageDetailManager;
+			_imageManager = imageManager;
 		}
         public async Task<IActionResult> Index()
         {
@@ -84,12 +88,16 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
             var productSizes = await _productSizeManager.GetAllProductSizesNonDeletedAsync();
             var productColors = await _productColorManager.GetProductColorsNonDeletedAsync();
             var customerTypes = await _customerTypeManager.GetAllCustomerTypesNonDeletedAsync();
+            var imageDetails = _imageDetailManager.GetImageDetailsByProductID(productID);
+            var images = _imageManager.GetImageByImageDetails(imageDetails);
 
             var productUpdateDto = _mapper.Map<ProductUpdateDto>(product);
             productUpdateDto.Categories = categories;
             productUpdateDto.ProductSizes = productSizes;
             productUpdateDto.ProductColors = productColors;
             productUpdateDto.CustomerTypes = customerTypes;
+            productUpdateDto.ImageDetails = imageDetails;
+            productUpdateDto.Images = images;
 
             return View(productUpdateDto);
         }
@@ -156,5 +164,34 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
             await _productManager.ProductImageUpload(imageOperationsDto);
             return RedirectToAction("ImagesUpload", "Product", new { @productID = imageOperationsDto.ID });
 		}
-	}
+
+		[HttpGet]
+		public async Task<IActionResult> ImagesUpdate(int productID)
+		{
+			var product = await _productManager.FindAsync(productID);
+			var imageOperationsDto = _mapper.Map<ImagesOperationsDto>(product);
+
+			var categories = await _categoryManager.GetAllCategoriesNonDeletedAsync();
+			var productSizes = await _productSizeManager.GetAllProductSizesNonDeletedAsync();
+			var productColors = await _productColorManager.GetProductColorsNonDeletedAsync();
+			var customerTypes = await _customerTypeManager.GetAllCustomerTypesNonDeletedAsync();
+            var imageDetails = _imageDetailManager.GetImageDetailsByProductID(productID);
+            var images = _imageManager.GetImageByImageDetails(imageDetails);
+
+            imageOperationsDto.CustomerTypes = customerTypes;
+			imageOperationsDto.ProductColors = productColors;
+			imageOperationsDto.ProductSizes = productSizes;
+			imageOperationsDto.Categories = categories;
+            imageOperationsDto.ImageDetails = imageDetails;
+            imageOperationsDto.Images = images;
+            return View(imageOperationsDto);
+		}
+
+        [HttpPost]
+        public async Task<IActionResult> ImagesUpdate(ImagesOperationsDto imageOperationsDto)
+        {
+            await _productManager.ProductImageUpdate(imageOperationsDto);
+            return RedirectToAction("Index", "Product", new { Area = "Admin" });
+        }
+    }
 }

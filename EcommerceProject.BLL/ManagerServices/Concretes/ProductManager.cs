@@ -244,5 +244,39 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 			await _unitOfWork.GetRepository<ImageDetail>().AddAsync(imageDetail);
 			await _unitOfWork.SaveAsync();
 		}
-	}
+
+        public async Task ProductImageUpdate(ImagesOperationsDto imagesOperationsDto)
+        {
+            var user = _user.GetLoggedInUserEmail();
+            var product = await _unitOfWork.GetRepository<Product>().GetAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted && x.ID == imagesOperationsDto.ID);
+
+            var selectImage = await _unitOfWork.GetRepository<Image>().GetAsync(x=>x.ID == imagesOperationsDto.SelectedImageID);
+
+            if (imagesOperationsDto.Image != null)
+            {
+                _imageHelper.Delete(selectImage.FileName);                
+                var imageDetail = _unitOfWork.GetRepository<ImageDetail>().Where(x=>x.ProductID == product.ID).Where(i=>i.ImageID == selectImage.ID).First();
+                _unitOfWork.GetRepository<Image>().Destroy(selectImage);
+                _unitOfWork.GetRepository<ImageDetail>().Destroy(imageDetail);
+
+                var imageUpload = await _imageHelper.Upload(imagesOperationsDto.ProductName, imagesOperationsDto.Image);
+                Image image = new(imageUpload.FullName, imagesOperationsDto.Image.ContentType,user);
+                await _unitOfWork.GetRepository<Image>().AddAsync(image);
+                await _unitOfWork.SaveAsync();
+
+                ImageDetail newImageDetail = new ImageDetail
+                {
+                    Image = image,
+                    Product = product,
+                    CreatedBy = user,
+                    SortImage = imageDetail.SortImage
+                };
+
+                await _unitOfWork.GetRepository<ImageDetail>().AddAsync(newImageDetail);
+                await _unitOfWork.SaveAsync();
+            }
+            
+        }
+
+    }
 }

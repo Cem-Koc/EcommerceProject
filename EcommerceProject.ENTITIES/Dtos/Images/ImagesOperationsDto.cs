@@ -23,9 +23,12 @@ namespace EcommerceProject.ENTITIES.Dtos.Images
 		public int ProductSizeID { get; set; }
 		public int CustomerTypeID { get; set; }
 		public IFormFile Image { get; set; }
-		public List<CustomerTypeDto> CustomerTypes { get; set; }
+        public int SelectedImageID { get; set; }
+        public List<CustomerTypeDto> CustomerTypes { get; set; }
 		public List<ProductColorDto> ProductColors { get; set; }
 		public List<ProductSizeDto> ProductSizes { get; set; }
 		public List<CategoryDto> Categories { get; set; }
-	}
+        public List<ImageDetailDto> ImageDetails { get; set; }
+        public List<ImageDto> Images { get; set; }
+    }
 }
