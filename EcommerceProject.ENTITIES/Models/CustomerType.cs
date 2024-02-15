@@ -8,6 +8,15 @@ namespace EcommerceProject.ENTITIES.Models
 {
     public class CustomerType : BaseEntity
     {
+        public CustomerType()
+        {
+            
+        }
+        public CustomerType(string name, string createdBy)
+        {
+            CustomerTypeName = name;
+            CreatedBy = createdBy;
+        }
         public string CustomerTypeName { get; set; }
 
         //Relational Properties

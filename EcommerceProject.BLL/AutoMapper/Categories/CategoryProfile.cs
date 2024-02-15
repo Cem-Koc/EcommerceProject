@@ -15,6 +15,9 @@ namespace EcommerceProject.BLL.AutoMapper.Categories
         {
             CreateMap<CategoryNameDto, Category>().ReverseMap();
             CreateMap<CategoryDto, Category>().ReverseMap();
+            CreateMap<CategoryListDto, Category>().ReverseMap();
+            CreateMap<CategoryAddDto, Category>().ReverseMap();
+            CreateMap<CategoryUpdateDto, Category>().ReverseMap();
         }
     }
 }

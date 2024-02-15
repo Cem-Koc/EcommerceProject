@@ -14,6 +14,8 @@ namespace EcommerceProject.BLL.AutoMapper.CustomerTypes
         public CustomerTypeProfile()
         {
             CreateMap<CustomerTypeDto, CustomerType>().ReverseMap();
+            CreateMap<CustomerTypeAddDto, CustomerType>().ReverseMap();
+            CreateMap<CustomerTypeUpdateDto, CustomerType>().ReverseMap();
         }
     }
 }

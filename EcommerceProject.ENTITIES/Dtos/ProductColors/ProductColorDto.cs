@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EcommerceProject.ENTITIES.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,8 @@ namespace EcommerceProject.ENTITIES.Dtos.ProductColors
     {
         public int ID { get; set; }
         public string Color { get; set; }
-    }
+		public DateTime CreatedDate { get; set; }
+		public string CreatedBy { get; set; }
+		public DataStatus Status { get; set; }
+	}
 }

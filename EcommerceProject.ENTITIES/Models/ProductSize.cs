@@ -8,6 +8,15 @@ namespace EcommerceProject.ENTITIES.Models
 {
     public class ProductSize : BaseEntity
     {
+        public ProductSize()
+        {
+            
+        }
+        public ProductSize(string size, string createdBy)
+        {
+            Size = size;
+            CreatedBy = createdBy;
+        }
         public string Size { get; set; }
 
         //Relational Properties

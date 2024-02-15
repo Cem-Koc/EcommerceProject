@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
+using EcommerceProject.BLL.DependencyResolvers;
 using EcommerceProject.BLL.ManagerServices.Abstracts;
 using EcommerceProject.DAL.Repositories.Abstracts;
 using EcommerceProject.DAL.UnitOfWorks;
 using EcommerceProject.ENTITIES.Dtos.Categories;
 using EcommerceProject.ENTITIES.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,13 +20,69 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
     {
 		private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+		private readonly IHttpContextAccessor _httpContextAccessor;
+		private readonly ClaimsPrincipal _user;
 
-        public CategoryManager(IUnitOfWork unitOfWork,IMapper mapper)
+		public CategoryManager(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor)
 		{
 			_unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
+			_mapper = mapper;
+			_httpContextAccessor = httpContextAccessor;
+			_user = _httpContextAccessor.HttpContext.User;
+		}
 
+		public async Task<string> SafeDeleteCategoryAsync(int categoryID)
+		{
+			var category = await _unitOfWork.GetRepository<Category>().FindAsync(categoryID);
+			var user = _user.GetLoggedInUserEmail();
+			var categoryName = category.CategoryName;
+			category.DeletedBy = user;
+			category.DeletedDate = DateTime.Now;
+			_unitOfWork.GetRepository<Category>().Delete(category);
+			await _unitOfWork.SaveAsync();
+
+			return categoryName;
+		}
+		public async Task<bool> CreateCategoryAsync(CategoryAddDto categoryAddDto)
+		{
+			var user = _user.GetLoggedInUserEmail();
+
+			var categoryResult = _unitOfWork.GetRepository<Category>().Where(x => x.CategoryName == categoryAddDto.CategoryName && x.Status != ENTITIES.Enums.DataStatus.Deleted).ToList();
+
+			if (categoryResult.Count == 0)
+            {
+				Category category = new(categoryAddDto.CategoryName, user);
+				await _unitOfWork.GetRepository<Category>().AddAsync(category);
+				await _unitOfWork.SaveAsync();
+				return true;
+			}
+            else
+            {
+				return false;
+            }
+        }
+		public async Task<bool> UpdateCategoryAsync(CategoryUpdateDto categoryUpdateDto)
+		{
+			var user = _user.GetLoggedInUserEmail();
+
+			var categoryResult = _unitOfWork.GetRepository<Category>().Where(x => x.CategoryName == categoryUpdateDto.CategoryName && x.Status != ENTITIES.Enums.DataStatus.Deleted).ToList();
+
+			var category = await _unitOfWork.GetRepository<Category>().GetAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted && x.ID == categoryUpdateDto.ID);
+
+			if (categoryResult.Count == 0)
+			{
+				category.CategoryName = categoryUpdateDto.CategoryName;
+				category.ModifiedBy = user;
+				category.ModifiedDate = DateTime.Now;
+				await _unitOfWork.GetRepository<Category>().Update(category);
+				await _unitOfWork.SaveAsync();
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 		public void Add(Category item)
 		{
 			_unitOfWork.GetRepository<Category>().Add(item);

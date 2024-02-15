@@ -14,6 +14,8 @@ namespace EcommerceProject.BLL.AutoMapper.ProductColors
         public ProductColorProfile()
         {
             CreateMap<ProductColorDto,ProductColor>().ReverseMap();
+            CreateMap<ProductColorAddDto,ProductColor>().ReverseMap();
+            CreateMap<ProductColorUpdateDto,ProductColor>().ReverseMap();
         }
     }
 }

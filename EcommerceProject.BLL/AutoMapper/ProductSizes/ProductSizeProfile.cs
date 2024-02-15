@@ -14,6 +14,8 @@ namespace EcommerceProject.BLL.AutoMapper.ProductSizes
         public ProductSizeProfile()
         {
             CreateMap<ProductSizeDto, ProductSize>().ReverseMap();
+            CreateMap<ProductSizeAddDto, ProductSize>().ReverseMap();
+            CreateMap<ProductSizeUpdateDto, ProductSize>().ReverseMap();
         }
     }
 }

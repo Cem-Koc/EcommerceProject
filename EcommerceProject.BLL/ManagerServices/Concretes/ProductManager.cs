@@ -195,24 +195,12 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 		{
             var user = _user.GetLoggedInUserEmail();
 
-            //var imageUpload = await _imageHelper.Upload(productAddDto.ProductName, productAddDto.MainImage);
-            //Image image = new(imageUpload.FullName, productAddDto.MainImage.ContentType, user);
-            //await _unitOfWork.GetRepository<Image>().AddAsync(image);
-
             var product = new Product();
 			_mapper.Map<ProductAddDto, Product>(productAddDto, product);
             product.CreatedBy = user;
 
 			await _unitOfWork.GetRepository<Product>().AddAsync(product);
 
-			//ImageDetail imageDetail = new ImageDetail
-   //         {
-   //             Image = image,
-   //             Product = product,
-   //             CreatedBy = user
-   //         };
-
-			//await _unitOfWork.GetRepository<ImageDetail>().AddAsync(imageDetail);
 			await _unitOfWork.SaveAsync();
 		}
 

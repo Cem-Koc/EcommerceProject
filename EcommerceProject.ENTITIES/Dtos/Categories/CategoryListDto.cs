@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceProject.ENTITIES.Dtos.Categories
 {
-    public class CategoryDto
+    public class CategoryListDto
     {
         public int ID { get; set; }
         public string CategoryName { get; set; }

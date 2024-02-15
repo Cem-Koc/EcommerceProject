@@ -8,6 +8,15 @@ namespace EcommerceProject.ENTITIES.Models
 {
     public class ProductColor : BaseEntity
     {
+        public ProductColor()
+        {
+            
+        }
+        public ProductColor(string color, string createdBy)
+        {
+            Color = color;
+            CreatedBy = createdBy;
+        }
         public string Color { get; set; }
 
         //Relational Properties
