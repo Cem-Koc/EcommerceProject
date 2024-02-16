@@ -12,7 +12,7 @@ namespace EcommerceProject.BLL.FluentValidations
 	{
         public ProductSizeValidator()
         {
-			RuleFor(c => c.Size)
+			RuleFor(p => p.Size)
 				.NotEmpty()
 				.NotNull()
 				.MinimumLength(1)

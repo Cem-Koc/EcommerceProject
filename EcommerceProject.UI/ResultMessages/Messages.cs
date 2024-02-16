@@ -113,5 +113,28 @@
 				return $"{productSize} isimli ürün bedeni başarıyla silinmiştir.";
 			}
 		}
+		public static class User
+		{
+			public static string Add(string userName)
+			{
+				return $"{userName} email adresli kullanıcı başarıyla eklenmiştir.";
+			}
+			public static string AddError(string userName)
+			{
+				return $"{userName} email adresli kullanıcı sistemde bulunmaktadır.";
+			}
+			public static string Update(string userName)
+			{
+				return $"{userName} email adresli kullanıcı başarıyla güncellenmiştir.";
+			}
+			public static string UpdateError(string userName)
+			{
+				return $"{userName} email adresli kullanıcı sistemde bulunmaktadır.";
+			}
+			public static string Delete(string userName)
+			{
+				return $"{userName} email adresli kullanıcı başarıyla silinmiştir.";
+			}
+		}
 	}
 }

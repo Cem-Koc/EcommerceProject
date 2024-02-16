@@ -1,4 +1,5 @@
-﻿using EcommerceProject.DAL.Context;
+﻿using EcommerceProject.BLL.Describers;
+using EcommerceProject.DAL.Context;
 using EcommerceProject.ENTITIES.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,7 @@ namespace EcommerceProject.BLL.DependencyResolvers
                 x.Password.RequireUppercase = false;
             })
             .AddRoleManager<RoleManager<AppRole>>()
+            .AddErrorDescriber<CustomIdentityErrorDescriber>()
             .AddEntityFrameworkStores<MyContext>()
             .AddDefaultTokenProviders();
 

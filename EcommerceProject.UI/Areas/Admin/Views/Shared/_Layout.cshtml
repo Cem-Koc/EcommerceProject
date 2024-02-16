@@ -96,6 +96,13 @@
                         </ul>
                     </li>
                     <li>
+                        <a asp-area="Admin" asp-controller="User" asp-action="Index"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Kullanıcılar</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <li><a asp-area="Admin" asp-controller="User" asp-action="Index">Kullanıcı Listesi</a></li>
+                            <li><a asp-area="Admin" asp-controller="User" asp-action="Add">Kullanıcı Ekle</a></li>
+                        </ul>
+                    </li>
+                    <li>
                         <a href="~/inspinia/mailbox.html"><i class="fa fa-envelope"></i> <span class="nav-label">Mailbox </span><span class="label label-warning float-right">16/24</span></a>
                         <ul class="nav nav-second-level collapse">
                             <li><a href="~/inspinia/mailbox.html">Inbox</a></li>

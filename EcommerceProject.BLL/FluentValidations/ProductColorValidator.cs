@@ -12,7 +12,7 @@ namespace EcommerceProject.BLL.FluentValidations
 	{
         public ProductColorValidator()
         {
-			RuleFor(c => c.Color)
+			RuleFor(p => p.Color)
 				.NotEmpty()
 				.NotNull()
 				.MinimumLength(3)
