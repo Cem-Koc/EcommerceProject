@@ -4,15 +4,18 @@ using EcommerceProject.BLL.ManagerServices.Abstracts;
 using EcommerceProject.BLL.ManagerServices.Concretes;
 using EcommerceProject.ENTITIES.Dtos.CustomerTypes;
 using EcommerceProject.ENTITIES.Models;
+using EcommerceProject.UI.Areas.Admin.Consts;
 using EcommerceProject.UI.ResultMessages;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 
 namespace EcommerceProject.UI.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-	public class CustomerTypeController : Controller
+    [Authorize(Roles = RoleConsts.Admin)]
+    public class CustomerTypeController : Controller
 	{
 		private readonly ICustomerTypeManager _customerTypeManager;
 		private readonly IValidator<CustomerType> _validator;

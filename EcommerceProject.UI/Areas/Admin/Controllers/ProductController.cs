@@ -4,14 +4,17 @@ using EcommerceProject.BLL.ManagerServices.Abstracts;
 using EcommerceProject.ENTITIES.Dtos.Images;
 using EcommerceProject.ENTITIES.Dtos.Products;
 using EcommerceProject.ENTITIES.Models;
+using EcommerceProject.UI.Areas.Admin.Consts;
 using EcommerceProject.UI.ResultMessages;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 
 namespace EcommerceProject.UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = RoleConsts.Admin)]
     public class ProductController : Controller
     {
         private readonly IProductManager _productManager;
@@ -38,13 +41,22 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
 			_imageDetailManager = imageDetailManager;
 			_imageManager = imageManager;
 		}
-        public async Task<IActionResult> Index()
+
+		[HttpGet]
+		public async Task<IActionResult> Index()
         {
             var products = await _productManager.GetAllProductsWithCategoryNonDeletedAsync();
             return View(products);
         }
 
-        [HttpGet]
+		[HttpGet]
+		public async Task<IActionResult> DeletedProducts()
+		{
+			var products = await _productManager.GetAllProductsWithCategoryDeletedAsync();
+			return View(products);
+		}
+
+		[HttpGet]
         public async Task<IActionResult> Add()
         {
             var categories = await _categoryManager.GetAllCategoriesNonDeletedAsync();
@@ -140,7 +152,14 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
 			return RedirectToAction("Index", "Product", new { Area = "Admin" });
 		}
 
-		[HttpGet]
+        public async Task<IActionResult> UndoDelete(int productID)
+        {
+            var productName = await _productManager.UndoDeleteProductAsync(productID);
+            _toast.AddSuccessToastMessage(Messages.Product.UndoDelete(productName), new ToastrOptions { Title = "İşlem Başarılı" });
+            return RedirectToAction("Index", "Product", new { Area = "Admin" });
+        }
+
+        [HttpGet]
 		public async Task<IActionResult> ImagesUpload(int productID)
         {
 			var product = await _productManager.FindAsync(productID);

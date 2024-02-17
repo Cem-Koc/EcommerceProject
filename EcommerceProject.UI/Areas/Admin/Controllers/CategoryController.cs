@@ -5,15 +5,18 @@ using EcommerceProject.BLL.ManagerServices.Concretes;
 using EcommerceProject.ENTITIES.Dtos.Categories;
 using EcommerceProject.ENTITIES.Dtos.Products;
 using EcommerceProject.ENTITIES.Models;
+using EcommerceProject.UI.Areas.Admin.Consts;
 using EcommerceProject.UI.ResultMessages;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 
 namespace EcommerceProject.UI.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-	public class CategoryController : Controller
+    [Authorize(Roles = RoleConsts.Admin)]
+    public class CategoryController : Controller
 	{
 		private readonly ICategoryManager _categoryManager;
 		private readonly IValidator<Category> _validator;

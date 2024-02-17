@@ -149,12 +149,6 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 
         public IQueryable<ProductDto> GetAll()
         {
-            //	var products = _unitOfWork.GetRepository<Product>().GetAll();
-            //	var map = _mapper.Map<IQueryable<ProductDto>>(products);
-            //	return map;
-            //	var collection = _db.Patients
-            //.ProjectTo<PatientDto>(_mapper.ConfigurationProvider);
-
             var products = _unitOfWork.GetRepository<Product>().GetAll().ProjectTo<ProductDto>(_mapper.ConfigurationProvider);
             return products;
         }
@@ -266,5 +260,26 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
             
         }
 
-    }
+		public async Task<List<ProductDto>> GetAllProductsWithCategoryDeletedAsync()
+		{
+			var products = await _unitOfWork.GetRepository<Product>().GetAllAsync(x => x.Status == ENTITIES.Enums.DataStatus.Deleted, x => x.Category);
+			var map = _mapper.Map<List<ProductDto>>(products);
+			return map;
+		}
+
+		public async Task<string> UndoDeleteProductAsync(int productID)
+		{
+			var product = await _unitOfWork.GetRepository<Product>().FindAsync(productID);
+			var user = _user.GetLoggedInUserEmail();
+
+			product.DeletedBy = null;
+			product.DeletedDate = null;
+            product.ModifiedBy = user;
+
+			_unitOfWork.GetRepository<Product>().Update(product);
+			await _unitOfWork.SaveAsync();
+
+			return product.ProductName;
+		}
+	}
 }

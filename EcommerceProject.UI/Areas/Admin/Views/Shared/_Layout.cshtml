@@ -40,18 +40,12 @@
                 <ul class="nav metismenu" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element">
-                            <img alt="image" class="rounded-circle" src="~/inspinia/img/profile_small.jpg" />
+                            @* <img alt="image" class="rounded-circle" src="~/inspinia/img/profile_small.jpg" />
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="block m-t-xs font-bold">David Williams</span>
                                 <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
-                            </a>
-                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                                <li><a class="dropdown-item" href="contacts.html">Contacts</a></li>
-                                <li><a class="dropdown-item" href="mailbox.html">Mailbox</a></li>
-                                <li class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="Auth" asp-action="Logout">Çıkış Yap</a></li>
-                            </ul>
+                            </a> *@
+                            @await Component.InvokeAsync("DashboardActiveAdmin")
                         </div>
                         <div class="logo-element">
                             IN+
@@ -65,6 +59,7 @@
                         <ul class="nav nav-second-level collapse">
                             <li><a asp-area="Admin" asp-controller="Product" asp-action="Index">Ürün Listesi</a></li>
                             <li><a asp-area="Admin" asp-controller="Product" asp-action="Add">Ürün Ekle</a></li>
+                            <li><a asp-area="Admin" asp-controller="Product" asp-action="DeletedProducts">Silinen Ürünler</a></li>
                         </ul>
                     </li>
                     <li>

@@ -2,8 +2,10 @@
 using EcommerceProject.BLL.DependencyResolvers;
 using EcommerceProject.ENTITIES.Dtos.Users;
 using EcommerceProject.ENTITIES.Models;
+using EcommerceProject.UI.Areas.Admin.Consts;
 using EcommerceProject.UI.ResultMessages;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +17,8 @@ using static EcommerceProject.UI.ResultMessages.Messages;
 namespace EcommerceProject.UI.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-	public class UserController : Controller
+    [Authorize(Roles = RoleConsts.Admin)]
+    public class UserController : Controller
 	{
 		private readonly UserManager<AppUser> _userManager;
 		private readonly RoleManager<AppRole> _roleManager;

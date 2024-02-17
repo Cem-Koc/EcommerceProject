@@ -2,18 +2,20 @@
 using EcommerceProject.BLL.DependencyResolvers;
 using EcommerceProject.BLL.ManagerServices.Abstracts;
 using EcommerceProject.BLL.ManagerServices.Concretes;
-using EcommerceProject.ENTITIES.Dtos.CustomerTypes;
 using EcommerceProject.ENTITIES.Dtos.ProductSizes;
 using EcommerceProject.ENTITIES.Models;
+using EcommerceProject.UI.Areas.Admin.Consts;
 using EcommerceProject.UI.ResultMessages;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 
 namespace EcommerceProject.UI.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-	public class ProductSizeController : Controller
+    [Authorize(Roles = RoleConsts.Admin)]
+    public class ProductSizeController : Controller
 	{
 		private readonly IProductSizeManager _productSizeManager;
 		private readonly IValidator<ProductSize> _validator;

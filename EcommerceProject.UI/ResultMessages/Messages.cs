@@ -18,7 +18,11 @@
 			{
 				return $"{productName} isimli ürün başarıyla silinmiştir.";
 			}
-		}
+            public static string UndoDelete(string productName)
+            {
+                return $"{productName} isimli ürün başarıyla aktif edilmiştir.";
+            }
+        }
 		public static class Category
 		{
 			public static string Add(string categoryName)
