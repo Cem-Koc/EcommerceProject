@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EcommerceProject.BLL.DependencyResolvers;
+using EcommerceProject.BLL.ManagerServices.Abstracts;
 using EcommerceProject.ENTITIES.Dtos.Users;
 using EcommerceProject.ENTITIES.Models;
 using EcommerceProject.UI.Areas.Admin.Consts;
@@ -20,43 +21,28 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
     [Authorize(Roles = RoleConsts.Admin)]
     public class UserController : Controller
 	{
-		private readonly UserManager<AppUser> _userManager;
-		private readonly RoleManager<AppRole> _roleManager;
 		private readonly IMapper _mapper;
 		private readonly IToastNotification _toast;
-		IHttpContextAccessor _httpContextAccessor;
 		private readonly IValidator<AppUser> _validator;
-		private readonly ClaimsPrincipal _user;
+		private readonly IAppUserManager _appUserManager;
 
-		public UserController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IMapper mapper, IToastNotification toast, IHttpContextAccessor httpContextAccessor, IValidator<AppUser> validator)
+		public UserController(IMapper mapper, IToastNotification toast, IValidator<AppUser> validator,IAppUserManager appUserManager)
 		{
-			_userManager = userManager;
-			_roleManager = roleManager;
 			_mapper = mapper;
 			_toast = toast;
-			_httpContextAccessor = httpContextAccessor;
 			_validator = validator;
-			_user = _httpContextAccessor.HttpContext.User;
+			_appUserManager = appUserManager;
 		}
 		public async Task<IActionResult> Index()
 		{
-			var users = await _userManager.Users.ToListAsync();
-			var map = _mapper.Map<List<UserListDto>>(users);
-
-			foreach (var item in map)
-			{
-				var findUser = await _userManager.FindByIdAsync(item.Id.ToString());
-				var role = string.Join("", await _userManager.GetRolesAsync(findUser));
-
-				item.Role = role;
-			}
-			return View(map);
+			var result = await _appUserManager.GetAllUsersWithRoleAsync();
+			return View(result);
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> Add()
 		{
-			var roles = await _roleManager.Roles.ToListAsync();
+			var roles = await _appUserManager.GetAllRolesAsync();
 			return View(new UserAddDto { Roles = roles });
 		}
 
@@ -65,19 +51,13 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
 		{
 			var map = _mapper.Map<AppUser>(userAddDto);
 			var validation = await _validator.ValidateAsync(map);
-			var roles = await _roleManager.Roles.ToListAsync();
-			var user = _user.GetLoggedInUserEmail();
+			var roles = await _appUserManager.GetAllRolesAsync();
 
 			if (ModelState.IsValid)
 			{
-				map.UserName = userAddDto.Email;
-				map.CreatedBy = user;
-				map.CreatedDate = DateTime.Now;
-				var result = await _userManager.CreateAsync(map, string.IsNullOrEmpty(userAddDto.Password) ? "" : userAddDto.Password);
+				var result = await _appUserManager.CreateUserAsync(userAddDto);
 				if (result.Succeeded)
 				{
-					var findRole = await _roleManager.FindByIdAsync(userAddDto.RoleId.ToString());
-					await _userManager.AddToRoleAsync(map, findRole.ToString());
 					_toast.AddSuccessToastMessage(Messages.User.Add(userAddDto.Email), new ToastrOptions { Title = "İşlem Başarılı" });
 					return RedirectToAction("Index", "User", new { Area = "Admin" });
 				}
@@ -94,9 +74,9 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Update(int userId)
 		{
-			var userToUpdate = await _userManager.FindByIdAsync(userId.ToString());
+			var userToUpdate = await _appUserManager.FindAsync(userId);
 
-			var roles = await _roleManager.Roles.ToListAsync();
+			var roles = await _appUserManager.GetAllRolesAsync();
 
 			var map = _mapper.Map<UserUpdateDto>(userToUpdate);
 			map.Roles = roles;
@@ -106,13 +86,11 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Update(UserUpdateDto userUpdateDto)
 		{
-			var userToUpdate = await _userManager.FindByIdAsync(userUpdateDto.Id.ToString());
-			var user = _user.GetLoggedInUserEmail();
+			var userToUpdate = await _appUserManager.FindAsync(userUpdateDto.Id);
 
 			if (userToUpdate != null)
 			{
-				var userRole = string.Join("", await _userManager.GetRolesAsync(userToUpdate));
-				var roles = await _roleManager.Roles.ToListAsync();
+				var roles = await _appUserManager.GetAllRolesAsync();
 				if (ModelState.IsValid)
 				{
 					var map = _mapper.Map(userUpdateDto, userToUpdate);
@@ -120,17 +98,9 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
 
                     if (validation.IsValid)
                     {
-						userToUpdate.ModifiedBy = user;
-						userToUpdate.ModifiedDate = DateTime.Now;
-						userToUpdate.Status = ENTITIES.Enums.DataStatus.Updated;
-						userToUpdate.UserName = userUpdateDto.Email;
-						userToUpdate.SecurityStamp = Guid.NewGuid().ToString();
-						var result = await _userManager.UpdateAsync(userToUpdate);
+						var result = await _appUserManager.UpdateUserAsync(userUpdateDto);
 						if (result.Succeeded)
 						{
-							await _userManager.RemoveFromRoleAsync(userToUpdate, userRole);
-							var findRole = await _roleManager.FindByIdAsync(userUpdateDto.RoleId.ToString());
-							await _userManager.AddToRoleAsync(userToUpdate, findRole.Name);
 							_toast.AddSuccessToastMessage(Messages.User.Update(userUpdateDto.Email), new ToastrOptions { Title = "İşlem Başarılı" });
 							return RedirectToAction("Index", "User", new { Area = "Admin" });
 						}
@@ -153,19 +123,52 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
 
 		public async Task<IActionResult> Delete(int userId)
 		{
-			var userToDelete = await _userManager.FindByIdAsync(userId.ToString());
-
-			var result = await _userManager.DeleteAsync(userToDelete);
-			if (result.Succeeded)
+			var result = await _appUserManager.DeleteUserAsync(userId);
+			if (result.identityResult.Succeeded)
 			{
-				_toast.AddSuccessToastMessage(Messages.User.Delete(userToDelete.Email), new ToastrOptions { Title = "İşlem Başarılı" });
+				_toast.AddSuccessToastMessage(Messages.User.Delete(result.email), new ToastrOptions { Title = "İşlem Başarılı" });
 				return RedirectToAction("Index", "User", new { Area = "Admin" });
 			}
 			else
 			{
-				result.AddToIdentityModelState(this.ModelState);
+				result.identityResult.AddToIdentityModelState(this.ModelState);
 			}
 			return NotFound();
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Profile()
+		{
+			var profile = await _appUserManager.GetUserProfileAsync();
+			return View(profile);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Profile(UserProfileDto userProfileDto)
+		{
+			if (ModelState.IsValid)
+            {
+				var result = await _appUserManager.UserProfileUpdateAsync(userProfileDto);
+                if (result.isTrue && result.identityResult.Succeeded && result.validationResult.IsValid)
+                {
+					_toast.AddSuccessToastMessage("Profil Güncellendi.", new ToastrOptions { Title = "İşlem Başarılı" });
+					return RedirectToAction("Index", "Home", new { Area = "Admin" });
+				}
+				else
+				{
+					_toast.AddErrorToastMessage("Bir Hata Oluştu.", new ToastrOptions { Title = "İşlem Başarısız" });
+                    if (result.identityResult != null)
+                    {
+						result.identityResult.AddToIdentityModelState(this.ModelState);
+					}
+					else if(!result.validationResult.IsValid)
+					{
+						result.validationResult.AddToModelState(this.ModelState);
+					}
+                    return View();
+				}
+            }
+            return NotFound();
 		}
 	}
 }

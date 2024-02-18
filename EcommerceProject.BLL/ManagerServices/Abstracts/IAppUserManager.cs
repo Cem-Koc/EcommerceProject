@@ -1,4 +1,7 @@
-﻿using EcommerceProject.ENTITIES.Models;
+﻿using EcommerceProject.ENTITIES.Dtos.Users;
+using EcommerceProject.ENTITIES.Models;
+using FluentValidation.Results;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +13,16 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
     public interface IAppUserManager
     {
-        Task<bool> CreateUserAsync(AppUser item);
+		Task<List<UserListDto>> GetAllUsersWithRoleAsync();
+		Task<List<AppRole>> GetAllRolesAsync();
+		Task<IdentityResult> CreateUserAsync(UserAddDto userAddDto);
+		Task<IdentityResult> UpdateUserAsync(UserUpdateDto userUpdateDto);
+		Task<(IdentityResult identityResult,string? email)> DeleteUserAsync(int userId);
+		Task<string> GetUserRoleAsync(AppUser appUser);
+		Task<UserProfileDto> GetUserProfileAsync();
+		Task<(bool isTrue, IdentityResult? identityResult,ValidationResult? validationResult)> UserProfileUpdateAsync(UserProfileDto userProfileDto);
+
+		Task<bool> CreateUserAsync(AppUser item);
 
         IQueryable<AppUser> GetAll();
 		IQueryable<AppUser> GetActives();
