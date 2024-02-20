@@ -213,6 +213,16 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 			Image image = new(imageUpload.FullName, imagesOperationsDto.Image.ContentType, user);
 			await _unitOfWork.GetRepository<Image>().AddAsync(image);
 			var product = await _unitOfWork.GetRepository<Product>().GetAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted && x.ID == imagesOperationsDto.ID);
+            var resultProduct = _unitOfWork.GetRepository<Product>().Where(x => x.ProductCode == product.ProductCode && x.ProductColorID == product.ProductColorID).FirstOrDefault();
+            var resultProductList = _unitOfWork.GetRepository<Product>().Where(x => x.ProductCode == product.ProductCode && x.ProductColorID == product.ProductColorID).ToList();
+
+            if (resultProduct != null)
+            {
+                if (resultProduct.ID != product.ID)
+                {
+                    product = resultProduct;
+                }
+            }
 
             var sortImageValue =  _unitOfWork.GetRepository<ImageDetail>().Where(x=>x.ProductID==product.ID).OrderByDescending(x=>x.SortImage).FirstOrDefault();
             var sortImageMaxValue = 0;
@@ -232,14 +242,43 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 
 			await _unitOfWork.GetRepository<ImageDetail>().AddAsync(imageDetail);
 			await _unitOfWork.SaveAsync();
-		}
+
+            if (resultProductList.Count > 1)
+            {
+                foreach (var item in resultProductList) 
+                {
+                    if (item.ID != product.ID)
+                    {
+                        ImageDetail imageDetailAffected = new ImageDetail
+                        {
+                            Image = image,
+                            Product = item,
+                            CreatedBy = user,
+                            SortImage = sortImageMaxValue + 1
+                        };
+                        await _unitOfWork.GetRepository<ImageDetail>().AddAsync(imageDetailAffected);
+                        await _unitOfWork.SaveAsync();
+                    }
+                }
+            }
+        }
 
         public async Task ProductImageUpdate(ImagesOperationsDto imagesOperationsDto)
         {
             var user = _user.GetLoggedInUserEmail();
             var product = await _unitOfWork.GetRepository<Product>().GetAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted && x.ID == imagesOperationsDto.ID);
+            var resultProduct = _unitOfWork.GetRepository<Product>().Where(x => x.ProductCode == product.ProductCode && x.ProductColorID == product.ProductColorID).FirstOrDefault();
+
+            if (resultProduct != null)
+            {
+                if (resultProduct.ID != product.ID)
+                {
+                    product = resultProduct;
+                }
+            }
 
             var selectImage = await _unitOfWork.GetRepository<Image>().GetAsync(x=>x.ID == imagesOperationsDto.SelectedImageID);
+            var affectedImageDetail = _unitOfWork.GetRepository<ImageDetail>().Where(x => x.ImageID == selectImage.ID).ToList();
 
             if (imagesOperationsDto.Image != null)
             {
@@ -263,8 +302,23 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 
                 await _unitOfWork.GetRepository<ImageDetail>().AddAsync(newImageDetail);
                 await _unitOfWork.SaveAsync();
-            }
-            
+
+                foreach (var item in affectedImageDetail)
+                {
+                    if (item.ProductID != product.ID)
+                    {
+                        ImageDetail imageDetailAffected = new ImageDetail
+                        {
+                            Image = image,
+                            ProductID = item.ProductID,
+                            CreatedBy = user,
+                            SortImage = item.SortImage
+                        };
+                        await _unitOfWork.GetRepository<ImageDetail>().AddAsync(imageDetailAffected);
+                        await _unitOfWork.SaveAsync();
+                    }
+                }                
+            }            
         }
 
 		public async Task<List<ProductDto>> GetAllProductsWithCategoryDeletedAsync()
