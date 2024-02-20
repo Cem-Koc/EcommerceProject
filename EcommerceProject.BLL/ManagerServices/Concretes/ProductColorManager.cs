@@ -59,6 +59,23 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
             return map;
         }
 
+		public async Task<List<ProductColorDto>> GetProductColorsResultList(List<int> colorIDResult)
+		{
+            var productColors = await GetProductColorsNonDeletedAsync();
+            List<ProductColorDto> resultProductColors = new List<ProductColorDto>();
+
+			foreach (var colorID in colorIDResult)
+			{
+				var productColorDto = productColors.Where(x=>x.ID == colorID).FirstOrDefault();
+                if (productColorDto != null)
+                {
+                    resultProductColors.Add(productColorDto);
+                }                
+            }
+			return resultProductColors;
+
+        }
+
 		public async Task<string> SafeDeleteProductColorAsync(int productColorID)
 		{
 			var productColor = await _unitOfWork.GetRepository<ProductColor>().FindAsync(productColorID);

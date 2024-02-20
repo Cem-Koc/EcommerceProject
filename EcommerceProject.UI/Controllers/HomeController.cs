@@ -18,8 +18,7 @@ namespace EcommerceProject.UI.Controllers
 
         public IActionResult Index()
         {
-            var products = _productManager.GetAll();
-            return View(products);
+            return View();
         }
 
         public IActionResult Privacy()

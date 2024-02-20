@@ -79,6 +79,13 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
             return productName;
         }
 
+        public async Task<List<Product>> ProductsWithCode(int productID)
+        {
+            var product = await _unitOfWork.GetRepository<Product>().FindAsync(productID);
+            var productsWithCode = _unitOfWork.GetRepository<Product>().Where(x=>x.ProductCode == product.ProductCode).ToList();
+            return productsWithCode;
+        }
+
         public void Add(Product item)
         {
             _unitOfWork.GetRepository<Product>().Add(item);

@@ -15,5 +15,7 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 		Task<bool> UpdateProductColorAsync(ProductColorUpdateDto productColorUpdateDto);
 		Task<bool> CreateProductColorAsync(ProductColorAddDto productColorAddDto);
 		Task<ProductColor> FindAsync(int id);
-	}
+        Task<List<ProductColorDto>> GetProductColorsResultList(List<int> colorIDResult);
+
+    }
 }
