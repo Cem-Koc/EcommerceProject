@@ -19,7 +19,7 @@ namespace EcommerceProject.ENTITIES.Models
         }
         public string Color { get; set; }
 
-        //Relational Properties
-        public virtual List<Product> Products { get; set; }
+		//Relational Properties
+		public virtual List<Product> Products { get; set; }
     }
 }

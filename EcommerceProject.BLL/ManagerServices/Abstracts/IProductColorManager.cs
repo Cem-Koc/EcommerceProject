@@ -10,7 +10,8 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
     public interface IProductColorManager
     {
-        public Task<List<ProductColorDto>> GetProductColorsNonDeletedAsync();
+		string ReplaceColorName(string colorName);
+		Task<List<ProductColorDto>> GetProductColorsNonDeletedAsync();
 		Task<string> SafeDeleteProductColorAsync(int productColorID);
 		Task<bool> UpdateProductColorAsync(ProductColorUpdateDto productColorUpdateDto);
 		Task<bool> CreateProductColorAsync(ProductColorAddDto productColorAddDto);

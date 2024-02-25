@@ -19,6 +19,7 @@
 
     <!-- Responsive CSS -->
     <link href="~/karl-master/css/responsive.css" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
 </head>
 
@@ -179,9 +180,9 @@
                                                     <a class="dropdown-item" href="~/karl-master/checkout.html">Checkout</a>
                                                 </div>
                                             </li>
-                                            <li class="nav-item"><a class="nav-link" href="#">Dresses</a></li>
                                             <li class="nav-item"><a class="nav-link" href="#"><span class="karl-level">hot</span> Shoes</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                                            <li class="nav-item"><a class="nav-link" asp-controller="Product" asp-action="ProductList" asp-route-id="1">Kadın</a></li>
+                                            <li class="nav-item"><a class="nav-link" asp-controller="Product" asp-action="ProductList" asp-route-id="2">Erkek</a></li>
                                         </ul>
                                     </div>
                                 </nav>
@@ -294,6 +295,7 @@
         </footer>
         <!-- ****** Footer Area End ****** -->
     </div>
+    @await RenderSectionAsync("Scripts",false);
     <!-- /.wrapper end -->
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
     <script src="~/karl-master/js/jquery/jquery-2.2.4.min.js"></script>
@@ -305,7 +307,6 @@
     <script src="~/karl-master/js/plugins.js"></script>
     <!-- Active js -->
     <script src="~/karl-master/js/active.js"></script>
-
 </body>
 
 </html>

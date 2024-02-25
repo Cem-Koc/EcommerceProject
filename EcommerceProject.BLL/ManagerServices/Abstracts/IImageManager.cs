@@ -9,6 +9,10 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
 	public interface IImageManager
 	{
-		List<ImageDto> GetImageByImageDetails(List<ImageDetailDto> imageDetailDtos);
-	}
+		ImageDto GetByImageID(int imageID);
+
+        List<ImageDto> GetImageByImageDetails(List<ImageDetailDto> imageDetailDtos);
+        List<SortImageDto> GetImageByImageDetailsAndSortImage(List<ImageDetailDto> imageDetailDtos);
+
+    }
 }

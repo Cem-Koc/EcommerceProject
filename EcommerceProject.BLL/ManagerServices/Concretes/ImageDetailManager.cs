@@ -28,6 +28,13 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
             _user = _httpContextAccessor.HttpContext.User;
         }
 
+        public async Task<List<ImageDetailDto>> GetAllImageDetails()
+        {
+            var imageDetails = await _unitOfWork.GetRepository<ImageDetail>().GetAllAsync();
+            var map = _mapper.Map<List<ImageDetailDto>>(imageDetails);
+            return map;
+        }
+
         public List<ImageDetailDto> GetImageDetailsByProductID(int productID)
 		{
 			var imageDetails = _unitOfWork.GetRepository<ImageDetail>().Where(x=>x.ProductID==productID).ToList();

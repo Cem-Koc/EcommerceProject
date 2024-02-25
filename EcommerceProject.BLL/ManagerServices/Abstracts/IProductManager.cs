@@ -1,4 +1,5 @@
-﻿using EcommerceProject.ENTITIES.Dtos.Images;
+﻿using EcommerceProject.ENTITIES.Dtos.Categories;
+using EcommerceProject.ENTITIES.Dtos.Images;
 using EcommerceProject.ENTITIES.Dtos.Products;
 using EcommerceProject.ENTITIES.Models;
 using System;
@@ -12,7 +13,13 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
     public interface IProductManager
     {
-		Task<List<ProductDto>> GetAllProductsWithCategoryDeletedAsync();
+		Task<ProductDetailDto> GetByIdProductDetail(int id);
+		Task<List<ProductListByCustomerTypeIdDto>> FilterProduct(FilterProductDto filterProductDto);
+		Task<ProductListDto> GetProductsAllDetail(int id);
+		List<CategoryDto> GetCategoriesByCustomerTypeId(int customerTypeId);
+        Task<List<ProductListByCustomerTypeIdDto>> GetAllProductList(int[]? categoryID, int CustomerTypeId);
+
+        Task<List<ProductDto>> GetAllProductsWithCategoryDeletedAsync();
 		Task<string> UndoDeleteProductAsync(int productID);
 		Task ProductImageUpdate(ImagesOperationsDto imagesOperationsDto);
         Task ProductImageUpload(ImagesOperationsDto imagesOperationsDto);

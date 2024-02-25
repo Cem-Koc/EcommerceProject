@@ -1481,13 +1481,28 @@ img {
 }
 
 .widget.size .widget-desc li {
-    display: inline-block;
+    display: flex !important;
+    margin-bottom: 1em;
+}
+
+.widget.size .widget-desc li.sigleProduct {
+    display: inline-block !important;
+}
+
+.widget.size .widget-desc ul li label.sizeboxname {
+    margin-bottom: 0 !important;
+    margin-top: 2px;
 }
 
 .widget.size .widget-desc a {
     display: block;
     font-size: 14px;
     padding: 5px 10px;
+}
+
+.widget.size .widget-desc a.active{
+    background-color: #ff084e;
+    color: #fff;
 }
 
 .widget.size .widget-desc a:hover,
@@ -1529,6 +1544,27 @@ img {
     z-index: 1;
 }
 
+.widget.color .widget-desc ul li{
+    display:flex !important;
+    margin-bottom:1em;
+}
+
+.widget.color .widget-desc ul li label.colorbox {
+    margin-bottom: 0 !important;
+    width: 25px;
+    height: 25px;
+    border-radius:50%;
+    display: block;
+    background-color: #000;
+    position: relative;
+    z-index: 1;
+}
+
+.widget.color .widget-desc ul li label.colorboxname {
+    margin-bottom: 0 !important;
+    margin-top:2px;
+}
+
 .widget.color .widget-desc ul li.gray a {
     background-color: #d7d7d7;
 }
@@ -1541,6 +1577,18 @@ img {
     background-color: #fcf29c;
 }
 
+.widget.color .widget-desc ul li.black a {
+    background-color: #000000;
+}
+
+.widget.color .widget-desc ul li.white a {
+    background-color: #f2f2f2;
+}
+
+.widget.color .widget-desc ul li.blue a {
+    background-color: #0000ff;
+}
+
 .widget.color .widget-desc ul li.green a {
     background-color: #8fc99c;
 }
@@ -1550,6 +1598,42 @@ img {
 }
 
 .widget.color .widget-desc ul li.cyan a {
+    background-color: #9ee7f4;
+}
+
+.widget.color .widget-desc ul li.gray label.colorbox {
+    background-color: #d7d7d7;
+}
+
+.widget.color .widget-desc ul li.red label.colorbox {
+    background-color: #fd4f4f;
+}
+
+.widget.color .widget-desc ul li.yellow label.colorbox {
+    background-color: #fcf29c;
+}
+
+.widget.color .widget-desc ul li.black label.colorbox {
+    background-color: #000000;
+}
+
+.widget.color .widget-desc ul li.white label.colorbox {
+    background-color: #f2f2f2;
+}
+
+.widget.color .widget-desc ul li.blue label.colorbox {
+    background-color: #0000ff;
+}
+
+.widget.color .widget-desc ul li.green label.colorbox {
+    background-color: #8fc99c;
+}
+
+.widget.color .widget-desc ul li.teal label.colorbox {
+    background-color: #bc83b1;
+}
+
+.widget.color .widget-desc ul li.cyan label.colorbox {
     background-color: #9ee7f4;
 }
 

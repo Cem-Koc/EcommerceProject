@@ -1,0 +1,22 @@
+﻿@model List<CategoryDto>
+
+<div class="widget catagory mb-50">
+	<!--  Side Nav  -->
+	<div class="nav-side-menu">
+		<h6 class="mb-0">Kategoriler</h6>
+		<div class="menu-list">
+			<ul id="menu-content2" class="menu-content collapse out">
+				<!-- Single Item -->
+				<li data-toggle="collapse" data-target="#men">
+					<a href="#">Erkek Giyim</a>
+					<ul class="sub-menu collapse show" id="men">
+						@foreach (var category in Model)
+						{
+							<li><a asp-controller="Product" asp-action="MenDressList" asp-route-categoryID="@category.ID">@category.CategoryName</a></li>
+						}
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

@@ -27,7 +27,14 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 			_httpContextAccessor = httpContextAccessor;
 			_user = _httpContextAccessor.HttpContext.User;
 		}
-
+		public string ReplaceColorName(string colorName)
+		{
+			return colorName.Replace("Sarı", "yellow")
+				.Replace("Siyah", "black")
+				.Replace("Beyaz", "white")
+				.Replace("Yeşil", "green")
+				.Replace("Mavi", "blue");
+		}
 		public async Task<bool> CreateProductColorAsync(ProductColorAddDto productColorAddDto)
 		{
 			var user = _user.GetLoggedInUserEmail();

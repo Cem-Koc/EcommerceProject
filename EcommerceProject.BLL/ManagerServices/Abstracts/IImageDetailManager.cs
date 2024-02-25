@@ -9,7 +9,8 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
 	public interface IImageDetailManager
 	{
-		List<ImageDetailDto> GetImageDetailsByProductID(int productID);
+        Task<List<ImageDetailDto>> GetAllImageDetails();
+        List<ImageDetailDto> GetImageDetailsByProductID(int productID);
 		Task<bool> AssignmentImageDetailsByProductID(int productSourceID, int productDestinationID);
 
     }

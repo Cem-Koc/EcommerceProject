@@ -22,6 +22,12 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 			_mapper = mapper;
 		}
 
+		public ImageDto GetByImageID(int imageID)
+		{
+			var image = _unitOfWork.GetRepository<Image>().Where(x=>x.ID == imageID).First();
+			var map = _mapper.Map<ImageDto>(image);
+			return map;
+		}
 		public List<ImageDto> GetImageByImageDetails(List<ImageDetailDto> imageDetailDtos)
 		{
 			List<ImageDto> imageList = new List<ImageDto>();
@@ -32,6 +38,23 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 				imageList.Add(map);
 			}
 			return imageList;
-        } 
-	}
+        }
+        public List<SortImageDto> GetImageByImageDetailsAndSortImage(List<ImageDetailDto> imageDetailDtos)
+        {
+            List<SortImageDto> imageList = new List<SortImageDto>();
+            foreach (var imageDetail in imageDetailDtos)
+            {
+                var image = _unitOfWork.GetRepository<Image>().Where(x => x.ID == imageDetail.ImageID).First();
+                SortImageDto sortImageDto = new SortImageDto
+				{
+					ID = image.ID,
+					FileName = image.FileName,
+					FileType = image.FileType,
+					SortImage = imageDetail.SortImage
+				};
+				imageList.Add(sortImageDto);
+            }
+            return imageList;
+        }
+    }
 }
