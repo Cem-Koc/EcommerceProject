@@ -16,5 +16,6 @@ namespace EcommerceProject.ENTITIES.Dtos.Products
         public List<ProductColorDto> ProductColors { get; set; }
         public List<ProductSizeDto> ProductSizes { get; set; }
         public int CustomerTypeID { get; set; }
+        public int CategorySideMenuSelectedID { get; set; }
     }
 }

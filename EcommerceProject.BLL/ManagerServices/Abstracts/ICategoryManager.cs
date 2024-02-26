@@ -11,6 +11,7 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
     public interface ICategoryManager
     {
+		Task<List<CategoriesByCustomerTypeDto>> CategoriesByCustomerType();
 		Task<string> SafeDeleteCategoryAsync(int categoryID);
 		Task<bool> UpdateCategoryAsync(CategoryUpdateDto categoryUpdateDto);
 		Task<bool> CreateCategoryAsync(CategoryAddDto categoryAddDto);

@@ -31,6 +31,30 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 			_user = _httpContextAccessor.HttpContext.User;
 		}
 
+		public async Task<List<CategoriesByCustomerTypeDto>> CategoriesByCustomerType()
+		{
+			var product = await _unitOfWork.GetRepository<Product>().GetAllAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted, x => x.Category, x => x.CustomerType);
+
+			var productCustomerType = product.Select(x => x.CustomerType).Distinct().ToList();
+
+			List<CategoriesByCustomerTypeDto> categoriesByCustomerTypeDto = new List<CategoriesByCustomerTypeDto>();
+
+			foreach (var item in productCustomerType)
+            {
+				var categories = product.Where(x => x.CustomerTypeID == item.ID).Select(x => x.Category).Distinct().ToList();
+				var map = _mapper.Map<List<CategorySideMenuDto>>(categories);
+
+				CategoriesByCustomerTypeDto categoriesByCustomerType = new CategoriesByCustomerTypeDto
+				{
+					Categories = map,
+					CustomerTypeName = item.CustomerTypeName,
+					CustomerTypeId = item.ID					
+				};
+
+				categoriesByCustomerTypeDto.Add(categoriesByCustomerType);
+			}
+            return categoriesByCustomerTypeDto;
+		}
 		public async Task<string> SafeDeleteCategoryAsync(int categoryID)
 		{
 			var category = await _unitOfWork.GetRepository<Category>().FindAsync(categoryID);

@@ -1,0 +1,29 @@
+﻿@model List<CategoriesByCustomerTypeDto>
+
+<div class="catagories-side-menu">
+    <!-- Close Icon -->
+    <div id="sideMenuClose">
+        <i class="ti-close"></i>
+    </div>
+    <!--  Side Nav  -->
+    <div class="nav-side-menu">
+        <div class="menu-list">
+            <h6>Kategoriler</h6>
+            <ul id="menu-content" class="menu-content collapse out">
+                @foreach (var item in Model)
+                {
+                    <!-- Single Item -->
+                    <li data-toggle="collapse" data-target="#@item.CustomerTypeName" class="collapsed active">
+                        <a href="#">@item.CustomerTypeName <span class="arrow"></span></a>
+                        <ul class="sub-menu collapse" id="@item.CustomerTypeName">
+                            @foreach(var categories in item.Categories)
+                            {
+                                <li><a asp-controller="Product" asp-action="ProductList" asp-route-id="@item.CustomerTypeId" asp-route-CategorySideMenuSelectedID="@categories.ID">@categories.CategoryName</a></li>
+                            }                            
+                        </ul>
+                    </li>
+                }                
+            </ul>
+        </div>
+    </div>
+</div>

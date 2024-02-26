@@ -18,10 +18,22 @@
 								<ul class="sub-menu collapse show">
 									@foreach (var category in Model.Categories)
 									{
-										<li>
-											<input type="checkbox" name="cat" value="@category.ID" id="@category.ID" />
-											<label style="color:#3a3a3a; font-size:13px;" for="@category.ID">@category.CategoryName</label>
-										</li>
+										@if (Model.CategorySideMenuSelectedID == category.ID)
+										{
+											<li>
+												<input type="checkbox" name="cat" value="@category.ID" id="CategorySideMenuSelectedID" />
+												<label style="color:#3a3a3a; font-size:13px;" for="CategorySideMenuSelectedID">@category.CategoryName</label>
+											</li>
+										}
+										else
+										{
+											<li>
+												<input type="checkbox" name="cat" value="@category.ID" id="CategoryName-@category.ID" />
+												<label style="color:#3a3a3a; font-size:13px;" for="CategoryName-@category.ID">@category.CategoryName</label>
+											</li>
+										}
+
+
 									}
 								</ul>
 							</div>
@@ -49,12 +61,12 @@
 								@foreach (var color in Model.ProductColors)
 								{
 									<li class="@color.ColorReplaceName">
-										<input type="checkbox" style="margin-right:6px;" name="productColor" value="@color.ID" id="@color.ID" />
-										<label class="colorbox" style="margin-right:6px;" for="@color.ID"></label>
-										<label class="colorboxname" style="color:#3a3a3a; font-size:13px;" for="@color.ID">@color.Color</label>
+										<input type="checkbox" style="margin-right:6px;" name="productColor" value="@color.ID" id="@color.Color-@color.ID" />
+										<label class="colorbox" style="margin-right:6px;" for="@color.Color-@color.ID"></label>
+										<label class="colorboxname" style="color:#3a3a3a; font-size:13px;" for="@color.Color-@color.ID">@color.Color</label>
 									</li>
-								}								
-								
+								}
+
 							</ul>
 						</div>
 					</div>
@@ -159,7 +171,7 @@
 																	<span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-plus" aria-hidden="true"></i></span>
 																</div>
 																<button type="submit" name="addtocart" value="5" class="cart-submit">Sepete Ekle</button>
-																
+
 															</form>
 
 															<div class="share_wf mt-30">
@@ -372,6 +384,9 @@
 					}
 				});
 			});
+
+			$('#CategorySideMenuSelectedID').attr('checked', true);
+			$('#CategorySideMenuSelectedID').trigger("change");
 		});
 	</script>
 }

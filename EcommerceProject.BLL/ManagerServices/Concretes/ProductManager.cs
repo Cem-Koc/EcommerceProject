@@ -293,7 +293,7 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
             return productListByCustomerTypeIdDto;
         }
 
-        public async Task<ProductListDto> GetProductsAllDetail(int id)
+        public async Task<ProductListDto> GetProductsAllDetail(int id,int? CategorySideMenuSelectedID)
         {
             var products = await _unitOfWork.GetRepository<Product>().GetAllAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted && x.CustomerTypeID == id, x => x.Category, x => x.ProductColor, x => x.ProductSize);
 
@@ -322,17 +322,22 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
                 color.ColorReplaceName = productColorNewName;
             }
 
-            var menlist = await GetAllProductList(null,id);
+            var productlist = await GetAllProductList(null,id);
 
             ProductListDto productListDto = new ProductListDto
             {
-                Products = menlist,
+                Products = productlist,
                 Categories = categoryMap,
                 ProductColors = productColorMap,
                 ProductSizes = productSizeMap
             };
 
-			productListDto.CustomerTypeID = id;
+            if (CategorySideMenuSelectedID != null)
+            {
+                productListDto.CategorySideMenuSelectedID = (int)CategorySideMenuSelectedID;
+            }
+
+            productListDto.CustomerTypeID = id;
             return productListDto;
         }
 

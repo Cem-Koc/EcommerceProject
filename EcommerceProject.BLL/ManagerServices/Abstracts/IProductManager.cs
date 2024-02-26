@@ -15,7 +15,7 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
     {
 		Task<ProductDetailDto> GetByIdProductDetail(int id);
 		Task<List<ProductListByCustomerTypeIdDto>> FilterProduct(FilterProductDto filterProductDto);
-		Task<ProductListDto> GetProductsAllDetail(int id);
+		Task<ProductListDto> GetProductsAllDetail(int id,int? CategorySideMenuSelectedID);
 		List<CategoryDto> GetCategoriesByCustomerTypeId(int customerTypeId);
         Task<List<ProductListByCustomerTypeIdDto>> GetAllProductList(int[]? categoryID, int CustomerTypeId);
 

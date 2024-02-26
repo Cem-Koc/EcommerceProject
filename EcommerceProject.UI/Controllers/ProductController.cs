@@ -13,9 +13,9 @@ namespace EcommerceProject.UI.Controllers
             _productManager = productManager;
         }
 
-        public async Task<IActionResult> ProductList(int id)
+        public async Task<IActionResult> ProductList(int id, int? CategorySideMenuSelectedID)
         {
-            var model = await _productManager.GetProductsAllDetail(id);
+            var model = await _productManager.GetProductsAllDetail(id, CategorySideMenuSelectedID);
             return View(model);
         }
 
