@@ -1,4 +1,5 @@
-﻿using EcommerceProject.ENTITIES.Dtos.Users;
+﻿using EcommerceProject.BLL.DependencyResolvers;
+using EcommerceProject.ENTITIES.Dtos.Users;
 using EcommerceProject.ENTITIES.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -36,8 +37,17 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
                     var result = await _signInManager.PasswordSignInAsync(user,userLoginDto.Password,userLoginDto.RememberMe,false);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index", "Home",new {Area = "Admin"});
-                    }
+
+						if (_userManager.GetRolesAsync(user).Result.FirstOrDefault() == "Admin")
+                        {
+							return RedirectToAction("Index", "Home", new { Area = "Admin" });
+						}
+                        else 
+                        {
+							return RedirectToAction("Index", "Home", new { Area = "" });
+						}         
+
+					}
                     else
                     {
                         ModelState.AddModelError("", "E-posta adresini veya şifreniz hatalıdır.");

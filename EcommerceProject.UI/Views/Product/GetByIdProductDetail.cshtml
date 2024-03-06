@@ -143,14 +143,13 @@
                    
 
                     <!-- Add to Cart Form -->
-                    <form class="cart clearfix mb-50 d-flex" method="post">
-                        <div class="quantity">
-                            <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                            <input type="number" class="qty-text" id="qty" step="1" min="1" max="12" name="quantity" value="1">
-                            <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-plus" aria-hidden="true"></i></span>
-                        </div>
+                    @* <form class="cart clearfix mb-50 d-flex" method="post">
                         <button type="submit" name="addtocart" value="5" class="btn cart-submit d-block">Sepete Ekle</button>
-                    </form>
+                    </form> *@
+
+                    <div class="cart clearfix mb-50 d-flex">
+                        <a name="addtocart" style="line-height:2 !important" id="@Model.ID" itemid="@Model.Images.First().FileName"  class="btn cart-submit d-block">Sepete Ekle</a>
+                    </div>
 
                     <div id="accordion" role="tablist">
                         <div class="card">
@@ -376,3 +375,34 @@
     </div>
 </section>
 
+
+
+@section Scripts{
+	<script>
+
+		$(document).ready(function () {
+
+            $('a[name="addtocart"]').on('click', function () {
+				var productId = this.getAttribute("id");
+                var productImageFileName = this.getAttribute("itemid");
+
+				$.ajax({
+					url: '@Url.Action("AddProductToCart","Shopping")',
+					type: 'POST',
+					dateType: 'html',
+					data: {
+						id: productId,
+						imageFileName: productImageFileName
+					},
+					success: function (result) {
+                        window.location.reload();
+					},
+					error: function () {
+						console.log('Error');
+					}
+				});
+			});
+
+        });
+    </script>
+}

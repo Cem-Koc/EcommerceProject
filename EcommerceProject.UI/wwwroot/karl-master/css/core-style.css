@@ -575,7 +575,7 @@ img {
 .dropdown-menu .dropdown-item {
     font-size: 14px;
     font-weight: 700;
-    text-transform: uppercase;
+   /* text-transform: uppercase;*/
 }
 
 .dropdown-menu .dropdown-item:focus,

@@ -31,7 +31,7 @@
 										</div>
 										<h5 class="price">@product.SalePrice₺<span>@product.UnitPrice₺</span></h5>
 										<p>@product.Description</p>
-										<a href="#">Ürünün Tüm Detaylarını Görüntüle</a>
+										<a asp-controller="Product" asp-action="GetByIdProductDetail" asp-route-id="@product.ID">Ürünün Tüm Detaylarını Görüntüle</a>
 									</div>
 									<!-- Add to Cart Form -->
 									<form class="cart" method="post">
@@ -75,9 +75,11 @@
 		<!-- Product Description -->
 		<div class="product-description">
 			<h4 class="product-price">@product.SalePrice ₺</h4>
-			<p>@product.ProductName</p>
+			<p><a asp-controller="Product" asp-action="GetByIdProductDetail" asp-route-id="@product.ID">@product.ProductName</a></p>
 			<!-- Add to Cart -->
-			<a href="#" class="add-to-cart-btn">Sepete Ekle</a>
+			<a href="#" id="@product.ID" itemid="@product.ImageFileName" name="add-to-cart-btn-partial" class="add-to-cart-btn">Sepete Ekle</a>
 		</div>
 	</div>
 }
+
+
