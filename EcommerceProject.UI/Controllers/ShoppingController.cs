@@ -4,19 +4,24 @@ using EcommerceProject.ENTITIES.Models;
 using EcommerceProject.UI.Models.ShoppingTools;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace EcommerceProject.UI.Controllers
 {
     public class ShoppingController : Controller
     {
         private readonly IProductManager _productManager;
+		private readonly IHttpContextAccessor _httpContextAccessor;
+		private readonly ClaimsPrincipal _user;
 
-        public ShoppingController(IProductManager productManager)
-        {
-            _productManager = productManager;
-        }
+		public ShoppingController(IProductManager productManager, IHttpContextAccessor httpContextAccessor)
+		{
+			_productManager = productManager;
+			_httpContextAccessor = httpContextAccessor;
+			_user = _httpContextAccessor.HttpContext.User;
+		}
 
-        [HttpPost]
+		[HttpPost]
         public async Task<IActionResult> AddProductToCart(int id, string imageFileName)
         {
             Cart cart = HttpContext.Session.GetObject<Cart>("shoppingCart") == null ? new Cart() : HttpContext.Session.GetObject<Cart>("shoppingCart");

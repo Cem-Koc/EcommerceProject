@@ -49,6 +49,8 @@ namespace EcommerceProject.BLL.DependencyResolvers
 			services.AddScoped<IImageManager, ImageManager>();
 			services.AddScoped<IImageDetailRepository, ImageDetailRepository>();
 			services.AddScoped<IImageDetailManager, ImageDetailManager>();
+			services.AddScoped<ILikedProductRepository, LikedProductRepository>();
+			services.AddScoped<ILikedProductManager, LikedProductManager>();
 
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

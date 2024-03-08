@@ -1,4 +1,5 @@
-﻿using EcommerceProject.ENTITIES.Models;
+﻿using EcommerceProject.ENTITIES.Dtos.OrderDetails;
+using EcommerceProject.ENTITIES.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,9 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
     public interface IOrderDetailManager
     {
-        IQueryable<OrderDetail> GetAll();
+		Task CreateOrderDetail(OrderDetailAddDto orderDetailAddDto);
+
+		IQueryable<OrderDetail> GetAll();
 		IQueryable<OrderDetail> GetActives();
 		IQueryable<OrderDetail> GetModifieds();
 		IQueryable<OrderDetail> GetPassives();

@@ -9,11 +9,10 @@ using System.Threading.Tasks;
 
 namespace EcommerceProject.DAL.Repositories.Concretes
 {
-    public class OrderRepository : BaseRepository<Order>, IOrderRepository
-    {
-        public OrderRepository(MyContext db) : base(db)
-        {
-        }
-
-    }
+	public class LikedProductRepository : BaseRepository<LikedProduct>, ILikedProductRepository
+	{
+		public LikedProductRepository(MyContext context) : base(context)
+		{
+		}
+	}
 }

@@ -1,0 +1,44 @@
+﻿@model List<MyOrdersDto>
+@{
+    ViewData["Title"] = "MyOrders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="cart_area section_padding_100 clearfix">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section_heading text-center">
+                    <h2>SİPARİŞLERİM</h2>
+                </div>
+                <div class="cart-table clearfix">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Ürünler</th>
+                                <th>Sipariş Tarihi</th>
+                                <th>Sipariş Tutarı</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           @foreach (var order in Model)
+                            {
+                                <tr>
+                                    <td class="cart_product_img d-flex align-items-center">
+                                        @foreach (var product in order.productImagesWithProductIdDtos)
+                                        {
+                                            <a asp-controller="Product" asp-action="GetByIdProductDetail" asp-route-id="@product.ProductID"><img src="~/images/@product.ImageFileName"></a>
+                                        }
+                                    </td>
+                                    <td class="price"><span>@order.OrderDate.ToShortDateString()</span></td>
+                                    <td class="total_price"><span>@order.OrderAmount₺</span></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

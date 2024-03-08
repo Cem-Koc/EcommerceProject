@@ -172,6 +172,12 @@
 																</div>
 																<button type="submit" name="addtocart" value="5" class="cart-submit">Sepete Ekle</button>
 
+															
+															<!-- Wishlist -->
+															<div class="modal_pro_wishlist">
+																	<a href="#" target="_blank" name="wishlist" id="@product.ID"><i class="ti-heart"></i></a>
+															</div>
+
 															</form>
 
 															<div class="share_wf mt-30">
@@ -233,6 +239,19 @@
 	<script>
 
 		$(document).ready(function () {
+
+			$('a[name="wishlist"]').on('click', function () {
+				var productId = this.getAttribute("id");
+
+				$.ajax({
+					url: '@Url.Action("LikedProductAdd","LikedProduct")',
+					type: 'POST',
+					dateType: 'html',
+					data: {
+						id: productId
+					}
+				});
+			});
 
 			$('a[name="add-to-cart-btn"]').on('click', function () {
 				var productId = this.getAttribute("id");

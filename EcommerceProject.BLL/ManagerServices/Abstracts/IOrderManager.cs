@@ -1,4 +1,5 @@
-﻿using EcommerceProject.ENTITIES.Models;
+﻿using EcommerceProject.ENTITIES.Dtos.Orders;
+using EcommerceProject.ENTITIES.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,10 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
     public interface IOrderManager
     {
+		Task<OrderViewDto> CreateOrderAsync(OrderAddDto orderAddDto);
+		Task<List<MyOrdersDto>> MyOrders();
+
+
         IQueryable<Order> GetAll();
 		IQueryable<Order> GetActives();
 		IQueryable<Order> GetModifieds();

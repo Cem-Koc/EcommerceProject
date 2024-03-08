@@ -140,17 +140,11 @@
                             </ul>
                         </div>
                     </div>
-                   
-
-                    <!-- Add to Cart Form -->
-                    @* <form class="cart clearfix mb-50 d-flex" method="post">
-                        <button type="submit" name="addtocart" value="5" class="btn cart-submit d-block">Sepete Ekle</button>
-                    </form> *@
 
                     <div class="cart clearfix mb-50 d-flex">
                         <a name="addtocart" style="line-height:2 !important" id="@Model.ID" itemid="@Model.Images.First().FileName"  class="btn cart-submit d-block">Sepete Ekle</a>
                     </div>
-
+                    
                     <div id="accordion" role="tablist">
                         <div class="card">
                             <div class="card-header" role="tab" id="headingOne">

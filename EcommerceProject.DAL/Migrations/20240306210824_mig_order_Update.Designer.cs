@@ -4,6 +4,7 @@ using EcommerceProject.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcommerceProject.DAL.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20240306210824_mig_order_Update")]
+    partial class mig_order_Update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -181,9 +184,9 @@ namespace EcommerceProject.DAL.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9d043082-08e9-41d0-8548-7a33b1d5fb63",
+                            ConcurrencyStamp = "187b0df9-50f3-4285-8228-1964caee8b79",
                             CreatedBy = "Test",
-                            CreatedDate = new DateTime(2024, 3, 8, 15, 40, 16, 955, DateTimeKind.Local).AddTicks(9822),
+                            CreatedDate = new DateTime(2024, 3, 7, 0, 8, 23, 982, DateTimeKind.Local).AddTicks(9002),
                             Email = "usertest@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Cem",
@@ -191,10 +194,10 @@ namespace EcommerceProject.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USERTEST@GMAIL.COM",
                             NormalizedUserName = "USERTEST@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHnymVSSIXVJZre8y5q5Ykj9s+xkGV8trWfTrfWSowfsfMju2KMnNwE/KSjfQiuGWw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFTBldrA8XeEL0FEkhfWLJFapxBBcbmlk/JG7gyZmZms+3xnN3OKksylNCI/nGFxpg==",
                             PhoneNumber = "+901234567890",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "62ba1d77-96f2-495e-abb2-fa72ed6471e4",
+                            SecurityStamp = "8d8f5feb-4fff-4056-9825-6e7f25325259",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "usertest@gmail.com"
@@ -203,9 +206,9 @@ namespace EcommerceProject.DAL.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b4018e3a-e16e-414d-a9ad-f86ab9d0c43e",
+                            ConcurrencyStamp = "1177bbef-9c9a-4565-b00a-7f0af946d141",
                             CreatedBy = "Test",
-                            CreatedDate = new DateTime(2024, 3, 8, 15, 40, 16, 901, DateTimeKind.Local).AddTicks(8002),
+                            CreatedDate = new DateTime(2024, 3, 7, 0, 8, 23, 922, DateTimeKind.Local).AddTicks(6394),
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -213,10 +216,10 @@ namespace EcommerceProject.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEK7DXd3DmC2WNtiIM84cRW+OIxgUlMdoClw5jfvfmmk8I/7jUecSUW5qejzQwiysWA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIFLqwvbBOlVCFcsgu4Jq/lJhBxyR+5hdWc7Cj56GpZMUH78oTGmP/nVW0RhidEnKw==",
                             PhoneNumber = "+901234560000",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "2aefb7fa-54a2-48e1-a539-87bbf1bedc54",
+                            SecurityStamp = "340330b8-6bfc-45c4-bfa2-143565c933fb",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
@@ -346,7 +349,7 @@ namespace EcommerceProject.DAL.Migrations
                             ID = 1,
                             CategoryName = "Tişört",
                             CreatedBy = "Undefined",
-                            CreatedDate = new DateTime(2024, 3, 8, 15, 40, 17, 10, DateTimeKind.Local).AddTicks(5965),
+                            CreatedDate = new DateTime(2024, 3, 7, 0, 8, 24, 43, DateTimeKind.Local).AddTicks(5621),
                             Status = 1
                         },
                         new
@@ -354,7 +357,7 @@ namespace EcommerceProject.DAL.Migrations
                             ID = 2,
                             CategoryName = "Şort",
                             CreatedBy = "Undefined",
-                            CreatedDate = new DateTime(2024, 3, 8, 15, 40, 17, 10, DateTimeKind.Local).AddTicks(5979),
+                            CreatedDate = new DateTime(2024, 3, 7, 0, 8, 24, 43, DateTimeKind.Local).AddTicks(5639),
                             Status = 1
                         });
                 });
@@ -402,7 +405,7 @@ namespace EcommerceProject.DAL.Migrations
                         {
                             ID = 1,
                             CreatedBy = "Undefined",
-                            CreatedDate = new DateTime(2024, 3, 8, 15, 40, 17, 11, DateTimeKind.Local).AddTicks(5146),
+                            CreatedDate = new DateTime(2024, 3, 7, 0, 8, 24, 45, DateTimeKind.Local).AddTicks(382),
                             CustomerTypeName = "Kadın",
                             Status = 1
                         },
@@ -410,7 +413,7 @@ namespace EcommerceProject.DAL.Migrations
                         {
                             ID = 2,
                             CreatedBy = "Undefined",
-                            CreatedDate = new DateTime(2024, 3, 8, 15, 40, 17, 11, DateTimeKind.Local).AddTicks(5149),
+                            CreatedDate = new DateTime(2024, 3, 7, 0, 8, 24, 45, DateTimeKind.Local).AddTicks(384),
                             CustomerTypeName = "Erkek",
                             Status = 1
                         });
@@ -497,43 +500,6 @@ namespace EcommerceProject.DAL.Migrations
                     b.HasIndex("ImageID");
 
                     b.ToTable("ImageDetails");
-                });
-
-            modelBuilder.Entity("EcommerceProject.ENTITIES.Models.LikedProduct", b =>
-                {
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AppUserID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductID", "AppUserID");
-
-                    b.HasIndex("AppUserID");
-
-                    b.ToTable("LikedProducts");
                 });
 
             modelBuilder.Entity("EcommerceProject.ENTITIES.Models.Order", b =>
@@ -722,7 +688,7 @@ namespace EcommerceProject.DAL.Migrations
                             ID = 1,
                             CategoryID = 1,
                             CreatedBy = "Undefined",
-                            CreatedDate = new DateTime(2024, 3, 8, 15, 40, 17, 10, DateTimeKind.Local).AddTicks(8482),
+                            CreatedDate = new DateTime(2024, 3, 7, 0, 8, 24, 44, DateTimeKind.Local).AddTicks(521),
                             CustomerTypeID = 1,
                             Description = "%100 Pamuk Slim Fit",
                             ProductCode = 123456,
@@ -739,7 +705,7 @@ namespace EcommerceProject.DAL.Migrations
                             ID = 2,
                             CategoryID = 1,
                             CreatedBy = "Undefined",
-                            CreatedDate = new DateTime(2024, 3, 8, 15, 40, 17, 10, DateTimeKind.Local).AddTicks(8495),
+                            CreatedDate = new DateTime(2024, 3, 7, 0, 8, 24, 44, DateTimeKind.Local).AddTicks(538),
                             CustomerTypeID = 1,
                             Description = "%100 Pamuk Slim Fit",
                             ProductCode = 123456,
@@ -756,7 +722,7 @@ namespace EcommerceProject.DAL.Migrations
                             ID = 3,
                             CategoryID = 1,
                             CreatedBy = "Undefined",
-                            CreatedDate = new DateTime(2024, 3, 8, 15, 40, 17, 10, DateTimeKind.Local).AddTicks(8499),
+                            CreatedDate = new DateTime(2024, 3, 7, 0, 8, 24, 44, DateTimeKind.Local).AddTicks(542),
                             CustomerTypeID = 1,
                             Description = "%100 Pamuk Slim Fit",
                             ProductCode = 123456,
@@ -773,7 +739,7 @@ namespace EcommerceProject.DAL.Migrations
                             ID = 4,
                             CategoryID = 2,
                             CreatedBy = "Undefined",
-                            CreatedDate = new DateTime(2024, 3, 8, 15, 40, 17, 10, DateTimeKind.Local).AddTicks(8501),
+                            CreatedDate = new DateTime(2024, 3, 7, 0, 8, 24, 44, DateTimeKind.Local).AddTicks(544),
                             CustomerTypeID = 2,
                             Description = "Slim Fit",
                             ProductCode = 112233,
@@ -831,7 +797,7 @@ namespace EcommerceProject.DAL.Migrations
                             ID = 1,
                             Color = "Mavi",
                             CreatedBy = "Undefined",
-                            CreatedDate = new DateTime(2024, 3, 8, 15, 40, 17, 11, DateTimeKind.Local).AddTicks(4727),
+                            CreatedDate = new DateTime(2024, 3, 7, 0, 8, 24, 44, DateTimeKind.Local).AddTicks(9759),
                             Status = 1
                         },
                         new
@@ -839,7 +805,7 @@ namespace EcommerceProject.DAL.Migrations
                             ID = 2,
                             Color = "Siyah",
                             CreatedBy = "Undefined",
-                            CreatedDate = new DateTime(2024, 3, 8, 15, 40, 17, 11, DateTimeKind.Local).AddTicks(4733),
+                            CreatedDate = new DateTime(2024, 3, 7, 0, 8, 24, 44, DateTimeKind.Local).AddTicks(9766),
                             Status = 1
                         },
                         new
@@ -847,7 +813,7 @@ namespace EcommerceProject.DAL.Migrations
                             ID = 3,
                             Color = "Beyaz",
                             CreatedBy = "Undefined",
-                            CreatedDate = new DateTime(2024, 3, 8, 15, 40, 17, 11, DateTimeKind.Local).AddTicks(4733),
+                            CreatedDate = new DateTime(2024, 3, 7, 0, 8, 24, 44, DateTimeKind.Local).AddTicks(9767),
                             Status = 1
                         });
                 });
@@ -895,7 +861,7 @@ namespace EcommerceProject.DAL.Migrations
                         {
                             ID = 1,
                             CreatedBy = "Undefined",
-                            CreatedDate = new DateTime(2024, 3, 8, 15, 40, 17, 11, DateTimeKind.Local).AddTicks(4941),
+                            CreatedDate = new DateTime(2024, 3, 7, 0, 8, 24, 45, DateTimeKind.Local).AddTicks(88),
                             Size = "XS",
                             Status = 1
                         },
@@ -903,7 +869,7 @@ namespace EcommerceProject.DAL.Migrations
                         {
                             ID = 2,
                             CreatedBy = "Undefined",
-                            CreatedDate = new DateTime(2024, 3, 8, 15, 40, 17, 11, DateTimeKind.Local).AddTicks(4943),
+                            CreatedDate = new DateTime(2024, 3, 7, 0, 8, 24, 45, DateTimeKind.Local).AddTicks(90),
                             Size = "S",
                             Status = 1
                         },
@@ -911,7 +877,7 @@ namespace EcommerceProject.DAL.Migrations
                         {
                             ID = 3,
                             CreatedBy = "Undefined",
-                            CreatedDate = new DateTime(2024, 3, 8, 15, 40, 17, 11, DateTimeKind.Local).AddTicks(4944),
+                            CreatedDate = new DateTime(2024, 3, 7, 0, 8, 24, 45, DateTimeKind.Local).AddTicks(91),
                             Size = "M",
                             Status = 1
                         });
@@ -983,25 +949,6 @@ namespace EcommerceProject.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("Image");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("EcommerceProject.ENTITIES.Models.LikedProduct", b =>
-                {
-                    b.HasOne("EcommerceProject.ENTITIES.Models.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EcommerceProject.ENTITIES.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
 
                     b.Navigation("Product");
                 });

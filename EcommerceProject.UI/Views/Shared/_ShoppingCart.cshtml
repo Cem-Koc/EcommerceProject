@@ -18,7 +18,7 @@
 	<li class="total">
 		<span class="pull-right">Toplam: @Model.TotalPrice₺</span>
 		<a asp-controller="Shopping" asp-action="CartPage" class="btn btn-sm btn-cart">Sepet</a>
-		<a href="~/karl-master/checkout-1.html" class="btn btn-sm btn-checkout">Ödeme</a>
+		<a asp-controller="Order" asp-action="Index" class="btn btn-sm btn-checkout">Ödeme</a>
 	</li>
 }
 else

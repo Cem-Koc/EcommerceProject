@@ -1,0 +1,44 @@
+﻿
+@model List<LikedProductListDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="new_arrivals_area section_padding_100_0 clearfix">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section_heading text-center">
+                    <h2>Beğenİlen Ürünler</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row karl-new-arrivals">
+
+
+            @foreach (var product in Model)
+            {
+                <!-- Single gallery Item Start -->
+                <div class="col-12 col-sm-6 col-md-4 single_gallery_item wow fadeInUpBig" data-wow-delay="0.3s">
+                    <!-- Product Image -->
+                    <div class="product-img">
+                        <img src="~/images/@product.ImageFileName" alt="@product.ProductName">
+                    </div>
+                    <!-- Product Description -->
+                    <div class="product-description" style="text-align:center">
+                        <h4 class="product-price">@product.SalePrice₺</h4>
+                        <p><a asp-controller="Product" asp-action="GetByIdProductDetail" asp-route-id="@product.ID">@product.ProductName</a></p>
+                    </div>
+                </div>
+            }
+            
+
+        </div>
+    </div>
+</section>
+

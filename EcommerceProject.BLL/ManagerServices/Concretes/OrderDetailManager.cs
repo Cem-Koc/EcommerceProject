@@ -1,6 +1,8 @@
 ﻿using EcommerceProject.BLL.ManagerServices.Abstracts;
 using EcommerceProject.DAL.Repositories.Abstracts;
 using EcommerceProject.DAL.UnitOfWorks;
+using EcommerceProject.ENTITIES.Dtos.OrderDetails;
+using EcommerceProject.ENTITIES.Dtos.Products;
 using EcommerceProject.ENTITIES.Models;
 using System;
 using System.Collections.Generic;
@@ -14,12 +16,30 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
     public class OrderDetailManager : IOrderDetailManager
     {
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly IOrderManager _orderManager;
 
-		public OrderDetailManager(IUnitOfWork unitOfWork)
+		public OrderDetailManager(IUnitOfWork unitOfWork, IOrderManager orderManager)
 		{
 			_unitOfWork = unitOfWork;
+			_orderManager = orderManager;
 		}
 
+		public async Task CreateOrderDetail(OrderDetailAddDto orderDetailAddDto)
+		{
+			var order = await _orderManager.FindAsync(orderDetailAddDto.orderViewDto.ID);
+
+            foreach (var item in orderDetailAddDto.productListByCartDtos)
+            {
+				OrderDetail orderDetail = new OrderDetail();
+				orderDetail.ProductID = item.ID;
+				orderDetail.OrderID = order.ID;
+				orderDetail.Quantity = item.Amount;
+				orderDetail.CreatedBy = order.CreatedBy;
+				orderDetail.CreatedDate = DateTime.Now;
+
+				Add(orderDetail);
+			}
+        }
 		public void Add(OrderDetail item)
 		{
 			_unitOfWork.GetRepository<OrderDetail>().Add(item);

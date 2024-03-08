@@ -1,0 +1,8 @@
+﻿@model Cart
+
+@foreach (var cartItem in Model.MyCart)
+{
+	<li><span>@cartItem.Name</span> <span>@cartItem.Price₺</span></li>
+}
+
+<li><span>TOPLAM</span> <span>@Model.TotalPrice₺</span></li>

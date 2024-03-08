@@ -31,7 +31,7 @@ namespace EcommerceProject.DAL.Repositories.Concretes
             await Table.AddAsync(item);
         }
 
-        public void AddRange(List<T> list)
+		public void AddRange(List<T> list)
         {
 			Table.AddRange();
         }
