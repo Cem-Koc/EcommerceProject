@@ -35,6 +35,31 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 			_userManager = userManager;
 		}
 
+		public async Task<WeeklySoldProductsDto> WeeklySoldProducts()
+		{
+			var today = DateTime.Now.Date;		
+
+			int[] productCount = new int[7];
+			string[] dateName = new string[7];
+
+            for (int i = 0; i < 7; i++)            
+			{
+				var resultDay = today.AddDays(-i);
+                var todayString = resultDay.ToString("dddd");
+				dateName[i] = todayString;
+
+				productCount[i] = _unitOfWork.GetRepository<OrderDetail>().Where(x=>x.CreatedDate.Date == resultDay).Count();
+            }
+
+            WeeklySoldProductsDto weeklySoldProductsDto = new WeeklySoldProductsDto
+			{
+				ProductCount = productCount,
+				DateNames = dateName
+			};
+
+            return weeklySoldProductsDto;
+		}
+
 		public async Task<List<MyOrdersDto>> MyOrders()
 		{
             var userId = _user.GetLoggedInUserId();

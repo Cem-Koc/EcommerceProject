@@ -10,15 +10,19 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
     public class HomeController : Controller
 	{
 		private readonly IProductManager _productManager;
+		private readonly IOrderManager _orderManager;
 
-		public HomeController(IProductManager productManager)
-		{
-			_productManager = productManager;
-		}
+        public HomeController(IProductManager productManager, IOrderManager orderManager)
+        {
+            _productManager = productManager;
+            _orderManager = orderManager;
+        }
 
-		public IActionResult Index()
+        public async Task<IActionResult> Index()
 		{
-			return View();
+            
+            var result = await _orderManager.WeeklySoldProducts();
+            return View(result);
 		}
 	}
 }

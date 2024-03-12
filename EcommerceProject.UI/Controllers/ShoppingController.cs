@@ -4,6 +4,7 @@ using EcommerceProject.ENTITIES.Models;
 using EcommerceProject.UI.Models.ShoppingTools;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NToastNotify;
 using System.Security.Claims;
 
 namespace EcommerceProject.UI.Controllers
@@ -13,12 +14,14 @@ namespace EcommerceProject.UI.Controllers
         private readonly IProductManager _productManager;
 		private readonly IHttpContextAccessor _httpContextAccessor;
 		private readonly ClaimsPrincipal _user;
+		private readonly IToastNotification _toast;
 
-		public ShoppingController(IProductManager productManager, IHttpContextAccessor httpContextAccessor)
+		public ShoppingController(IProductManager productManager, IHttpContextAccessor httpContextAccessor, IToastNotification toast)
 		{
 			_productManager = productManager;
 			_httpContextAccessor = httpContextAccessor;
 			_user = _httpContextAccessor.HttpContext.User;
+			_toast = toast;
 		}
 
 		[HttpPost]
@@ -41,32 +44,45 @@ namespace EcommerceProject.UI.Controllers
             cart.AddToCart(cartItem);
             HttpContext.Session.SetObject("shoppingCart", cart);
 
-            return RedirectToAction("GetCartInfo", "Shopping");
+			return RedirectToAction("GetCartInfo", "Shopping", new { addProductMessage = cartItem.Name});
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCartInfo()
+        public IActionResult GetCartInfo(string addProductMessage = null!,string deleteProductMessage = null!,string deleteProductCompletelyMessage = null!)
         {
             if (HttpContext.Session.GetObject<Cart>("shoppingCart") != null)
             {
                 Cart cart = HttpContext.Session.GetObject<Cart>("shoppingCart");
+                if (addProductMessage != null)
+                {
+					_toast.AddSuccessToastMessage($"{addProductMessage} sepete eklenmiştir.", new ToastrOptions { Title = "İşlem Başarılı" });
+				}
+                else if(deleteProductMessage != null)
+                {
+					_toast.AddSuccessToastMessage($"{deleteProductMessage} sepetten silinmiştir.", new ToastrOptions { Title = "İşlem Başarılı" });
+				}
+                else if(deleteProductCompletelyMessage != null)
+                {
+					_toast.AddSuccessToastMessage($"{deleteProductCompletelyMessage} sepetten kaldırılmıştır.", new ToastrOptions { Title = "İşlem Başarılı" });
+				}
                 return PartialView("_ShoppingCart", cart);
             }
             else
             {
-                return PartialView("_ShoppingCart");
+				return PartialView("_ShoppingCart");
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteFromCart(int id)
+        public IActionResult DeleteFromCart(int id)
         {
             if (HttpContext.Session.GetObject<Cart>("shoppingCart") != null)
             {
                 Cart cart = HttpContext.Session.GetObject<Cart>("shoppingCart");
                 cart.RemoveFromCart(id);
                 HttpContext.Session.SetObject("shoppingCart", cart);
-                return RedirectToAction("GetCartInfo", "Shopping");
+
+				return RedirectToAction("GetCartInfo", "Shopping", new { deleteProductMessage = cart.MyCart.Find(x=>x.ID==id).Name });
             }
             else
             {
@@ -75,16 +91,18 @@ namespace EcommerceProject.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteProductCompletely(int id)
+        public IActionResult DeleteProductCompletely(int id)
         {
             Cart cart = HttpContext.Session.GetObject<Cart>("shoppingCart");
-            cart.RemoveProductCompletely(id);
+            var message = cart.MyCart.Find(x => x.ID == id).Name;
+			cart.RemoveProductCompletely(id);
             HttpContext.Session.SetObject("shoppingCart", cart);
-            return RedirectToAction("GetCartInfo", "Shopping");
+			
+			return RedirectToAction("GetCartInfo", "Shopping", new { deleteProductCompletelyMessage = message });
         }
 
         [HttpGet]
-        public async Task<IActionResult> CartPage()
+        public IActionResult CartPage()
         {
             Cart cart = HttpContext.Session.GetObject<Cart>("shoppingCart");
             return View(cart);

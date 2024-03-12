@@ -1,0 +1,21 @@
+﻿@model List<RecommendedProductDto>
+
+<div class="widget recommended">
+	<h6 class="widget-title mb-30">ÖNERİLEN ÜRÜNLER</h6>
+	@foreach (var product in Model)
+	{
+		<div class="widget-desc">
+			<!-- Single Recommended Product -->
+			<div class="single-recommended-product d-flex mb-30">
+				<div class="single-recommended-thumb mr-3">
+					<img src="~/images/@product.ImageFileName" alt="@product.ProductName">
+				</div>
+				<div class="single-recommended-desc" style="padding-top:10px !important">
+					<a asp-controller="Product" asp-action="GetByIdProductDetail" asp-route-id="@product.ID"><h6>@product.ProductName</h6></a>
+					<p>@product.SalePrice</p>
+				</div>
+			</div>
+		</div>
+	}
+	
+</div>

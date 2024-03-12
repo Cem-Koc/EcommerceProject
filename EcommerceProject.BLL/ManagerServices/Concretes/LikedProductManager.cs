@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,8 +27,11 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 			_user = _httpContextAccessor.HttpContext.User;
 		}
 
-
-		public async Task<List<LikedProductListDto>> LikedProductList()
+        public IQueryable<OrderDetail> GetAll()
+        {
+            return _unitOfWork.GetRepository<OrderDetail>().GetAll();
+        }
+        public async Task<List<LikedProductListDto>> LikedProductList()
 		{
             var userId = _user.GetLoggedInUserId();
 			var likedProducts = await _unitOfWork.GetRepository<LikedProduct>().GetAllAsync(x=>x.AppUserID == userId);
@@ -77,6 +81,10 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 			}            
 		}
 
+        public IQueryable<OrderDetail> Where(Expression<Func<OrderDetail, bool>> exp)
+        {
+            return _unitOfWork.GetRepository<OrderDetail>().Where(exp);
+        }
 
-	}
+    }
 }

@@ -1,0 +1,57 @@
+﻿@model NewArrivalsListResponseDto
+@{
+    int delayCount = 1;
+    string delayString = "0.1s";
+}
+
+
+@foreach (var product in Model.NewArrivalsWomen)
+{
+    delayCount++;
+    delayString = $"0.{delayCount}s";
+
+    <!-- Single gallery Item Start -->
+    <div class="col-12 col-sm-6 col-md-4 single_gallery_item women wow fadeInUpBig" data-wow-delay=@delayString>
+        <!-- Product Image -->
+        <div class="product-img">
+            <img src="~/images/@product.ImageFileName" alt="@product.ProductName">
+            <div class="product-quicview">
+                <a href="#" data-toggle="modal" data-target="#quickview"><i class="ti-plus"></i></a>
+            </div>
+        </div>
+        <!-- Product Description -->
+        <div class="product-description">
+            <h4 class="product-price">@product.SalePrice₺</h4>
+            <p>@product.ProductName</p>
+            <!-- Add to Cart -->
+            <a href="#" id="@product.ID" itemid="@product.ImageFileName" name="add-to-cart-btn" class="add-to-cart-btn">SEPETE EKLE</a>
+        </div>
+    </div>
+}
+
+@foreach (var product in Model.NewArrivalsMen)
+{
+    delayCount++;
+    delayString = $"0.{delayCount}s";
+
+    <!-- Single gallery Item Start -->
+    <div class="col-12 col-sm-6 col-md-4 single_gallery_item man wow fadeInUpBig" data-wow-delay=@delayString>
+        <!-- Product Image -->
+        <div class="product-img">
+            <img src="~/images/@product.ImageFileName" alt="@product.ProductName">
+            <div class="product-quicview">
+                <a href="#" data-toggle="modal" data-target="#quickview"><i class="ti-plus"></i></a>
+            </div>
+        </div>
+        <!-- Product Description -->
+        <div class="product-description">
+            <h4 class="product-price">@product.SalePrice₺</h4>
+            <p>@product.ProductName</p>
+            <!-- Add to Cart -->
+            <a href="#" id="@product.ID" itemid="@product.ImageFileName" name="add-to-cart-btn" class="add-to-cart-btn">SEPETE EKLE</a>
+        </div>
+    </div>
+}
+
+
+

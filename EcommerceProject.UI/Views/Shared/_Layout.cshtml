@@ -107,15 +107,28 @@
 							<!-- Help Line -->
 							@if (User.Identity.IsAuthenticated)
 							{
-								<div>
-									<a style="background-color:#ff084e; color:#fff; font-size:14px; font-weight:700;" class="nav-link dropdown-toggle" href="#" id="karlDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@User.Identity.Name</a>
-									<div class="dropdown-menu" aria-labelledby="karlDropdown">
-										<a class="dropdown-item" href="index.html">Profilim</a>
-										<a class="dropdown-item" asp-controller="LikedProduct" asp-action="Index">Beğenilerim</a>
-										<a class="dropdown-item" asp-controller="Order" asp-action="MyOrders">Siparişlerim</a>
-										<a class="dropdown-item" asp-area="Admin" asp-controller="Auth" asp-action="Logout">Çıkış Yap</a>
+								if(User.IsInRole("User")){
+									<div>
+										<a style="background-color:#ff084e; color:#fff; font-size:14px; font-weight:700;" class="nav-link dropdown-toggle" href="#" id="karlDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@User.Identity.Name</a>
+										<div class="dropdown-menu" aria-labelledby="karlDropdown">
+											<a class="dropdown-item" href="index.html">Profilim</a>
+											<a class="dropdown-item" asp-controller="LikedProduct" asp-action="Index">Beğenilerim</a>
+											<a class="dropdown-item" asp-controller="Order" asp-action="MyOrders">Siparişlerim</a>
+											<a class="dropdown-item" asp-area="Admin" asp-controller="Auth" asp-action="Logout">Çıkış Yap</a>
+										</div>
 									</div>
-								</div>
+								}
+								else if (User.IsInRole("Admin"))
+								{
+									<div>
+										<a style="background-color:#ff084e; color:#fff; font-size:14px; font-weight:700;" class="nav-link dropdown-toggle" href="#" id="karlDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@User.Identity.Name</a>
+										<div class="dropdown-menu" aria-labelledby="karlDropdown">
+											<a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Index">Yönetim Paneli</a>
+											<a class="dropdown-item" asp-area="Admin" asp-controller="Auth" asp-action="Logout">Çıkış Yap</a>
+										</div>
+									</div>
+								}
+
 							}
 							else
 							{
@@ -258,7 +271,7 @@
 				}
 			});
 		});
-
+		
 	</script>
 </body>
 

@@ -42,6 +42,87 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
             _imageManager = imageManager;
         }
 
+        public async Task<NewArrivalsListResponseDto> NewArrivalsList()
+        {
+            var productList = await _unitOfWork.GetRepository<Product>().GetAllAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted, x => x.ImageDetails);
+            var productWomenList = await _unitOfWork.GetRepository<Product>().GetAllAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted && x.CustomerTypeID == 1, x => x.ImageDetails);
+            var productMenList = await _unitOfWork.GetRepository<Product>().GetAllAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted && x.CustomerTypeID == 2, x => x.ImageDetails);
+            var productCode = productList.Select(x => x.ProductCode).Distinct().ToList();
+
+            NewArrivalsListResponseDto newArrivalsListDto = new NewArrivalsListResponseDto();
+
+            List<NewArrivalsDto> newArrivalsAllDtos = new List<NewArrivalsDto>();
+            List<NewArrivalsDto> newArrivalsWomenDtos = new List<NewArrivalsDto>();
+            List<NewArrivalsDto> newArrivalsMenDtos = new List<NewArrivalsDto>();
+
+            foreach (var code in productCode)
+            {
+                var product = productList.Where(x => x.ProductCode == code).First();
+                var image = _unitOfWork.GetRepository<Image>().Where(x => x.ID == product.ImageDetails.First().ImageID).FirstOrDefault();
+                if (image.FileName != null)
+                {
+                    var map = _mapper.Map<NewArrivalsDto>(product);
+                    map.ImageFileName = image.FileName;
+                    newArrivalsAllDtos.Add(map);
+                }
+
+                var productWomen = productWomenList.Where(x => x.ProductCode == code).FirstOrDefault();
+                if (productWomen != null)
+                {
+                    var imageWomenProduct = _unitOfWork.GetRepository<Image>().Where(x => x.ID == productWomen.ImageDetails.First().ImageID).FirstOrDefault();
+                    if (imageWomenProduct.FileName != null)
+                    {
+                        var womenMap = _mapper.Map<NewArrivalsDto>(productWomen);
+                        womenMap.ImageFileName = imageWomenProduct.FileName;
+                        newArrivalsWomenDtos.Add(womenMap);
+                    }
+                }
+
+                var productMen = productMenList.Where(x => x.ProductCode == code).FirstOrDefault();
+                if (productMen != null)
+                {
+                    var imageMenProduct = _unitOfWork.GetRepository<Image>().Where(x => x.ID == productMen.ImageDetails.First().ImageID).FirstOrDefault();
+                    if (imageMenProduct.FileName != null)
+                    {
+                        var MenMap = _mapper.Map<NewArrivalsDto>(productMen);
+                        MenMap.ImageFileName = imageMenProduct.FileName;
+                        newArrivalsMenDtos.Add(MenMap);
+                    }
+                }
+            }
+            newArrivalsAllDtos.OrderByDescending(x => x.CreatedDate).Take(6);
+            newArrivalsListDto.NewArrivalsAll = newArrivalsAllDtos;
+
+            newArrivalsWomenDtos.OrderByDescending(x => x.CreatedDate).Take(6);
+            newArrivalsListDto.NewArrivalsWomen = newArrivalsWomenDtos;
+
+            newArrivalsMenDtos.OrderByDescending(x => x.CreatedDate).Take(6);
+            newArrivalsListDto.NewArrivalsMen = newArrivalsMenDtos;
+
+            return newArrivalsListDto;
+        }
+        public async Task<List<RecommendedProductDto>> RecommendedProductsByCustomerType(int customerTypeId)
+        {
+            var productList = await _unitOfWork.GetRepository<Product>().GetAllAsync(x=>x.CustomerTypeID == customerTypeId,x=>x.ImageDetails);
+            var productCode = productList.Select(x=>x.ProductCode).Distinct().ToList();
+
+            List<RecommendedProductDto> recommendedProductDtos = new List<RecommendedProductDto>();
+
+            foreach (var code in productCode)
+            {
+                var product = productList.Where(x => x.ProductCode == code).First();
+				var image = _unitOfWork.GetRepository<Image>().Where(x => x.ID == product.ImageDetails.First().ImageID).FirstOrDefault();
+                if (image.FileName!=null)
+                {
+					var map = _mapper.Map<RecommendedProductDto>(product);
+					map.ImageFileName = image.FileName;
+					recommendedProductDtos.Add(map);
+				}
+            }
+
+			return recommendedProductDtos.Take(3).ToList();
+		}
+
         public async Task<ProductDetailDto> GetByIdProductDetail(int id)
         {
             var product = await _unitOfWork.GetRepository<Product>().GetAsync(x => x.ID == id, x => x.Category, x => x.CustomerType, x => x.ImageDetails);

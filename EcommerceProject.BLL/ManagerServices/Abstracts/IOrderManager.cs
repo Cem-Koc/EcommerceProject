@@ -11,7 +11,8 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
     public interface IOrderManager
     {
-		Task<OrderViewDto> CreateOrderAsync(OrderAddDto orderAddDto);
+		Task<WeeklySoldProductsDto> WeeklySoldProducts();
+        Task<OrderViewDto> CreateOrderAsync(OrderAddDto orderAddDto);
 		Task<List<MyOrdersDto>> MyOrders();
 
 
