@@ -139,6 +139,14 @@
 			{
 				return $"{userName} email adresli kullanıcı başarıyla silinmiştir.";
 			}
-		}
+            public static string Register(string userName)
+            {
+                return $"{userName} email adresi ile sisteme kayıt işlemi tamamlanmıştır.";
+            }
+            public static string RegisterError(string userName)
+            {
+                return $"{userName} email adresi ile kayıt işleminde bir hata oluşturmuş.";
+            }
+        }
 	}
 }

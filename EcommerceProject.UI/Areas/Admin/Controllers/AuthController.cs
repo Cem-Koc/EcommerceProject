@@ -1,9 +1,14 @@
-﻿using EcommerceProject.BLL.DependencyResolvers;
+﻿using AutoMapper;
+using EcommerceProject.BLL.DependencyResolvers;
+using EcommerceProject.BLL.ManagerServices.Abstracts;
 using EcommerceProject.ENTITIES.Dtos.Users;
 using EcommerceProject.ENTITIES.Models;
+using EcommerceProject.UI.ResultMessages;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NToastNotify;
 
 namespace EcommerceProject.UI.Areas.Admin.Controllers
 {
@@ -12,11 +17,53 @@ namespace EcommerceProject.UI.Areas.Admin.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IMapper _mapper;
+        private readonly IToastNotification _toast;
+        private readonly IValidator<AppUser> _validator;
+        private readonly IAppUserManager _appUserManager;
 
-        public AuthController(UserManager<AppUser> userManager,SignInManager<AppUser> signInManager)
+        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMapper mapper, IToastNotification toast, IValidator<AppUser> validator, IAppUserManager appUserManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _mapper = mapper;
+            _toast = toast;
+            _validator = validator;
+            _appUserManager = appUserManager;
+        }
+
+        [HttpGet]
+        public IActionResult UserRegister()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> UserRegister(UserRegisterDto userRegisterDto)
+        {
+            var map = _mapper.Map<AppUser>(userRegisterDto);
+            var validation = await _validator.ValidateAsync(map);
+            var roles = await _appUserManager.GetAllRolesAsync();
+
+            if (ModelState.IsValid)
+            {
+                var userAddDto = _mapper.Map<UserAddDto>(userRegisterDto);
+                userAddDto.RoleId = roles.Where(x=>x.Name == "User").Select(x=>x.Id).First();
+                var result = await _appUserManager.RegisterUserAsync(userAddDto);
+                if (result.Succeeded)
+                {
+                    _toast.AddSuccessToastMessage(Messages.User.Register(userAddDto.Email), new ToastrOptions { Title = "İşlem Başarılı" });
+                    return RedirectToAction("Login", "Auth");
+                }
+                else
+                {
+                    result.AddToIdentityModelState(this.ModelState);
+                    validation.AddToModelState(this.ModelState);
+                    return View();
+                }
+            }
+            return View();
         }
 
         [HttpGet]

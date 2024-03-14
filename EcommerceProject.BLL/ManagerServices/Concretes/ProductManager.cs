@@ -42,6 +42,36 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
             _imageManager = imageManager;
         }
 
+        public async Task<List<FeaturedProductsDto>> FeaturedProductsList()
+        {
+            var orderDetail = await _unitOfWork.GetRepository<OrderDetail>().GetAllAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted, x=>x.Product);
+            var productList = await _unitOfWork.GetRepository<Product>().GetAllAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted, x => x.ImageDetails);
+
+            List<FeaturedProductsDto> featuredProductsDtos = new List<FeaturedProductsDto>();
+
+            var featuredList = (from item in orderDetail
+                                group item.Quantity by item.ProductID into o
+                                orderby o.Sum() descending
+                                select o.Key).Take(6).ToList();
+
+            var query = from product in productList
+                        join featured in featuredList 
+                        on product.ID equals featured
+                        select product;
+
+            foreach (var product in query)
+            {
+                var image = _unitOfWork.GetRepository<Image>().Where(x => x.ID == product.ImageDetails.First().ImageID).FirstOrDefault();
+                if (image.FileName != null)
+                {
+                    var map = _mapper.Map<FeaturedProductsDto>(product);
+                    map.ImageFileName = image.FileName;
+                    featuredProductsDtos.Add(map);
+                }
+            }
+
+            return featuredProductsDtos;
+        }
         public async Task<NewArrivalsListResponseDto> NewArrivalsList()
         {
             var productList = await _unitOfWork.GetRepository<Product>().GetAllAsync(x => x.Status != ENTITIES.Enums.DataStatus.Deleted, x => x.ImageDetails);
@@ -182,6 +212,7 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
                 Description = product.Description,
                 UnitPrice = product.UnitPrice,
                 SalePrice = product.SalePrice,
+                ProductCode = product.ProductCode,
                 ProductColorID = product.ProductColorID,
                 ProductSizeID = product.ProductSizeID,
                 UnitsInStock = product.UnitsInStock,

@@ -24,6 +24,7 @@ namespace EcommerceProject.BLL.AutoMapper.Products
             CreateMap<ProductListByCustomerTypeIdDto,Product>().ReverseMap();
             CreateMap<RecommendedProductDto, Product>().ReverseMap();
             CreateMap<NewArrivalsDto, Product>().ReverseMap();
+            CreateMap<FeaturedProductsDto, Product>().ReverseMap();
         }
     }
 }

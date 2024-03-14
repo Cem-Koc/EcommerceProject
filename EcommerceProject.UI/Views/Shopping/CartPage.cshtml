@@ -127,21 +127,21 @@
                 var productId = this.getAttribute("id");
                 var productImageFileName = this.getAttribute("name");
 
-				$.ajax({
-					url: '@Url.Action("AddProductToCart","Shopping")',
-					type: 'POST',
-					dateType: 'html',
-					data: {
-						id: productId,
-						imageFileName: productImageFileName
-					},
-					success: function (result) {
+                $.ajax({
+                    url: '@Url.Action("AddProductToCart","Shopping")',
+                    type: 'POST',
+                    dateType: 'html',
+                    data: {
+                        id: productId,
+                        imageFileName: productImageFileName
+                    },
+                    success: function (result) {
                         window.location.reload();
-					},
-					error: function () {
-						console.log('Error');
-					}
-				});
+                    },
+                    error: function () {
+                        console.log('Error');
+                    }
+                });
 			});
 
             $('span[class="qty-minus"]').on('click', function () {

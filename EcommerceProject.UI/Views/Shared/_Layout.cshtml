@@ -240,8 +240,7 @@
 		</footer>
 		<!-- ****** Footer Area End ****** -->
 	</div>
-	@await RenderSectionAsync("Scripts",false)
-	@await Component.InvokeAsync("NToastNotify")
+	
 	<!-- /.wrapper end -->
 	<!-- jQuery (Necessary for All JavaScript Plugins) -->
 	<script src="~/karl-master/js/jquery/jquery-2.2.4.min.js"></script>
@@ -256,6 +255,8 @@
 	<!-- Toastr -->
 	<script src="~/inspinia/js/plugins/toastr/toastr.min.js"></script>
 
+	@await RenderSectionAsync("Scripts",false)
+	@await Component.InvokeAsync("NToastNotify")
 	<script>
 
 		$(document).ready(function () { 

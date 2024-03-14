@@ -13,7 +13,8 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
     public interface IProductManager
     {
-		Task<NewArrivalsListResponseDto> NewArrivalsList();
+		Task<List<FeaturedProductsDto>> FeaturedProductsList();
+        Task<NewArrivalsListResponseDto> NewArrivalsList();
         Task<List<RecommendedProductDto>> RecommendedProductsByCustomerType(int customerTypeId);
 		Task<ProductDetailDto> GetByIdProductDetail(int id);
 		Task<List<ProductListByCustomerTypeIdDto>> FilterProduct(FilterProductDto filterProductDto);

@@ -17,28 +17,69 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="row karl-new-arrivals">
-
-
-            @foreach (var product in Model)
-            {
-                <!-- Single gallery Item Start -->
-                <div class="col-12 col-sm-6 col-md-4 single_gallery_item wow fadeInUpBig" data-wow-delay="0.3s">
-                    <!-- Product Image -->
-                    <div class="product-img">
-                        <img src="~/images/@product.ImageFileName" alt="@product.ProductName">
+    @if (Model.Count > 0)
+    {
+        <div class="container">
+            <div class="row karl-new-arrivals">
+                @foreach (var product in Model)
+                {
+                    <!-- Single gallery Item Start -->
+                    <div class="col-12 col-sm-6 col-md-4 single_gallery_item wow fadeInUpBig" data-wow-delay="0.3s">
+                        <!-- Product Image -->
+                        <div class="product-img">
+                            <img src="~/images/@product.ImageFileName" alt="@product.ProductName">
+                        </div>
+                        <!-- Product Description -->
+                        <div class="product-description" style="text-align:center">
+                            <h4 class="product-price">@product.SalePrice₺</h4>
+                            <p><a asp-controller="Product" asp-action="GetByIdProductDetail" asp-route-id="@product.ID">@product.ProductName</a></p>
+                        </div>
                     </div>
-                    <!-- Product Description -->
-                    <div class="product-description" style="text-align:center">
-                        <h4 class="product-price">@product.SalePrice₺</h4>
-                        <p><a asp-controller="Product" asp-action="GetByIdProductDetail" asp-route-id="@product.ID">@product.ProductName</a></p>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section_heading text-center">
+                        <i class="ti-info-alt" style="font-size:xx-large;"></i><h6 style="padding-bottom:50px;">Daha önce beğendiğiniz ürün bulunmamaktadır.</h6>
                     </div>
                 </div>
-            }
-            
-
+            </div>
         </div>
-    </div>
+
+        @await Component.InvokeAsync("FeaturedProducts")
+    }
+
 </section>
 
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            $('a[name="add-to-cart-btn"]').on('click', function () {
+                var productId = this.getAttribute("id");
+                var productImageFileName = this.getAttribute("itemid");
+
+                $.ajax({
+                    url: '@Url.Action("AddProductToCart","Shopping")',
+                    type: 'POST',
+                    dateType: 'html',
+                    data: {
+                        id: productId,
+                        imageFileName: productImageFileName
+                    },
+                    success: function (result) {
+                        $('#headerCart1').html(result);
+                    },
+                    error: function () {
+                        console.log('Error');
+                    }
+                });
+            });
+        });
+    </script>
+}

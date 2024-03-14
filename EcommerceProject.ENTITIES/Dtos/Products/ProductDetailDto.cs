@@ -18,6 +18,7 @@ namespace EcommerceProject.ENTITIES.Dtos.Products
 		public decimal UnitPrice { get; set; }
 		public decimal SalePrice { get; set; }
 		public int ProductColorID { get; set; }
+		public int ProductCode { get; set; }
 		public int ProductSizeID { get; set; }
 		public int UnitsInStock { get; set; }
 		public string CustomerTypeName { get; set; }

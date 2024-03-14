@@ -32,6 +32,7 @@ namespace EcommerceProject.DAL.Context
             builder.ApplyConfiguration(new CustomerTypeConfiguration());
             builder.ApplyConfiguration(new ImageDetailConfiguration());
             builder.ApplyConfiguration(new LikedProductConfiguration());
+            builder.ApplyConfiguration(new ProductCommentConfiguration());
         }
 
         public DbSet<AppUser> AppUsers { get; set; }
@@ -45,5 +46,6 @@ namespace EcommerceProject.DAL.Context
         public DbSet<CustomerType> CustomerTypes { get; set; }
         public DbSet<ImageDetail> ImageDetails { get; set; }
         public DbSet<LikedProduct> LikedProducts { get; set; }
+        public DbSet<ProductComment> ProductComments { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace EcommerceProject.UI.Controllers
 		public async Task<IActionResult> Index()
 		{
 			var productList = await _likedProductManager.LikedProductList();
-			return View(productList);
+            return View(productList);
 		}
 
 		[HttpPost]

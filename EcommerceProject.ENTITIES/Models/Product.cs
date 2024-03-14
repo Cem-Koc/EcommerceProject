@@ -27,5 +27,6 @@ namespace EcommerceProject.ENTITIES.Models
         public virtual ProductColor ProductColor { get; set; }
         public virtual ProductSize ProductSize { get; set; }
         public virtual CustomerType CustomerType { get; set; }
+        public virtual List<ProductComment> ProductComments { get; set; }
     }
 }

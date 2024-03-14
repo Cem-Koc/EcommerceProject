@@ -44,7 +44,25 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 			_validator = validator;
 		}
 
-		public async Task<bool> CreateUserAsync(AppUser item)
+        public async Task<IdentityResult> RegisterUserAsync(UserAddDto userAddDto)
+        {
+            var map = _mapper.Map<AppUser>(userAddDto);
+            map.UserName = userAddDto.Email;
+            map.CreatedBy = userAddDto.Email;
+            map.CreatedDate = DateTime.Now;
+            var result = await _userManager.CreateAsync(map, string.IsNullOrEmpty(userAddDto.Password) ? "" : userAddDto.Password);
+            if (result.Succeeded)
+            {
+                var findRole = await _roleManager.FindByIdAsync(userAddDto.RoleId.ToString());
+                await _userManager.AddToRoleAsync(map, findRole.ToString());
+                return result;
+            }
+            else
+            {
+                return result;
+            }
+        }
+        public async Task<bool> CreateUserAsync(AppUser item)
 		{
 			var result = await _userRepository.AddUser(item);
 			await _unitOfWork.SaveAsync();

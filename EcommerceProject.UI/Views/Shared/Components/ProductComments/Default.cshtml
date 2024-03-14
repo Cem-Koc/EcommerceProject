@@ -1,0 +1,24 @@
+﻿
+@model List<ProductCommentDto>
+
+<div class="container" style="margin-bottom:100px;">
+    <div class="col-12">
+        <div class="order-details-confirmation">
+            <div class="cart-page-heading" style="text-align:center;">
+                <h5>Ürün Yorumları</h5>
+            </div>
+            <ul class="order-details-form mb-4">
+                @foreach (var comment in Model)
+                {
+                    <li>
+                        <span style="text-transform:none !important;">@comment.Comment</span> <span>@comment.CommentDate.ToShortDateString() - @comment.FullName</span>
+                    </li>
+                }               
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
