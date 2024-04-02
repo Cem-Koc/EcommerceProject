@@ -26,6 +26,7 @@
 	<link href="~/karl-master/css/responsive.css" rel="stylesheet">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -111,7 +112,7 @@
 									<div>
 										<a style="background-color:#ff084e; color:#fff; font-size:14px; font-weight:700;" class="nav-link dropdown-toggle" href="#" id="karlDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@User.Identity.Name</a>
 										<div class="dropdown-menu" aria-labelledby="karlDropdown">
-											<a class="dropdown-item" href="index.html">Profilim</a>
+											<a class="dropdown-item" asp-controller="Profile" asp-action="Index">Profilim</a>
 											<a class="dropdown-item" asp-controller="LikedProduct" asp-action="Index">Beğenilerim</a>
 											<a class="dropdown-item" asp-controller="Order" asp-action="MyOrders">Siparişlerim</a>
 											<a class="dropdown-item" asp-area="Admin" asp-controller="Auth" asp-action="Logout">Çıkış Yap</a>
@@ -254,6 +255,7 @@
 	<script src="~/karl-master/js/active.js"></script>
 	<!-- Toastr -->
 	<script src="~/inspinia/js/plugins/toastr/toastr.min.js"></script>
+
 
 	@await RenderSectionAsync("Scripts",false)
 	@await Component.InvokeAsync("NToastNotify")

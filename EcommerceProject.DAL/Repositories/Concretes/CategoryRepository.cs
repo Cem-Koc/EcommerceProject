@@ -11,7 +11,7 @@ namespace EcommerceProject.DAL.Repositories.Concretes
 {
     public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
-        public CategoryRepository(MyContext db) : base(db)
+        public CategoryRepository(MyContext context) : base(context)
         {
         }
     }

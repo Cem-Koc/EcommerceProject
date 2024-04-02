@@ -11,7 +11,7 @@ namespace EcommerceProject.DAL.Repositories.Concretes
 {
     public class OrderDetailRepository : BaseRepository<OrderDetail>, IOrderDetailRepository
     {
-        public OrderDetailRepository(MyContext db) : base(db)
+        public OrderDetailRepository(MyContext context) : base(context)
         {
         }
     }

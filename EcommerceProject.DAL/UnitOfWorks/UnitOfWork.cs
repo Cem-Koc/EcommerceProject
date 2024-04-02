@@ -12,30 +12,30 @@ namespace EcommerceProject.DAL.UnitOfWorks
 {
 	public class UnitOfWork : IUnitOfWork
 	{
-		private readonly MyContext _db;
+		private readonly MyContext _context;
 
-		public UnitOfWork(MyContext db)
+		public UnitOfWork(MyContext context)
 		{
-			_db = db;
+			_context = context;
 		}
 		public async ValueTask DisposeAsync()
 		{
-			await _db.DisposeAsync();
+			await _context.DisposeAsync();
 		}
 
 		public int Save()
 		{
-			return _db.SaveChanges();
+			return _context.SaveChanges();
 		}
 
 		public async Task<int> SaveAsync()
 		{
-			return await _db.SaveChangesAsync();
+			return await _context.SaveChangesAsync();
 		}
 
 		IRepository<T> IUnitOfWork.GetRepository<T>()
 		{
-			return new BaseRepository<T>(_db);
+			return new BaseRepository<T>(_context);
 		}
 	}
 }

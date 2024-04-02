@@ -13,7 +13,7 @@ namespace EcommerceProject.DAL.Repositories.Concretes
     public class AppUserRepository : BaseRepository<AppUser>, IAppUserRepository
     {
         UserManager<AppUser> _userManager;
-        public AppUserRepository(MyContext db,UserManager<AppUser> userManager) : base(db)
+        public AppUserRepository(MyContext context, UserManager<AppUser> userManager) : base(context)
         {
             _userManager = userManager;
         }

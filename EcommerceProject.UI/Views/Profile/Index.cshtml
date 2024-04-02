@@ -1,0 +1,60 @@
+﻿@model UserProfileDto
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="checkout_area section_padding_100">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="checkout_details_area mt-50 clearfix">
+
+                    <div class="cart-page-heading">
+                        <h5>PROFİLİM</h5>
+                        <p>Bilgilerinizi formu doldurarak güncelleyebilirsiniz.</p>
+                    </div>
+
+					<form asp-controller="Profile" asp-action="Index" method="post">
+						<div asp-validation-summary="All" style="color:red"></div>
+						<input type="hidden" asp-for="@Model.Email">
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<label asp-for="FirstName" for="first_name">İSİM</label>
+								<input type="text" class="form-control" id="first_name" asp-for="FirstName" value="@Model.FirstName" required>
+								<span asp-validation-for="FirstName" class="text-danger"></span>
+							</div>
+							<div class="col-md-6 mb-3">
+								<label asp-for="LastName" for="last_name">SOYİSİM</label>
+								<input type="text" class="form-control" id="last_name" asp-for="LastName" value="@Model.LastName" required>
+								<span asp-validation-for="LastName" class="text-danger"></span>
+							</div>
+							<div class="col-12 mb-3">
+								<label asp-for="PhoneNumber" for="phone_number">TELEFON NUMARASI</label>
+								<input type="text" class="form-control" id="phone_number" asp-for="PhoneNumber" value="@Model.PhoneNumber" required>
+								<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+							</div>
+							<div class="col-12 mb-4">
+								<label asp-for="CurrentPassword" for="password">ŞİFRE</label>
+								<input type="password" class="form-control" id="password" asp-for="CurrentPassword">
+								<span asp-validation-for="CurrentPassword" class="text-danger"></span>
+							</div>
+							<div class="col-12 mb-4">
+								<label asp-for="NewPassword" for="new_password">YENİ ŞİFRE</label>
+								<input type="password" class="form-control" id="new_password" asp-for="NewPassword">
+								<span asp-validation-for="NewPassword" class="text-danger"></span>
+							</div>
+
+							<button style="margin-top:3em;" class="btn karl-checkout-btn" type="submit">Güncelle</button>
+						</div>
+					</form>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+</div>
+

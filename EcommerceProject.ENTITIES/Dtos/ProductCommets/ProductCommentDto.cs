@@ -11,5 +11,7 @@ namespace EcommerceProject.ENTITIES.Dtos.ProductCommets
         public string Comment { get; set; }
         public DateTime CommentDate { get; set; }
         public string FullName { get; set; }
+        public string ProductColorName { get; set; }
+        public string ProductSizeName { get; set; }
     }
 }

@@ -11,10 +11,10 @@
                 @foreach (var comment in Model)
                 {
                     <li>
+                        <p>@comment.ProductSizeName - @comment.ProductColorName </p>
                         <span style="text-transform:none !important;">@comment.Comment</span> <span>@comment.CommentDate.ToShortDateString() - @comment.FullName</span>
                     </li>
-                }               
-
+                }
             </ul>
         </div>
     </div>

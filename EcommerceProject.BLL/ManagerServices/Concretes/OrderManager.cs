@@ -93,6 +93,7 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
                 }
 				myOrdersDto.productImagesWithProductIdDtos = productImagesWithProductIdDtos;
                 myOrdersDto.OrderDate = order.CreatedDate;
+                myOrdersDto.OrderID = order.ID;
 				myOrdersDtos.Add(myOrdersDto);
             }
 			return myOrdersDtos;

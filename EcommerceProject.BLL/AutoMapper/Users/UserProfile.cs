@@ -19,6 +19,7 @@ namespace EcommerceProject.BLL.AutoMapper.Users
 			CreateMap<AppUser, UserProfileDto>().ReverseMap();
 			CreateMap<AppUser, UserRegisterDto>().ReverseMap();
 			CreateMap<UserAddDto, UserRegisterDto>().ReverseMap();
+			CreateMap<AppUser, MyProfileUpdateDto>().ForMember(appUser => appUser.Id, opt => opt.MapFrom(src => src.Id)).ReverseMap();
 		}
     }
 }

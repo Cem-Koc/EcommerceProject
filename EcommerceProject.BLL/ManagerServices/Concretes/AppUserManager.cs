@@ -44,7 +44,38 @@ namespace EcommerceProject.BLL.ManagerServices.Concretes
 			_validator = validator;
 		}
 
-        public async Task<IdentityResult> RegisterUserAsync(UserAddDto userAddDto)
+		//public async Task<MyProfileUpdateDto> MyProfile()
+		//{
+  //          var userId = _user.GetLoggedInUserId();
+  //          var user = await FindAsync(userId);
+  //          var map = _mapper.Map<MyProfileUpdateDto>(user);
+  //          return map;
+  //      }
+
+		//public async Task<IdentityResult> MyProfileUpdate(MyProfileUpdateDto myProfileUpdateDto)
+		//{
+		//	var userToUpdate = await FindAsync(myProfileUpdateDto.Id);
+
+		//	userToUpdate.FirstName = myProfileUpdateDto.FirstName;
+		//	userToUpdate.LastName = myProfileUpdateDto.LastName;
+		//	userToUpdate.PhoneNumber = myProfileUpdateDto.PhoneNumber;
+
+		//	var isVerified = await _userManager.CheckPasswordAsync(userToUpdate, myProfileUpdateDto.CurrentPassword);
+		//	if (isVerified && myProfileUpdateDto.NewPassword != null)
+		//	{
+		//		var result = await _userManager.ChangePasswordAsync(userToUpdate, myProfileUpdateDto.CurrentPassword, myProfileUpdateDto.NewPassword);
+		//		if (result.Succeeded)
+		//		{
+		//			await _userManager.UpdateSecurityStampAsync(userToUpdate);
+		//			await _signInManager.SignOutAsync();
+		//			await _signInManager.PasswordSignInAsync(userToUpdate, myProfileUpdateDto.NewPassword, true, false);
+		//		}
+		//	}			
+				
+		//	return await _userManager.UpdateAsync(userToUpdate);
+		//}
+
+		public async Task<IdentityResult> RegisterUserAsync(UserAddDto userAddDto)
         {
             var map = _mapper.Map<AppUser>(userAddDto);
             map.UserName = userAddDto.Email;

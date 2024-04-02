@@ -11,7 +11,7 @@ namespace EcommerceProject.DAL.Repositories.Concretes
 {
     public class ProductRepository : BaseRepository<Product>, IProductRepository
     {
-        public ProductRepository(MyContext db) : base(db)
+        public ProductRepository(MyContext context) : base(context)
         {
         }
     }

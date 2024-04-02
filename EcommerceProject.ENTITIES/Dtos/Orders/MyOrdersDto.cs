@@ -9,6 +9,7 @@ namespace EcommerceProject.ENTITIES.Dtos.Orders
 {
     public class MyOrdersDto
     {
+        public int OrderID { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal OrderAmount { get; set; }
         public List<ProductImagesWithProductIdDto> productImagesWithProductIdDtos { get; set; }

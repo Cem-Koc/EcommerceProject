@@ -13,7 +13,9 @@ namespace EcommerceProject.BLL.ManagerServices.Abstracts
 {
     public interface IAppUserManager
     {
-		Task<IdentityResult> RegisterUserAsync(UserAddDto userAddDto);
+		//Task<IdentityResult> MyProfileUpdate(MyProfileUpdateDto myProfileUpdateDto);
+		//Task<MyProfileUpdateDto> MyProfile();
+        Task<IdentityResult> RegisterUserAsync(UserAddDto userAddDto);
         Task<List<UserListDto>> GetAllUsersWithRoleAsync();
 		Task<List<AppRole>> GetAllRolesAsync();
 		Task<IdentityResult> CreateUserAsync(UserAddDto userAddDto);

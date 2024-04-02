@@ -106,10 +106,6 @@ namespace EcommerceProject.UI.Controllers
         {
             Cart cart = HttpContext.Session.GetObject<Cart>("shoppingCart");
 
-            //if (cart.MyCart.Count()==0)
-            //{
-                
-            //}
             return View(cart);
         }
     }

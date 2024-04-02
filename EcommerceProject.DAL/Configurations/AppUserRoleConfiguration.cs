@@ -13,10 +13,8 @@ namespace EcommerceProject.DAL.Configurations
     {
         public void Configure(EntityTypeBuilder<AppUserRole> builder)
         {
-            // Primary key
             builder.HasKey(r => new { r.UserId, r.RoleId });
 
-            // Maps to the AspNetUserRoles table
             builder.ToTable("AspNetUserRoles");
 
 

@@ -11,6 +11,7 @@
                 <div class="section_heading text-center">
                     <h2>SİPARİŞLERİM</h2>
                 </div>
+
                 @if (Model.Count > 0)
                 {
                     <div class="cart-table clearfix">
@@ -23,13 +24,14 @@
                                 </tr>
                             </thead>
                             <tbody>
+
                                 @foreach (var order in Model)
                                 {
                                     <tr>
                                         <td class="cart_product_img d-flex align-items-center">
                                             @foreach (var product in order.productImagesWithProductIdDtos)
                                             {
-                                                <a asp-controller="Product" asp-action="GetByIdProductDetail" asp-route-id="@product.ProductID"><img src="~/images/@product.ImageFileName"></a>
+                                                <a name="comment" id="@product.ProductID"><img src="~/images/@product.ImageFileName"></a>
                                             }
                                         </td>
                                         <td class="price"><span>@order.OrderDate.ToShortDateString()</span></td>
@@ -83,6 +85,39 @@
                     }
                 });
             });
+
+            $('a[name="comment"]').on('click', function () {
+                var productId = this.getAttribute("id");
+
+                (async () => {
+                    const { value: text } = await Swal.fire({
+                        input: "textarea",
+                        inputLabel: "Message",
+                        inputPlaceholder: "Type your message here...",
+                        inputAttributes: {
+                            "aria-label": "Type your message here"
+                        },
+                        showCancelButton: true
+                    });
+
+                    $.ajax({
+                        url: '@Url.Action("Index","Comment")',
+                        type: 'POST',
+                        dataType: 'html',
+                        data: {
+                            comment: text,
+                            id: productId
+                        },
+                        success: function (result) {
+                           
+                        },
+                        error: function () {
+                            console.log('Error');
+                        }
+                    });
+                })();
+            });
+           
         });
     </script>
 }

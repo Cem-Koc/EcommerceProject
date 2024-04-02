@@ -26,7 +26,6 @@ namespace EcommerceProject.BLL.DependencyResolvers
             var assembly = Assembly.GetExecutingAssembly();
 
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
-            services.AddScoped(typeof(IManager<>), typeof(BaseManager<>));
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductManager, ProductManager>();
             services.AddScoped<IAppUserRepository, AppUserRepository>();
